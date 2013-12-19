@@ -31,25 +31,45 @@
 @implementation SignInViewController
 @synthesize userLogin, userPassword,connection;
 @synthesize login,password;
+@synthesize saveOrNot;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
     
-    
-    //self.view
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-     [[self navigationController] setNavigationBarHidden:YES animated:YES];
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+    //загрузка состояния UISwitch
+    [super viewWillAppear:animated];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    BOOL test= [[NSUserDefaults standardUserDefaults] boolForKey:@"switch"];
+    NSLog(@"%@",test?@"YES":@"NO");
+    [self.saveOrNot setOn:test animated:YES];
+    
+    
+    //загрузка логина и пароля из .plist при включенном UISwith
+    if (self.saveOrNot.on == YES){
+        NSDictionary *userLoginAndPass = [NSDictionary dictionaryWithContentsOfFile: [[NSBundle mainBundle]
+                                                                    pathForResource:@"login_password" ofType:@"plist"]];
+        NSString *log = [userLoginAndPass objectForKey:@"login"];
+        NSString *pas = [userLoginAndPass objectForKey:@"password"];
+        NSLog(@"login: %@, password: %@", log,pas);
+        [userLogin setText:log];
+        [userPassword setText:pas];
+        
+    }
+
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)signInButtonPressed:(id)sender {
@@ -57,7 +77,7 @@
     password = [[NSString alloc]initWithString:[userPassword text]];
     
     NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login,[password MD5]];
-    NSLog(@"url", urlString);
+    NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                     cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
@@ -71,13 +91,29 @@
     if (requestError) {
         UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Error:%@",requestError] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
+        NSLog(@"ERROR!!!!!!!!");
+    }else {
+        NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:response
+                                                                    options:kNilOptions error:&requestError];
+        NSLog(@"json %@", json);
     }
-    NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:response options:kNilOptions
-                                                                  error:&requestError];
-    NSLog(@"json %@", json);
+    
+    if (self.saveOrNot.on == YES){
+        NSMutableDictionary *userLoginAndPass = [[NSMutableDictionary alloc]init];
+        [userLoginAndPass setObject:login forKey:@"login"];
+        [userLoginAndPass setObject:password forKey:@"password"];
+        [userLoginAndPass writeToFile:@"login_password.plist" atomically:YES];
+        
+    }
     
     
     
+}
+
+- (IBAction)saveValueChenged:(id)sender {
+    //сохранение состояния UISwitch
+    [[NSUserDefaults standardUserDefaults] setBool:self.saveOrNot.on forKey:@"switch"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 

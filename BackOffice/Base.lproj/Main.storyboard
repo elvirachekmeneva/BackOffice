@@ -12,7 +12,7 @@
                         <viewControllerLayoutGuide type="top" id="JvR-qo-iuw"/>
                         <viewControllerLayoutGuide type="bottom" id="Y7g-ty-2lv"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XAA-6G-lHd">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="XAA-6G-lHd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -50,10 +50,14 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rgz-0M-XJz">
                                 <rect key="frame" x="45" y="171" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="saveValueChenged:" destination="QQp-rX-BxS" eventType="valueChanged" id="NPl-Po-QbN"/>
+                                </connections>
                             </switch>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIg-0Y-T9X">
-                                <rect key="frame" x="252" y="230" width="48" height="30"/>
+                            <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIg-0Y-T9X">
+                                <rect key="frame" x="34" y="230" width="266" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.76949201414488122" green="0.79640977606251551" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -63,10 +67,11 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.82853241526523802" green="0.88290482292999051" blue="0.96452873945236206" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="Blg-xd-h5p"/>
                     <connections>
+                        <outlet property="saveOrNot" destination="rgz-0M-XJz" id="tGN-8N-1EB"/>
                         <outlet property="userLogin" destination="K2i-Zu-S7E" id="14w-Hm-boQ"/>
                         <outlet property="userPassword" destination="Ci5-W2-kMa" id="nT0-U3-MMY"/>
                     </connections>
