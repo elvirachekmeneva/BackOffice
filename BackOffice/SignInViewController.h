@@ -10,6 +10,7 @@
 
 @interface SignInViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *invalidLabel;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
 @property (weak, nonatomic) IBOutlet UISwitch *saveOrNot;
 @property (weak, nonatomic) IBOutlet UITextField *userLogin;

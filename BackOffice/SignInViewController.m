@@ -27,7 +27,7 @@
 @end
 
 @implementation SignInViewController
-@synthesize userLogin, userPassword,connection,signInButton;
+@synthesize userLogin, userPassword,connection,signInButton, invalidLabel;
 @synthesize login,password;
 @synthesize saveOrNot;
 
@@ -35,6 +35,10 @@
 {
     [super viewDidLoad];
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
+    if (self.saveOrNot.on == YES){
+        [self loadData];
+        
+    }
     
 }
 
@@ -55,8 +59,10 @@
     //загрузка логина и пароля из .plist при включенном UISwith
     if (self.saveOrNot.on == YES){
         [self loadData];
-        
+    }else {
+        [userPassword setText:@""];
     }
+    [invalidLabel setAlpha:0];
 
 }
 
@@ -92,10 +98,6 @@
     login = [[NSString alloc]initWithString:[userLogin text]];
     password = [[NSString alloc]initWithString:[userPassword text]];
     
-    if (self.saveOrNot.on == YES){
-        [self saveLogin:login andPassword:password];
-    }
-    
     NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login,[password MD5]];
     NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -115,19 +117,20 @@
     }else {
         NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:response
                                                                     options:kNilOptions error:&requestError];
+        
+        //проверка правильности логина и пароля
+        if ([[json objectForKey:@"loginSuccess"] integerValue] == 1) {
+            if (self.saveOrNot.on == YES){
+                [self saveLogin:login andPassword:password];
+            }
+            [invalidLabel setAlpha:0];
+        }else {
+            [invalidLabel setAlpha:1];
+            [userPassword setText:@""];
+        }
+        
         NSLog(@"json %@", json);
     }
-    /*
-    if (self.saveOrNot.on == YES){
-        NSMutableDictionary *userLoginAndPass = [[NSMutableDictionary alloc]init];
-        [userLoginAndPass setObject:login forKey:@"login"];
-        [userLoginAndPass setObject:password forKey:@"password"];
-        [userLoginAndPass writeToFile:@"login_password.plist" atomically:YES];
-        
-    }
-    */
-    
-    
 }
 
 - (IBAction)saveValueChenged:(id)sender {
