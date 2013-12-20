@@ -157,7 +157,7 @@
 				76126B3918604A9000FD8EA7 /* Supporting Files */,
 			);
 			path = BackOfficeTests;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		76126B3918604A9000FD8EA7 /* Supporting Files */ = {
 			isa = PBXGroup;
