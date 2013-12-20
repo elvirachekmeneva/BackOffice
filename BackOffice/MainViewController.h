@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController
+@interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
+@property (weak, nonatomic) IBOutlet UITableView *tasksTable;
 @property (strong, nonatomic) IBOutlet UILabel *cameInInfoLabel;
 
 @end

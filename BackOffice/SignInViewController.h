@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *saveOrNot;
 @property (weak, nonatomic) IBOutlet UITextField *userLogin;
 @property (weak, nonatomic) IBOutlet UITextField *userPassword;
+
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)saveValueChenged:(id)sender;
 
