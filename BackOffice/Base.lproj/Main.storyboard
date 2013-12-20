@@ -55,7 +55,7 @@
                                 </connections>
                             </switch>
                             <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIg-0Y-T9X">
-                                <rect key="frame" x="34" y="230" width="266" height="38"/>
+                                <rect key="frame" x="34" y="215" width="266" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.76949201414488122" green="0.79640977606251551" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Sign In">
@@ -73,11 +73,16 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9xf-HP-lvD">
+                                <rect key="frame" x="150" y="196" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.82853241526523802" green="0.88290482292999051" blue="0.96452873945236206" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="Blg-xd-h5p"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="9xf-HP-lvD" id="qu4-NV-HMF"/>
                         <outlet property="invalidLabel" destination="gUk-yv-CvG" id="mxg-l3-WDk"/>
                         <outlet property="saveOrNot" destination="rgz-0M-XJz" id="tGN-8N-1EB"/>
                         <outlet property="signInButton" destination="nIg-0Y-T9X" id="Hmm-Zz-Vpr"/>

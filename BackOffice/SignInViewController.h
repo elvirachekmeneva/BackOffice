@@ -10,6 +10,7 @@
 
 @interface SignInViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *invalidLabel;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
 @property (weak, nonatomic) IBOutlet UISwitch *saveOrNot;
@@ -18,7 +19,9 @@
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)saveValueChenged:(id)sender;
 
-@property NSURLConnection *connection;
+//@property NSURLConnection *connection;
 @property NSString *login;
 @property NSString *password;
+@property NSMutableData *mutableData;
+@property NSMutableDictionary *json;
 @end
