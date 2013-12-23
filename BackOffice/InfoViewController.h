@@ -10,4 +10,7 @@
 
 @interface InfoViewController : UIViewController
 
+
+@property NSDictionary *json;
+
 @end

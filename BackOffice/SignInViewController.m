@@ -8,6 +8,7 @@
 
 #import "SignInViewController.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "MainViewController.h"
 
 @implementation NSString(MD5)
 - (NSString*)MD5 {
@@ -141,6 +142,9 @@
             [self saveLogin:login andPassword:password];
         }
         [invalidLabel setAlpha:0];
+        
+        [self performSegueWithIdentifier:@"SignIn" sender:nil];
+        
     }else {
         [invalidLabel setAlpha:1];
         [userPassword setText:@""];
@@ -150,6 +154,18 @@
                                                                 //options:kNilOptions error:&requestError];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"SignIn"]) {
+        
+        // Get destination view
+        MainViewController *mainVC = [segue destinationViewController];
+        
+        // Pass the information to your destination view
+        [mainVC setJson:json];
+    }
+}
+
 - (IBAction)signInButtonPressed:(id)sender {
     login = [[NSString alloc]initWithString:[userLogin text]];
     password = [[NSString alloc]initWithString:[userPassword text]];
@@ -157,23 +173,7 @@
     [activityIndicator setAlpha:1];
     [self connectWithLogin:login password:password];
     
-   // NSError *requestError;
-    //NSURLResponse *urlResponse = nil;
-    
-    //NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
-    /*
-    if (requestError) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Error:%@",requestError] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
-        NSLog(@"ERROR!!!!!!!!");
-    }else {
-        NSMutableDictionary* json = [NSJSONSerialization JSONObjectWithData:response
-                                                                    options:kNilOptions error:&requestError];
-      */
-        //проверка правильности логина и пароля
-    
-    
-   // }
+   
 }
 
 - (IBAction)saveValueChenged:(id)sender {

@@ -13,6 +13,7 @@
 @end
 
 @implementation InfoViewController
+@synthesize json;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,7 +28,7 @@
 {
     [super viewDidLoad];
      [[self navigationController] setNavigationBarHidden:NO animated:YES];
-	// Do any additional setup after loading the view.
+    NSLog(@"Json in INFO VC %@", [json valueForKey:@"loginSuccess"]);
 }
 
 - (void)didReceiveMemoryWarning

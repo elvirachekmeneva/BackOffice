@@ -14,7 +14,8 @@
 @end
 
 @implementation MainViewController
-@synthesize cameInInfoLabel;
+@synthesize cameInInfoLabel,json;
+@synthesize showInfo,infoVC;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +30,7 @@
 {
     [super viewDidLoad];
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    //NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
   
        
     
@@ -54,4 +56,20 @@
     return 3;
 }
 
+- (IBAction)showInfo:(id)sender {
+    showInfo = [[UIStoryboardSegue alloc]initWithIdentifier:@"showInfo" source:self destination:infoVC];
+    [self performSegueWithIdentifier:@"showInfo" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showInfo"]) {
+        
+        // Get destination view
+        InfoViewController *infoVC = [segue destinationViewController];
+        
+        // Pass the information to your destination view
+        [infoVC setJson:json];
+    }
+}
 @end

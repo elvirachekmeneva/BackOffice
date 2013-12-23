@@ -63,7 +63,6 @@
                                 </state>
                                 <connections>
                                     <action selector="signInButtonPressed:" destination="QQp-rX-BxS" eventType="touchUpInside" id="tKh-S5-nXr"/>
-                                    <segue destination="fbf-2n-NHO" kind="push" id="tz7-mW-77q"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Invalid Login or Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUk-yv-CvG">
@@ -88,11 +87,12 @@
                         <outlet property="signInButton" destination="nIg-0Y-T9X" id="Hmm-Zz-Vpr"/>
                         <outlet property="userLogin" destination="K2i-Zu-S7E" id="14w-Hm-boQ"/>
                         <outlet property="userPassword" destination="Ci5-W2-kMa" id="nT0-U3-MMY"/>
+                        <segue destination="fbf-2n-NHO" kind="push" identifier="SignIn" id="dpG-EO-K1Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="USR-Ga-zV5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="895" y="-87"/>
+            <point key="canvasLocation" x="905" y="-87"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="YiZ-FS-eVG">
@@ -156,13 +156,15 @@
                     <navigationItem key="navigationItem" id="UVV-lH-fZQ">
                         <barButtonItem key="rightBarButtonItem" title="info" id="y5P-Le-ISC">
                             <connections>
-                                <segue destination="v16-QM-Hog" kind="push" id="wy5-oL-eBh"/>
+                                <action selector="showInfo:" destination="fbf-2n-NHO" id="bcL-ZN-jCw"/>
+                                <segue destination="v16-QM-Hog" kind="push" identifier="showInfo" id="top-bN-lNr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cameInInfoLabel" destination="u5I-Ky-2f2" id="2dN-nZ-hGj"/>
+                        <outlet property="showInfo" destination="y5P-Le-ISC" id="I9H-pd-j1f"/>
                         <outlet property="tasksTable" destination="hew-bt-TM1" id="Ug6-7W-PSW"/>
                     </connections>
                 </viewController>
