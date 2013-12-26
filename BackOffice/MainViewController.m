@@ -8,6 +8,9 @@
 
 #import "MainViewController.h"
 #import "InfoViewController.h"
+#import "SignInViewController.h"
+#import "Reachability.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @interface MainViewController ()
 
@@ -16,6 +19,7 @@
 @implementation MainViewController
 @synthesize cameInInfoLabel,json;
 @synthesize showInfo,infoVC;
+@synthesize timer1second,timeButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,11 +34,107 @@
 {
     [super viewDidLoad];
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
-    //NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
-  
-       
+    json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+    NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
+    
+    NSDate* fireDate = [[NSDate alloc]init];
+    fireDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
+    
+    count30times = 0;
+    
+    //[timer1second :fireDate interval:1.0 target:self selector:@selector(changeValue) userInfo:nil repeats:YES];
+    
+    while (YES) {
+        while (count30times ==0) {
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+        }
+        count30times = 0;
+        
+    }
     
 	// Do any additional setup after loading the view.
+}
+
+
+
+- (void)timerTick:(NSTimer *)timer {
+    NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
+    NSDate * nowDate = [self makeNSDateFromString:nowString];
+    
+    if (count30times < 30) {
+        static NSDateFormatter *dateFormatter;
+        if ((count30times % 2) == 0) {
+            dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"hh:mm";
+            
+            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+        }else {
+            dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"hh mm";
+            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+        }
+        count30times++;
+        NSLog(@"sec %i",count30times);
+    } else {
+        //проверка инета
+        while (![self connected]) {
+               count60times = 0;
+               [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick60sec:) userInfo:nowDate repeats:YES];
+        }
+        
+        //загрузка нового jsona, когда появился интернет
+        SignInViewController *SIVC = [[SignInViewController alloc]init];
+        loadingFinish = NO;
+        [SIVC connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]];
+        count30times = 0;
+    }
+}
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+    loadingFinish = YES;
+    
+}
+
+- (BOOL)connected
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
+}
+
+- (void)timerTick60sec:(NSTimer *)timer  {
+    //NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
+    NSDate *nowDate = [timer userInfo];
+    if (count60times < 60) {
+        static NSDateFormatter *dateFormatter;
+        if ((count30times % 2) == 0) {
+            dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"hh:mm";
+            
+            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+        }else {
+            dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"hh mm";
+            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+        }
+        count60times++;
+        NSLog(@"sec %i",count60times);
+    } else {
+       // время + 1 минута
+    }
+    
+    
+    
+}
+
+
+- (NSDate*)makeNSDateFromString:(NSString*)dateString {
+    static NSDateFormatter *dateFormatter1;
+    if (!dateFormatter1) {
+        dateFormatter1 = [[NSDateFormatter alloc] init];
+        dateFormatter1.dateFormat = @"hh:mm";
+    }
+    return [dateFormatter1 dateFromString:dateString];
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,6 +156,11 @@
     return 3;
 }
 
+
+
+- (IBAction)stopAndStart:(id)sender {
+}
+
 - (IBAction)showInfo:(id)sender {
     showInfo = [[UIStoryboardSegue alloc]initWithIdentifier:@"showInfo" source:self destination:infoVC];
     [self performSegueWithIdentifier:@"showInfo" sender:nil];
@@ -64,12 +169,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showInfo"]) {
-        
-        // Get destination view
+
         InfoViewController *infoVC = [segue destinationViewController];
-        
-        // Pass the information to your destination view
-        [infoVC setJson:json];
+        //[infoVC setJson:json];
     }
 }
 @end

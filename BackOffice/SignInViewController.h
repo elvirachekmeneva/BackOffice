@@ -20,6 +20,8 @@
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)saveValueChenged:(id)sender;
 
+- (void) connectWithLogin:(NSString*)login password:(NSString*)password;
+
 //@property NSURLConnection *connection;
 @property NSString *login;
 @property NSString *password;

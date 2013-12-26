@@ -106,26 +106,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button clipsSubviews="YES" alpha="0.49999999999999961" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gyf-QU-L0j">
-                                <rect key="frame" x="20" y="82" width="70" height="51"/>
+                            <button clipsSubviews="YES" alpha="0.49999999999999961" contentMode="center" fixedFrame="YES" placeholderIntrinsicWidth="89" placeholderIntrinsicHeight="51" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gyf-QU-L0j">
+                                <rect key="frame" x="14" y="82" width="86" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.70617918660318524" green="1" blue="0.68820565649325727" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Время">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIg-eM-p25">
-                                <rect key="frame" x="89" y="82" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <state key="normal" title="00:00"/>
+                                <connections>
+                                    <action selector="stopAndStart:" destination="fbf-2n-NHO" eventType="touchUpInside" id="cgg-3X-5QP"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Время изменения:" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="193" translatesAutoresizingMaskIntoConstraints="NO" id="u5I-Ky-2f2">
-                                <rect key="frame" x="98" y="83" width="193" height="21"/>
+                                <rect key="frame" x="108" y="83" width="193" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="18.12.13  12.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NcW-yY-8mr">
-                                <rect key="frame" x="98" y="112" width="193" height="21"/>
+                                <rect key="frame" x="110" y="112" width="193" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.38638759644801829" blue="0.79842476222826086" alpha="1" colorSpace="calibratedRGB"/>
@@ -143,13 +141,10 @@
                             <constraint firstItem="hew-bt-TM1" firstAttribute="top" secondItem="gh9-m1-rCe" secondAttribute="bottom" constant="83" id="0bh-l3-4a2"/>
                             <constraint firstAttribute="trailing" secondItem="u5I-Ky-2f2" secondAttribute="trailing" constant="29" id="7js-VZ-3f4"/>
                             <constraint firstAttribute="trailing" secondItem="NcW-yY-8mr" secondAttribute="trailing" constant="29" id="Af4-ON-6KF"/>
-                            <constraint firstItem="Gyf-QU-L0j" firstAttribute="top" secondItem="gh9-m1-rCe" secondAttribute="bottom" constant="18" id="GVu-Bw-zyL"/>
                             <constraint firstItem="u5I-Ky-2f2" firstAttribute="top" secondItem="gh9-m1-rCe" secondAttribute="bottom" constant="19" id="Hem-Pt-Gt7"/>
-                            <constraint firstItem="Gyf-QU-L0j" firstAttribute="leading" secondItem="4uD-Kx-OBA" secondAttribute="leading" constant="20" id="WYi-Ie-Kzn"/>
                             <constraint firstItem="NcW-yY-8mr" firstAttribute="top" secondItem="u5I-Ky-2f2" secondAttribute="bottom" constant="8" id="hJa-1c-zP5"/>
                             <constraint firstItem="NcW-yY-8mr" firstAttribute="top" secondItem="u5I-Ky-2f2" secondAttribute="bottom" constant="8" id="ogT-JH-hNV"/>
                             <constraint firstItem="hew-bt-TM1" firstAttribute="top" secondItem="NcW-yY-8mr" secondAttribute="bottom" constant="14" id="vvf-II-98b"/>
-                            <constraint firstItem="hew-bt-TM1" firstAttribute="top" secondItem="Gyf-QU-L0j" secondAttribute="bottom" constant="14" id="yst-iu-NpU"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -166,6 +161,7 @@
                         <outlet property="cameInInfoLabel" destination="u5I-Ky-2f2" id="2dN-nZ-hGj"/>
                         <outlet property="showInfo" destination="y5P-Le-ISC" id="I9H-pd-j1f"/>
                         <outlet property="tasksTable" destination="hew-bt-TM1" id="Ug6-7W-PSW"/>
+                        <outlet property="timeButton" destination="Gyf-QU-L0j" id="GMT-Or-2Yc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cnx-jh-mBc" userLabel="First Responder" sceneMemberID="firstResponder"/>

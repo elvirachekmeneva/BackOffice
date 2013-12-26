@@ -96,7 +96,7 @@
     }
 }
 
-- (BOOL) connectWithLogin:(NSString*)login password:(NSString*)password {
+- (void) connectWithLogin:(NSString*)login password:(NSString*)password {
     NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login,[password MD5]];
     NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -111,7 +111,7 @@
         mutableData = [[NSMutableData alloc] init];
     }
 
-    return YES;
+    //return YES;
 }
 
 -(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
@@ -142,7 +142,8 @@
             [self saveLogin:login andPassword:password];
         }
         [invalidLabel setAlpha:0];
-        
+        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [self performSegueWithIdentifier:@"SignIn" sender:nil];
         
     }else {
@@ -162,13 +163,17 @@
         MainViewController *mainVC = [segue destinationViewController];
         
         // Pass the information to your destination view
-        [mainVC setJson:json];
+//        [mainVC setJson:json];
     }
 }
 
 - (IBAction)signInButtonPressed:(id)sender {
     login = [[NSString alloc]initWithString:[userLogin text]];
     password = [[NSString alloc]initWithString:[userPassword text]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
+    [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [activityIndicator setAlpha:1];
     [self connectWithLogin:login password:password];

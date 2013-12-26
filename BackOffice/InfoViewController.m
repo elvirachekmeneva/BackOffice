@@ -28,6 +28,7 @@
 {
     [super viewDidLoad];
      [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    json = [[NSUserDefaults standardUserDefaults]objectForKey:@"data"];
     NSLog(@"Json in INFO VC %@", [json valueForKey:@"loginSuccess"]);
 }
 
