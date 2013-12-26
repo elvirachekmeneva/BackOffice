@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import "SignInViewController.h"
 
 @interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
@@ -26,5 +27,7 @@
 @property UIStoryboardSegue *showInfo;
 @property UIViewController *infoVC;
 @property NSTimer *timer1second;
+@property SignInViewController *SIVC;
+@property NSMutableData *mutableData;
 
 @end

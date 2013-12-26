@@ -20,6 +20,7 @@
 @synthesize cameInInfoLabel,json;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
+@synthesize SIVC,mutableData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,25 +44,26 @@
     count30times = 0;
     
     //[timer1second :fireDate interval:1.0 target:self selector:@selector(changeValue) userInfo:nil repeats:YES];
-    
-    while (YES) {
-        while (count30times ==0) {
-            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
-        }
-        count30times = 0;
-        
-    }
+
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+
     
 	// Do any additional setup after loading the view.
 }
 
-
+- (BOOL)connected {
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
+}
 
 - (void)timerTick:(NSTimer *)timer {
     NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
     NSDate * nowDate = [self makeNSDateFromString:nowString];
+    SIVC = [[SignInViewController alloc]init];
+    loadingFinish = NO;
     
-    if (count30times < 30) {
+    if (count30times < 10) {
         static NSDateFormatter *dateFormatter;
         if ((count30times % 2) == 0) {
             dateFormatter = [[NSDateFormatter alloc] init];
@@ -83,28 +85,15 @@
         }
         
         //загрузка нового jsona, когда появился интернет
-        SignInViewController *SIVC = [[SignInViewController alloc]init];
-        loadingFinish = NO;
-        [SIVC connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"] password:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]];
+        [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
         count30times = 0;
     }
 }
 
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    loadingFinish = YES;
-    
-}
 
-- (BOOL)connected
-{
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
-    return networkStatus != NotReachable;
-}
-
-- (void)timerTick60sec:(NSTimer *)timer  {
+- (void)timerTick60sec:(NSTimer *)timer60  {
     //NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
-    NSDate *nowDate = [timer userInfo];
+    NSDate *nowDate = [timer60 userInfo];
     if (count60times < 60) {
         static NSDateFormatter *dateFormatter;
         if ((count30times % 2) == 0) {
@@ -118,8 +107,9 @@
             self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
         }
         count60times++;
-        NSLog(@"sec %i",count60times);
+        NSLog(@"in 60 sec %i", count60times);
     } else {
+        //[timer60 invalidate];
        // время + 1 минута
     }
     
@@ -156,6 +146,42 @@
     return 3;
 }
 
+- (void) connectWithLogin:(NSString*)login password:(NSString*)password {
+    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, password];
+    NSLog(@"url %@", urlString);
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+    [request setHTTPMethod: @"GET"];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    if (connection)
+    {
+        mutableData = [[NSMutableData alloc] init];
+    }
+    
+    //return YES;
+}
+
+-(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
+{
+    [mutableData setLength:0];
+}
+
+-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [mutableData appendData:data];
+}
+
+
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+    json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
+    NSLog(@"json %@", self.json);
+        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 
 - (IBAction)stopAndStart:(id)sender {

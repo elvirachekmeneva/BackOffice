@@ -129,7 +129,7 @@
     // If we get any connection error we can manage it here…
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"No Network Connection" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
     [alertView show];
-    
+    [activityIndicator setAlpha:0];
     return;
 }
 
@@ -173,6 +173,7 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
     [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [activityIndicator setAlpha:1];

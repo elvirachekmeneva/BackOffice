@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+@interface NSString(MD5)
+@end
 
 @interface SignInViewController : UIViewController
 
@@ -21,6 +23,7 @@
 - (IBAction)saveValueChenged:(id)sender;
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password;
+- (NSString*)MD5;
 
 //@property NSURLConnection *connection;
 @property NSString *login;
