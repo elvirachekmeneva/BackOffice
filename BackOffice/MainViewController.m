@@ -31,6 +31,10 @@
     return self;
 }
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [timer1second invalidate];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -45,8 +49,8 @@
     
     //[timer1second :fireDate interval:1.0 target:self selector:@selector(changeValue) userInfo:nil repeats:YES];
 
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
-
+    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    NSLog(@"text text text text text");
     
 	// Do any additional setup after loading the view.
 }
@@ -64,58 +68,61 @@
     loadingFinish = NO;
     
     if (count30times < 10) {
-        static NSDateFormatter *dateFormatter;
-        if ((count30times % 2) == 0) {
-            dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"hh:mm";
-            
-            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
-        }else {
-            dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"hh mm";
-            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
-        }
+        [self tickTack:nowDate count:count30times];
         count30times++;
         NSLog(@"sec %i",count30times);
     } else {
         //проверка инета
-        while (![self connected]) {
-               count60times = 0;
-               [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick60sec:) userInfo:nowDate repeats:YES];
-        }
-        
-        //загрузка нового jsona, когда появился интернет
-        [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
-        count30times = 0;
-    }
-}
-
-
-- (void)timerTick60sec:(NSTimer *)timer60  {
-    //NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
-    NSDate *nowDate = [timer60 userInfo];
-    if (count60times < 60) {
-        static NSDateFormatter *dateFormatter;
-        if ((count30times % 2) == 0) {
-            dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"hh:mm";
-            
-            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+        if ([self connected]) {
+            [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
+            count30times = 0;
+               //[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick60sec:) userInfo:nowDate repeats:YES];
         }else {
-            dateFormatter = [[NSDateFormatter alloc] init];
-            dateFormatter.dateFormat = @"hh mm";
-            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+             NSLog(@"sec %i",count30times);
+            [self tickTack:nowDate count:count30times];
+            count30times ++;
         }
-        count60times++;
-        NSLog(@"in 60 sec %i", count60times);
-    } else {
-        //[timer60 invalidate];
-       // время + 1 минута
+        //count30times = 0;
     }
-    
-    
-    
 }
+
+- (void) tickTack:(NSDate *) date count:(int)count {
+    static NSDateFormatter *dateFormatter;
+    if ((count % 2) == 0) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"hh:mm";
+        
+        self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
+    }else {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"hh mm";
+        self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
+    }
+}
+
+
+//- (void)timerTick60sec:(NSTimer *)timer60  {
+//    //NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
+//    NSDate *nowDate = [timer60 userInfo];
+//    if (count60times < 60) {
+//        static NSDateFormatter *dateFormatter;
+//        if ((count30times % 2) == 0) {
+//            dateFormatter = [[NSDateFormatter alloc] init];
+//            dateFormatter.dateFormat = @"hh:mm";
+//            
+//            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+//        }else {
+//            dateFormatter = [[NSDateFormatter alloc] init];
+//            dateFormatter.dateFormat = @"hh mm";
+//            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
+//        }
+//        count60times++;
+//        NSLog(@"in 60 sec %i", count60times);
+//    } else {
+//        //[timer60 invalidate];
+//       // время + 1 минута
+//    }
+//}
 
 
 - (NSDate*)makeNSDateFromString:(NSString*)dateString {
@@ -185,6 +192,7 @@
 
 
 - (IBAction)stopAndStart:(id)sender {
+    NSLog(@"Button Pressed!!!");
 }
 
 - (IBAction)showInfo:(id)sender {
