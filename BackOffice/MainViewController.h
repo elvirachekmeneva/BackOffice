@@ -12,7 +12,7 @@
 
 @interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
-    int count30times,count60times;
+    int count30times;
     BOOL loadingFinish;
 }
 
@@ -20,6 +20,7 @@
 - (IBAction)showInfo:(id)sender;
 - (BOOL)connected;
 
+@property (weak, nonatomic) IBOutlet UILabel *changedTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
 @property (strong, nonatomic) IBOutlet UILabel *cameInInfoLabel;

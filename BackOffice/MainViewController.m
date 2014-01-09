@@ -17,7 +17,7 @@
 @end
 
 @implementation MainViewController
-@synthesize cameInInfoLabel,json;
+@synthesize cameInInfoLabel,changedTimeLabel,json;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize SIVC,mutableData;
@@ -42,23 +42,42 @@
     json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
-    NSDate* fireDate = [[NSDate alloc]init];
-    fireDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
+    [self changeLabelText];
+    
+//    NSDate* fireDate = [[NSDate alloc]init];
+//    fireDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
     
     count30times = 0;
-    
-    //[timer1second :fireDate interval:1.0 target:self selector:@selector(changeValue) userInfo:nil repeats:YES];
-
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
+    
+    
+    // Allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostName:@"www.google.com"];
+    
+        // Here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(reachabilityChanged:)
+//                                                 name:kReachabilityChangedNotification
+//                                               object:nil];
+    
+    [reach startNotifier];
     
 	// Do any additional setup after loading the view.
 }
 
 - (BOOL)connected {
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
-    return networkStatus != NotReachable;
+    NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    if (data != nil){
+        NSLog(@"Device is connected to the internet");
+        return YES;
+    }else {
+        NSLog(@"Device is not connected to the internet");
+        return NO;
+   }
 }
 
 - (void)timerTick:(NSTimer *)timer {
@@ -76,13 +95,38 @@
         if ([self connected]) {
             [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
             count30times = 0;
-               //[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick60sec:) userInfo:nowDate repeats:YES];
         }else {
-             NSLog(@"sec %i",count30times);
+            NSString * endTimeString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"];
+            if ([endTimeString isEqualToString:@""]) {
+                NSLog(@"ENDTIME === NIL");
+                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
+                [dateFormat setDateStyle:NSDateFormatterMediumStyle];
+                [dateFormat setDateFormat:@"dd:MMMM hh:mm"];
+                
+                NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@ %@",
+                                               [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
+                                               [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
+                NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
+                NSLog(@"start time = %@", [startTime description]);
+                
+            }
+            
             [self tickTack:nowDate count:count30times];
             count30times ++;
+            
+//            NSDateFormatter *dF = [[NSDateFormatter alloc] init];
+//            [dF setDateFormat:@"HH:mm"];
+//            NSDate *startDate = [dF dateFromString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"] ];
+//            NSDate *endDate = [NSDate date];
+//            
+//            
+//            //NSDate* difference = [endDate dateByAddingTimeInterval: startDate];
+//
+//            [self tickTack:nowDate count:count30times];
+//            count30times ++;
+//            NSLog(@"sec %i",count30times);
         }
-        //count30times = 0;
     }
 }
 
@@ -99,31 +143,6 @@
         self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
     }
 }
-
-
-//- (void)timerTick60sec:(NSTimer *)timer60  {
-//    //NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
-//    NSDate *nowDate = [timer60 userInfo];
-//    if (count60times < 60) {
-//        static NSDateFormatter *dateFormatter;
-//        if ((count30times % 2) == 0) {
-//            dateFormatter = [[NSDateFormatter alloc] init];
-//            dateFormatter.dateFormat = @"hh:mm";
-//            
-//            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
-//        }else {
-//            dateFormatter = [[NSDateFormatter alloc] init];
-//            dateFormatter.dateFormat = @"hh mm";
-//            self.timeButton.titleLabel.text = [dateFormatter stringFromDate:nowDate];
-//        }
-//        count60times++;
-//        NSLog(@"in 60 sec %i", count60times);
-//    } else {
-//        //[timer60 invalidate];
-//       // время + 1 минута
-//    }
-//}
-
 
 - (NSDate*)makeNSDateFromString:(NSString*)dateString {
     static NSDateFormatter *dateFormatter1;
@@ -168,7 +187,6 @@
         mutableData = [[NSMutableData alloc] init];
     }
     
-    //return YES;
 }
 
 -(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
@@ -186,8 +204,28 @@
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
     json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
     NSLog(@"json %@", self.json);
-        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
+    [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self changeLabelText];
+    
+}
+
+- (void) changeLabelText {
+    int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
+    if (isWork == 1){
+        NSString* startDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"];
+        NSString* startTime = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
+        
+        NSString* timeLabelText = [[NSString alloc]initWithFormat:@"%@ %@", startDate, startTime];
+        [changedTimeLabel setText:timeLabelText];
+    }else {
+        NSString* endDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endDate"];
+        NSString* endTime = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"];
+        
+        NSString* timeLabelText = [[NSString alloc]initWithFormat:@"%@ %@", endDate, endTime];
+        [changedTimeLabel setText:timeLabelText];
+    }
 }
 
 

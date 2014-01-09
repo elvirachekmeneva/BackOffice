@@ -159,6 +159,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="cameInInfoLabel" destination="u5I-Ky-2f2" id="2dN-nZ-hGj"/>
+                        <outlet property="changedTimeLabel" destination="NcW-yY-8mr" id="oJb-D4-TT5"/>
                         <outlet property="showInfo" destination="y5P-Le-ISC" id="I9H-pd-j1f"/>
                         <outlet property="tasksTable" destination="hew-bt-TM1" id="Ug6-7W-PSW"/>
                         <outlet property="timeButton" destination="Gyf-QU-L0j" id="GMT-Or-2Yc"/>
