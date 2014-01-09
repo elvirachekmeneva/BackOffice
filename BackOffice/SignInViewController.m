@@ -42,21 +42,23 @@
     }
     [activityIndicator setAlpha:0];
     
-   
+   /*
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
+    [dateFormat setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
     [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormat setDateFormat:@"dd:MMMM HH:mm"];
-    NSDate *now = [NSDate date];
+    [dateFormat setDateFormat:@"dd:MMM HH:mm"];
+    //NSDate *now = [NSDate date];
     
-    NSString* startDateFromJson = @"9:января 14:01";//[dateFormat stringFromDate:now];
+    NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@ %@",
+                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
+                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
+    //@"9:Jan 14:01";//[dateFormat stringFromDate:now];
     NSLog(@"now time %@", startDateFromJson);
-    //[[NSString alloc]initWithFormat:@"%@ %@",
-    //[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
-    //[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
+    
     NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
     NSLog(@"start time = %@", [startTime description]);
-    
+    */
     
 }
 

@@ -101,10 +101,16 @@
                 NSLog(@"ENDTIME === NIL");
                 NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
                 [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
+                [dateFormat setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
                 [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-                [dateFormat setDateFormat:@"dd:MMMM hh:mm"];
+                [dateFormat setDateFormat:@"yyyy:dd:MMMM HH:mm"];
                 
-                NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@ %@",
+                NSDateFormatter *year = [[NSDateFormatter alloc] init];
+                [year setDateFormat:@"yyyy"];
+                NSDate *nowYear = [NSDate date];
+                NSString *yearString =[year stringFromDate:nowYear];
+                
+                NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@:%@ %@",yearString,
                                                [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
                                                [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
                 NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
@@ -114,18 +120,7 @@
             
             [self tickTack:nowDate count:count30times];
             count30times ++;
-            
-//            NSDateFormatter *dF = [[NSDateFormatter alloc] init];
-//            [dF setDateFormat:@"HH:mm"];
-//            NSDate *startDate = [dF dateFromString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"] ];
-//            NSDate *endDate = [NSDate date];
-//            
-//            
-//            //NSDate* difference = [endDate dateByAddingTimeInterval: startDate];
-//
-//            [self tickTack:nowDate count:count30times];
-//            count30times ++;
-//            NSLog(@"sec %i",count30times);
+
         }
     }
 }
