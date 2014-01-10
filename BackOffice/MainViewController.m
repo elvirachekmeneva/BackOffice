@@ -10,6 +10,7 @@
 #import "InfoViewController.h"
 #import "SignInViewController.h"
 #import "Reachability.h"
+//#import "NSDate.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 @interface MainViewController ()
@@ -116,6 +117,15 @@
                 NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
                 NSLog(@"start time = %@", [startTime description]);
                 
+                // []//[NSTimeInterval timeIntervalSinceDate:startTime];
+                NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startTime];
+                
+                int secondsInAnHour = 3600;
+                NSInteger hoursBetweenDates = interval / secondsInAnHour;
+                NSInteger intervalInInt = interval;
+                NSInteger minutesBetweenDates = (intervalInInt % secondsInAnHour) / 60;
+                
+                NSLog(@"hoursBetweenDates: %i:%i", hoursBetweenDates, minutesBetweenDates);
             }
             
             [self tickTack:nowDate count:count30times];
@@ -129,12 +139,12 @@
     static NSDateFormatter *dateFormatter;
     if ((count % 2) == 0) {
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"hh:mm";
+        dateFormatter.dateFormat = @"HH:mm";
         
         self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
     }else {
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"hh mm";
+        dateFormatter.dateFormat = @"HH mm";
         self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
     }
 }
@@ -143,7 +153,7 @@
     static NSDateFormatter *dateFormatter1;
     if (!dateFormatter1) {
         dateFormatter1 = [[NSDateFormatter alloc] init];
-        dateFormatter1.dateFormat = @"hh:mm";
+        dateFormatter1.dateFormat = @"HH:mm";
     }
     return [dateFormatter1 dateFromString:dateString];
 }
