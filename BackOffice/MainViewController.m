@@ -88,7 +88,7 @@
     loadingFinish = NO;
     
     if (count30times < 10) {
-        [self tickTack:nowDate count:count30times];
+        [self tickTack:nowString count:count30times];
         count30times++;
         NSLog(@"sec %i",count30times);
     } else {
@@ -117,35 +117,61 @@
                 NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
                 NSLog(@"start time = %@", [startTime description]);
                 
-                // []//[NSTimeInterval timeIntervalSinceDate:startTime];
                 NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startTime];
                 
                 int secondsInAnHour = 3600;
                 NSInteger hoursBetweenDates = interval / secondsInAnHour;
                 NSInteger intervalInInt = interval;
-                NSInteger minutesBetweenDates = (intervalInInt % secondsInAnHour) / 60;
+                NSInteger minutesBetweenDates = (intervalInInt / 60) % 60;
                 
-                NSLog(@"hoursBetweenDates: %i:%i", hoursBetweenDates, minutesBetweenDates);
+                NSString* hours = @"";
+                NSString* minutes = @"";
+                
+                if (hoursBetweenDates < 10) {
+                    hours = [NSString stringWithFormat:@"0%i",hoursBetweenDates];
+                }else {
+                    hours = [NSString stringWithFormat:@"%i",hoursBetweenDates];
+                }
+                if (minutesBetweenDates < 10) {
+                    minutes = [NSString stringWithFormat:@"0%i",minutesBetweenDates];
+                }else {
+                    minutes = [NSString stringWithFormat:@"%i",minutesBetweenDates];
+                }
+                
+//                NSDateFormatter *hoursMinutesFormatter = [[NSDateFormatter alloc] init];
+//                [hoursMinutesFormatter setTimeZone:[NSTimeZone localTimeZone]];
+//                [hoursMinutesFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
+//                [hoursMinutesFormatter setDateStyle:NSDateFormatterMediumStyle];
+//                [hoursMinutesFormatter setDateFormat:@"HH:mm"];
+                
+                NSMutableString *workedTime = [NSMutableString stringWithFormat:@"%@:%@",hours,minutes];
+                [self tickTack:workedTime count:count30times];
+                NSLog(@"WorkedTime = %@", workedTime);
+               // NSLog(@"hoursBetweenDates: %i:%i", hoursBetweenDates, minutesBetweenDates);
             }
             
-            [self tickTack:nowDate count:count30times];
+            //[self tickTack:nowDate count:count30times];
             count30times ++;
 
         }
     }
 }
 
-- (void) tickTack:(NSDate *) date count:(int)count {
-    static NSDateFormatter *dateFormatter;
+- (void) tickTack:(NSMutableString*) workTime count:(int)count {
+   // static NSDateFormatter *dateFormatter;
     if ((count % 2) == 0) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"HH:mm";
+//        dateFormatter = [[NSDateFormatter alloc] init];
+//        dateFormatter.dateFormat = @"HH:mm";
+        self.timeButton.titleLabel.text = workTime;
         
-        self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
+        //self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
     }else {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"HH mm";
-        self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
+//        dateFormatter = [[NSDateFormatter alloc] init];
+//        dateFormatter.dateFormat = @"HH mm";
+        //self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
+        
+        
+        self.timeButton.titleLabel.text = [workTime stringByReplacingCharactersInRange:NSMakeRange(2, 1) withString:@" "];
     }
 }
 
