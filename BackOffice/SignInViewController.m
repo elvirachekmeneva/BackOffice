@@ -40,25 +40,8 @@
     if (self.saveOrNot.on == YES){
         [self loadData];
     }
-    [activityIndicator setAlpha:0];
+   // [activityIndicator setAlpha:0];
     
-   /*
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
-    [dateFormat setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-    [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormat setDateFormat:@"dd:MMM HH:mm"];
-    //NSDate *now = [NSDate date];
-    
-    NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@ %@",
-                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
-                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
-    //@"9:Jan 14:01";//[dateFormat stringFromDate:now];
-    NSLog(@"now time %@", startDateFromJson);
-    
-    NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
-    NSLog(@"start time = %@", [startTime description]);
-    */
     
 }
 
@@ -100,8 +83,16 @@
 
 //сохранение логина и пароля в .plist
 - (void) saveLogin:(NSString*)login andPassword:(NSString*)password {
-    NSArray *value = [[NSArray alloc] initWithObjects:login,password, nil];
-    [value writeToFile:[self getFilePath] atomically:YES];
+//    NSArray *value = [[NSArray alloc] initWithObjects:login,password, nil];
+//    [value writeToFile:[self getFilePath] atomically:YES];
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"login"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"passwordMD5"];
+    [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
+    [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 //загрузка логина и пароля из .plist прямо в textField'ы
@@ -170,31 +161,18 @@
         [userPassword setText:@""];
     }
     
-    //[NSJSONSerialization JSONObjectWithData:response
-                                                                //options:kNilOptions error:&requestError];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"SignIn"]) {
-        
-        // Get destination view
         MainViewController *mainVC = [segue destinationViewController];
-        
-        // Pass the information to your destination view
-//        [mainVC setJson:json];
     }
 }
 
 - (IBAction)signInButtonPressed:(id)sender {
     login = [[NSString alloc]initWithString:[userLogin text]];
     password = [[NSString alloc]initWithString:[userPassword text]];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
-    [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
     [activityIndicator setAlpha:1];
     [self connectWithLogin:login password:password];
     
@@ -205,6 +183,13 @@
     //сохранение состояния UISwitch
     [[NSUserDefaults standardUserDefaults] setBool:self.saveOrNot.on forKey:@"switch"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (self.saveOrNot.on) {
+        [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
+        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 

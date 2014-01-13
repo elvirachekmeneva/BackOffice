@@ -21,7 +21,6 @@
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize SIVC,mutableData;
-@synthesize assignedTasks,assignedTasksKeys,pausedTasks,pausedTasksKayes,workingTasks,workingTasksKeys;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,12 +49,6 @@
         [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
     }
     
-//    assignedTasks = [[NSDictionary alloc] initWithDictionary:[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"]];
-//    assignedTasksKeys = [assignedTasks allKeys];
-//    pausedTasks = [[NSDictionary alloc] initWithDictionary:[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"]];
-//    pausedTasksKayes = [pausedTasks allKeys];
-//    workingTasks = [[NSDictionary alloc] initWithDictionary:[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"]];
-//    workingTasksKeys = [workingTasks allKeys];
     
     [self changeLabelText];
     

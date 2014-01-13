@@ -106,7 +106,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button clipsSubviews="YES" alpha="0.49999999999999961" contentMode="center" fixedFrame="YES" placeholderIntrinsicWidth="89" placeholderIntrinsicHeight="51" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gyf-QU-L0j">
+                            <button clipsSubviews="YES" alpha="0.49999999999999961" contentMode="center" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="89" placeholderIntrinsicHeight="51" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gyf-QU-L0j">
                                 <rect key="frame" x="14" y="82" width="86" height="51"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.70617918660000001" green="1" blue="0.68820565649999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -129,7 +129,7 @@
                                 <color key="textColor" red="0.0" green="0.38638759644801829" blue="0.79842476222826086" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hew-bt-TM1">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="hew-bt-TM1">
                                 <rect key="frame" x="0.0" y="147" width="320" height="371"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -144,7 +144,9 @@
                             <constraint firstItem="hew-bt-TM1" firstAttribute="top" secondItem="gh9-m1-rCe" secondAttribute="bottom" constant="83" id="0bh-l3-4a2"/>
                             <constraint firstAttribute="trailing" secondItem="u5I-Ky-2f2" secondAttribute="trailing" constant="29" id="7js-VZ-3f4"/>
                             <constraint firstAttribute="trailing" secondItem="NcW-yY-8mr" secondAttribute="trailing" constant="29" id="Af4-ON-6KF"/>
+                            <constraint firstItem="Gyf-QU-L0j" firstAttribute="top" secondItem="gh9-m1-rCe" secondAttribute="bottom" constant="18" id="Dob-HH-25c"/>
                             <constraint firstItem="u5I-Ky-2f2" firstAttribute="top" secondItem="gh9-m1-rCe" secondAttribute="bottom" constant="19" id="Hem-Pt-Gt7"/>
+                            <constraint firstItem="hew-bt-TM1" firstAttribute="top" secondItem="Gyf-QU-L0j" secondAttribute="bottom" constant="14" id="etE-kF-TeY"/>
                             <constraint firstItem="NcW-yY-8mr" firstAttribute="top" secondItem="u5I-Ky-2f2" secondAttribute="bottom" constant="8" id="hJa-1c-zP5"/>
                             <constraint firstItem="NcW-yY-8mr" firstAttribute="top" secondItem="u5I-Ky-2f2" secondAttribute="bottom" constant="8" id="ogT-JH-hNV"/>
                             <constraint firstItem="hew-bt-TM1" firstAttribute="top" secondItem="NcW-yY-8mr" secondAttribute="bottom" constant="14" id="vvf-II-98b"/>

@@ -19,12 +19,6 @@
 - (IBAction)stopAndStart:(id)sender;
 - (IBAction)showInfo:(id)sender;
 - (BOOL)connected;
-@property NSDictionary* assignedTasks;
-@property NSArray* assignedTasksKeys;
-@property NSDictionary* pausedTasks;
-@property NSArray* pausedTasksKayes;
-@property NSDictionary* workingTasks;
-@property NSArray* workingTasksKeys;
 @property (weak, nonatomic) IBOutlet UILabel *changedTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
