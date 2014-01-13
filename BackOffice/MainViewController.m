@@ -10,7 +10,6 @@
 #import "InfoViewController.h"
 #import "SignInViewController.h"
 #import "Reachability.h"
-//#import "NSDate.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 @interface MainViewController ()
@@ -22,6 +21,7 @@
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize SIVC,mutableData;
+@synthesize assignedTasks,assignedTasksKeys,pausedTasks,pausedTasksKayes,workingTasks,workingTasksKeys;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,30 +43,32 @@
     json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
-    [self changeLabelText];
+    //цвета кнопки
+    if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+        [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+    }else {
+        [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+    }
     
-//    NSDate* fireDate = [[NSDate alloc]init];
-//    fireDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
+//    assignedTasks = [[NSDictionary alloc] initWithDictionary:[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"]];
+//    assignedTasksKeys = [assignedTasks allKeys];
+//    pausedTasks = [[NSDictionary alloc] initWithDictionary:[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"]];
+//    pausedTasksKayes = [pausedTasks allKeys];
+//    workingTasks = [[NSDictionary alloc] initWithDictionary:[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"]];
+//    workingTasksKeys = [workingTasks allKeys];
+    
+    [self changeLabelText];
     
     count30times = 0;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     
     
+    
     // Allocate a reachability object
-    Reachability* reach = [Reachability reachabilityWithHostName:@"www.google.com"];
+//    Reachability* reach = [Reachability reachabilityWithHostName:@"www.google.com"];
+//    [reach startNotifier];
     
-        // Here we set up a NSNotification observer. The Reachability that caused the notification
-    // is passed in the object parameter
-
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(reachabilityChanged:)
-//                                                 name:kReachabilityChangedNotification
-//                                               object:nil];
-    
-    [reach startNotifier];
-    
-	// Do any additional setup after loading the view.
 }
 
 - (BOOL)connected {
@@ -82,8 +84,8 @@
 }
 
 - (void)timerTick:(NSTimer *)timer {
-    NSString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
-    NSDate * nowDate = [self makeNSDateFromString:nowString];
+    NSMutableString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
+    //NSDate * nowDate = [self makeNSDateFromString:nowString];
     SIVC = [[SignInViewController alloc]init];
     loadingFinish = NO;
     
@@ -95,22 +97,35 @@
         //проверка инета
         if ([self connected]) {
             [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
+            
+            //цвета кнопки
+            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+            }else {
+                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+            }
+            
             count30times = 0;
         }else {
             NSString * endTimeString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"];
+            
             if ([endTimeString isEqualToString:@""]) {
                 NSLog(@"ENDTIME === NIL");
+                //установка зеленого цвета кнопки
+                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+                
                 NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
                 [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
                 [dateFormat setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
                 [dateFormat setDateStyle:NSDateFormatterMediumStyle];
                 [dateFormat setDateFormat:@"yyyy:dd:MMMM HH:mm"];
-                
+                //смена года на нынешний
                 NSDateFormatter *year = [[NSDateFormatter alloc] init];
                 [year setDateFormat:@"yyyy"];
                 NSDate *nowYear = [NSDate date];
                 NSString *yearString =[year stringFromDate:nowYear];
                 
+                //вычисление разницы между нынешней датой и датой начала работы
                 NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@:%@ %@",yearString,
                                                [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
                                                [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
@@ -118,15 +133,14 @@
                 NSLog(@"start time = %@", [startTime description]);
                 
                 NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startTime];
-                
-                int secondsInAnHour = 3600;
-                NSInteger hoursBetweenDates = interval / secondsInAnHour;
                 NSInteger intervalInInt = interval;
+                NSInteger hoursBetweenDates = interval / 3600;
                 NSInteger minutesBetweenDates = (intervalInInt / 60) % 60;
                 
                 NSString* hours = @"";
                 NSString* minutes = @"";
                 
+                //добавление нолика, если в минутах одна цифра
                 if (hoursBetweenDates < 10) {
                     hours = [NSString stringWithFormat:@"0%i",hoursBetweenDates];
                 }else {
@@ -138,19 +152,14 @@
                     minutes = [NSString stringWithFormat:@"%i",minutesBetweenDates];
                 }
                 
-//                NSDateFormatter *hoursMinutesFormatter = [[NSDateFormatter alloc] init];
-//                [hoursMinutesFormatter setTimeZone:[NSTimeZone localTimeZone]];
-//                [hoursMinutesFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-//                [hoursMinutesFormatter setDateStyle:NSDateFormatterMediumStyle];
-//                [hoursMinutesFormatter setDateFormat:@"HH:mm"];
                 
                 NSMutableString *workedTime = [NSMutableString stringWithFormat:@"%@:%@",hours,minutes];
                 [self tickTack:workedTime count:count30times];
                 NSLog(@"WorkedTime = %@", workedTime);
-               // NSLog(@"hoursBetweenDates: %i:%i", hoursBetweenDates, minutesBetweenDates);
+            }else {
+                //установка серого цвета кнопки
+                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
             }
-            
-            //[self tickTack:nowDate count:count30times];
             count30times ++;
 
         }
@@ -158,18 +167,9 @@
 }
 
 - (void) tickTack:(NSMutableString*) workTime count:(int)count {
-   // static NSDateFormatter *dateFormatter;
     if ((count % 2) == 0) {
-//        dateFormatter = [[NSDateFormatter alloc] init];
-//        dateFormatter.dateFormat = @"HH:mm";
         self.timeButton.titleLabel.text = workTime;
-        
-        //self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
     }else {
-//        dateFormatter = [[NSDateFormatter alloc] init];
-//        dateFormatter.dateFormat = @"HH mm";
-        //self.timeButton.titleLabel.text = [dateFormatter stringFromDate:date];
-        
         
         self.timeButton.titleLabel.text = [workTime stringByReplacingCharactersInRange:NSMakeRange(2, 1) withString:@" "];
     }
@@ -191,13 +191,47 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == 0) {
+        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] count];
+    } else if(section == 1) {
+        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] count];
+    }else {
+        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return nil;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleSubtitle
+                reuseIdentifier:@"cell"];
+    }
+    
+    NSDictionary *currentTask;
+    
+    if (indexPath.section == 0) {
+        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
+    } else if(indexPath.section == 1) {
+        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row];
+    }else {
+        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
+    }
+    [[cell textLabel] setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
+    return cell;
+
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"Assigned";
+    } else if(section == 1){
+        return @"Pause";
+    } else {
+        return @"Working";
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
@@ -239,6 +273,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self changeLabelText];
+    [_tasksTable reloadData];
     
 }
 
@@ -247,6 +282,7 @@
     if (isWork == 1){
         NSString* startDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"];
         NSString* startTime = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
+        //startTime = [startTime stringByReplacingCharactersInRange:NSMakeRange(2, 1) withString:@" "];
         
         NSString* timeLabelText = [[NSString alloc]initWithFormat:@"%@ %@", startDate, startTime];
         [changedTimeLabel setText:timeLabelText];
