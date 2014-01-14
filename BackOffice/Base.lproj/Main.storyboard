@@ -34,12 +34,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="QQp-rX-BxS" id="HaI-JZ-Mts"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ci5-W2-kMa">
                                 <rect key="frame" x="126" y="123" width="174" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="QQp-rX-BxS" id="sE2-2E-t8P"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Save password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiU-WV-UfM">
                                 <rect key="frame" x="126" y="176" width="131" height="21"/>
@@ -92,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="USR-Ga-zV5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="905" y="-87"/>
+            <point key="canvasLocation" x="906" y="549"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="YiZ-FS-eVG">
@@ -154,6 +160,12 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="UVV-lH-fZQ">
+                        <barButtonItem key="leftBarButtonItem" title="Exit" id="76O-Eu-rsA">
+                            <connections>
+                                <action selector="exit:" destination="fbf-2n-NHO" id="d4r-ol-F2v"/>
+                                <segue destination="QQp-rX-BxS" kind="push" identifier="exit" id="OPy-BE-Y3r"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="info" id="y5P-Le-ISC">
                             <connections>
                                 <action selector="showInfo:" destination="fbf-2n-NHO" id="bcL-ZN-jCw"/>
@@ -172,7 +184,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cnx-jh-mBc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1310" y="-87"/>
+            <point key="canvasLocation" x="1152" y="-95"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="zAw-Rn-jY4">
@@ -199,7 +211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w45-e0-Qfr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1720" y="-87"/>
+            <point key="canvasLocation" x="1721" y="-95"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oqq-Ky-css">
@@ -212,12 +224,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="QQp-rX-BxS" kind="relationship" relationship="rootViewController" id="KJb-G6-gOi"/>
+                        <segue destination="fbf-2n-NHO" kind="relationship" relationship="rootViewController" id="4p8-g0-sTS"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yCp-5C-Pi6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="485" y="-87"/>
+            <point key="canvasLocation" x="590" y="-95"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -225,4 +237,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="dpG-EO-K1Q"/>
+    </inferredMetricsTieBreakers>
 </document>

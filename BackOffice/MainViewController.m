@@ -17,10 +17,10 @@
 @end
 
 @implementation MainViewController
-@synthesize cameInInfoLabel,changedTimeLabel,json;
+@synthesize cameInInfoLabel,changedTimeLabel,json,senderFromSIVC;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
-@synthesize SIVC,mutableData;
+@synthesize signIn,SIVC,mutableData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,7 +52,7 @@
     
     [self changeLabelText];
     
-    count30times = 0;
+    count30times = 29;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     
@@ -62,6 +62,15 @@
 //    Reachability* reach = [Reachability reachabilityWithHostName:@"www.google.com"];
 //    [reach startNotifier];
     
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    if (senderFromSIVC == nil) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
+            //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"exit" source:self destination:SIVC];
+            [self performSegueWithIdentifier:@"exit" sender:nil];
+        }
+    }
 }
 
 - (BOOL)connected {
@@ -74,6 +83,12 @@
         NSLog(@"Device is not connected to the internet");
         return NO;
    }
+}
+
+- (IBAction)exit:(id)sender {
+    signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"signIn" source:self destination:SIVC];
+    [self performSegueWithIdentifier:@"signIn" sender:nil];
+ 
 }
 
 - (void)timerTick:(NSTimer *)timer {
@@ -275,7 +290,6 @@
     if (isWork == 1){
         NSString* startDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"];
         NSString* startTime = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
-        //startTime = [startTime stringByReplacingCharactersInRange:NSMakeRange(2, 1) withString:@" "];
         
         NSString* timeLabelText = [[NSString alloc]initWithFormat:@"%@ %@", startDate, startTime];
         [changedTimeLabel setText:timeLabelText];
@@ -302,8 +316,11 @@
 {
     if ([[segue identifier] isEqualToString:@"showInfo"]) {
 
-        InfoViewController *infoVC = [segue destinationViewController];
-        //[infoVC setJson:json];
+        infoVC = [segue destinationViewController];
+        
+    }else if([[segue identifier] isEqualToString:@"exit"]) {
+        
+        SIVC = [segue destinationViewController];
     }
 }
 @end

@@ -14,11 +14,15 @@
 {
     int count30times;
     BOOL loadingFinish;
+    
 }
 
 - (IBAction)stopAndStart:(id)sender;
 - (IBAction)showInfo:(id)sender;
 - (BOOL)connected;
+
+- (IBAction)exit:(id)sender;
+@property NSString* senderFromSIVC;
 @property (weak, nonatomic) IBOutlet UILabel *changedTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
@@ -26,8 +30,10 @@
 @property NSDictionary *json;
 @property UIStoryboardSegue *showInfo;
 @property UIViewController *infoVC;
+
 @property NSTimer *timer1second;
-@property SignInViewController *SIVC;
+@property UIStoryboardSegue *signIn;
+@property UIViewController *SIVC;
 @property NSMutableData *mutableData;
 
 @end

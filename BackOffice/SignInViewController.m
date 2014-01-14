@@ -83,12 +83,9 @@
 
 //сохранение логина и пароля в .plist
 - (void) saveLogin:(NSString*)login andPassword:(NSString*)password {
-//    NSArray *value = [[NSArray alloc] initWithObjects:login,password, nil];
-//    [value writeToFile:[self getFilePath] atomically:YES];
+    NSArray *value = [[NSArray alloc] initWithObjects:login,password, nil];
+    [value writeToFile:[self getFilePath] atomically:YES];
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"login"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"passwordMD5"];
     [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
     [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
     [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
@@ -167,6 +164,11 @@
 {
     if ([[segue identifier] isEqualToString:@"SignIn"]) {
         MainViewController *mainVC = [segue destinationViewController];
+        if (self.saveOrNot.on) {
+            mainVC.senderFromSIVC = @"saved";
+        }else {
+            mainVC.senderFromSIVC = @"not saved";
+        }
     }
 }
 
@@ -189,9 +191,17 @@
         [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
         [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        NSString *myTest = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
+        NSLog(myTest);
     }
 }
 
-
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == userLogin){
+        login = textField.text;
+    }else if(textField == userPassword) {
+        password = textField.text;
+    }
+}
 
 @end
