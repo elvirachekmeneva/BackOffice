@@ -94,13 +94,15 @@
 
 //загрузка логина и пароля из .plist прямо в textField'ы
 - (void) loadData {
-    NSString* myPath = [self getFilePath];
-    bool fileExist = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
-    if (fileExist) {
-        NSArray* values = [[NSArray alloc]initWithContentsOfFile:myPath];
-        [userLogin setText:[values objectAtIndex:0]];
-        [userPassword setText:[values objectAtIndex:1]];
-    }
+    [userLogin setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]];
+    [userPassword setText:[[NSUserDefaults standardUserDefaults] objectForKey:@"password"]];
+//    NSString* myPath = [self getFilePath];
+//    bool fileExist = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
+//    if (fileExist) {
+//        NSArray* values = [[NSArray alloc]initWithContentsOfFile:myPath];
+//        [userLogin setText:[values objectAtIndex:0]];
+//        [userPassword setText:[values objectAtIndex:1]];
+//    }
 }
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password {
