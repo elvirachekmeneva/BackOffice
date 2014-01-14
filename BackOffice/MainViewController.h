@@ -22,6 +22,7 @@
 - (BOOL)connected;
 
 - (IBAction)exit:(id)sender;
+- (IBAction)exitToSignIn:(id)sender;
 @property NSString* senderFromSIVC;
 @property (weak, nonatomic) IBOutlet UILabel *changedTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;

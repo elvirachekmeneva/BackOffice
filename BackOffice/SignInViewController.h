@@ -26,6 +26,7 @@
 - (NSString*)MD5;
 
 //@property NSURLConnection *connection;
+@property UIViewController *mainVC;
 @property NSString *login;
 @property NSString *password;
 @property NSMutableData *mutableData;

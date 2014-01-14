@@ -57,10 +57,7 @@
     NSLog(@"text text text text text");
     
     
-    
-    // Allocate a reachability object
-//    Reachability* reach = [Reachability reachabilityWithHostName:@"www.google.com"];
-//    [reach startNotifier];
+    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     
 }
 
@@ -68,7 +65,8 @@
     if (senderFromSIVC == nil) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
             //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"exit" source:self destination:SIVC];
-            [self performSegueWithIdentifier:@"exit" sender:nil];
+//            [self performSegueWithIdentifier:@"exit" sender:nil];
+            [self presentViewController:self.SIVC animated:NO completion:nil];
         }
     }
 }
@@ -86,9 +84,13 @@
 }
 
 - (IBAction)exit:(id)sender {
-    signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"signIn" source:self destination:SIVC];
-    [self performSegueWithIdentifier:@"signIn" sender:nil];
- 
+    //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"signIn" source:self destination:SIVC];
+    //[self performSegueWithIdentifier:@"signIn" sender:nil];
+    [self presentViewController:self.SIVC animated:YES completion:nil];
+}
+
+- (IBAction)exitToSignIn:(id)sender {
+    [self presentViewController:self.SIVC animated:YES completion:nil];
 }
 
 - (void)timerTick:(NSTimer *)timer {
@@ -318,9 +320,9 @@
 
         infoVC = [segue destinationViewController];
         
-    }else if([[segue identifier] isEqualToString:@"exit"]) {
+    }//else if([[segue identifier] isEqualToString:@"exit"]) {
         
-        SIVC = [segue destinationViewController];
-    }
+//        SIVC = [segue destinationViewController];
+//    }
 }
 @end

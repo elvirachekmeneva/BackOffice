@@ -28,7 +28,7 @@
 @end
 
 @implementation SignInViewController
-@synthesize userLogin, userPassword,signInButton, invalidLabel,activityIndicator;
+@synthesize userLogin, userPassword,signInButton, invalidLabel,activityIndicator,mainVC;
 @synthesize login,password;
 @synthesize saveOrNot;
 @synthesize mutableData,json;
@@ -41,7 +41,7 @@
         [self loadData];
     }
    // [activityIndicator setAlpha:0];
-    
+   self.mainVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
     
 }
 
@@ -153,8 +153,8 @@
         [invalidLabel setAlpha:0];
         [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self performSegueWithIdentifier:@"SignIn" sender:nil];
-        
+        //[self performSegueWithIdentifier:@"SignIn" sender:nil];
+        [self presentViewController:mainVC animated:YES completion:nil];
     }else {
         [invalidLabel setAlpha:1];
         [userPassword setText:@""];

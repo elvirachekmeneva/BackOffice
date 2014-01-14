@@ -7,7 +7,7 @@
         <!--Sign In View Controller-->
         <scene sceneID="2Tw-g4-m2O">
             <objects>
-                <viewController id="QQp-rX-BxS" customClass="SignInViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QQp-rX-BxS" customClass="SignInViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JvR-qo-iuw"/>
                         <viewControllerLayoutGuide type="bottom" id="Y7g-ty-2lv"/>
@@ -93,7 +93,6 @@
                         <outlet property="signInButton" destination="nIg-0Y-T9X" id="Hmm-Zz-Vpr"/>
                         <outlet property="userLogin" destination="K2i-Zu-S7E" id="14w-Hm-boQ"/>
                         <outlet property="userPassword" destination="Ci5-W2-kMa" id="nT0-U3-MMY"/>
-                        <segue destination="fbf-2n-NHO" kind="push" identifier="SignIn" id="dpG-EO-K1Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="USR-Ga-zV5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -103,7 +102,7 @@
         <!--Main View Controller-->
         <scene sceneID="YiZ-FS-eVG">
             <objects>
-                <viewController id="fbf-2n-NHO" customClass="MainViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fbf-2n-NHO" customClass="MainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gh9-m1-rCe"/>
                         <viewControllerLayoutGuide type="bottom" id="cdb-QY-Jr5"/>
@@ -160,12 +159,23 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="UVV-lH-fZQ">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" title="Exit" id="76O-Eu-rsA">
                             <connections>
                                 <action selector="exit:" destination="fbf-2n-NHO" id="d4r-ol-F2v"/>
-                                <segue destination="QQp-rX-BxS" kind="push" identifier="exit" id="OPy-BE-Y3r"/>
                             </connections>
                         </barButtonItem>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KT8-Aa-AL2">
+                            <rect key="frame" x="96" y="6" width="128" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <state key="normal" title="Button">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="exitToSignIn:" destination="fbf-2n-NHO" eventType="touchUpInside" id="rdI-TU-2hD"/>
+                            </connections>
+                        </button>
                         <barButtonItem key="rightBarButtonItem" title="info" id="y5P-Le-ISC">
                             <connections>
                                 <action selector="showInfo:" destination="fbf-2n-NHO" id="bcL-ZN-jCw"/>
@@ -184,7 +194,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cnx-jh-mBc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1152" y="-95"/>
+            <point key="canvasLocation" x="1107" y="-114"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="zAw-Rn-jY4">
@@ -237,7 +247,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="dpG-EO-K1Q"/>
-    </inferredMetricsTieBreakers>
 </document>
