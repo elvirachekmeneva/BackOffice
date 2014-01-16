@@ -41,13 +41,13 @@
         [self loadData];
     }
    // [activityIndicator setAlpha:0];
-   self.mainVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+   //self.mainVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
     
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
-    [super viewWillAppear:animated];
+    //[super viewWillAppear:animated];
     
 }
 
@@ -82,13 +82,13 @@
 }
 
 //сохранение логина и пароля в .plist
-- (void) saveLogin:(NSString*)login andPassword:(NSString*)password {
-    NSArray *value = [[NSArray alloc] initWithObjects:login,password, nil];
+- (void) saveLogin:(NSString*)loginn andPassword:(NSString*)passsword {
+    NSArray *value = [[NSArray alloc] initWithObjects:loginn,passsword, nil];
     [value writeToFile:[self getFilePath] atomically:YES];
     
-    [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
-    [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
-    [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
+    [[NSUserDefaults standardUserDefaults] setObject:loginn forKey:@"login"];
+    [[NSUserDefaults standardUserDefaults] setObject:passsword forKey:@"password"];
+    [[NSUserDefaults standardUserDefaults] setObject:[passsword MD5] forKey:@"passwordMD5"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -151,6 +151,9 @@
             [self saveLogin:login andPassword:password];
         }
         [invalidLabel setAlpha:0];
+        [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
+        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
         [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //[self performSegueWithIdentifier:@"SignIn" sender:nil];
@@ -163,17 +166,17 @@
     
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"SignIn"]) {
-        MainViewController *mainVC = [segue destinationViewController];
-        if (self.saveOrNot.on) {
-            mainVC.senderFromSIVC = @"saved";
-        }else {
-            mainVC.senderFromSIVC = @"not saved";
-        }
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([[segue identifier] isEqualToString:@"SignIn"]) {
+//        MainViewController *mainVC = [segue destinationViewController];
+//        if (self.saveOrNot.on) {
+//            mainVC.senderFromSIVC = @"saved";
+//        }else {
+//            mainVC.senderFromSIVC = @"not saved";
+//        }
+//    }
+//}
 
 - (IBAction)signInButtonPressed:(id)sender {
     login = [[NSString alloc]initWithString:[userLogin text]];

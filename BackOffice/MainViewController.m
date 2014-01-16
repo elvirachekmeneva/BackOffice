@@ -51,13 +51,14 @@
     
     
     [self changeLabelText];
-    
+    [timer1second invalidate];
+
     count30times = 29;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
-    
-    
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
+    
+    
     
 }
 //-(void)viewDidLayoutSubviews
@@ -68,8 +69,43 @@
 //            [self performSegueWithIdentifier:@"exit" sender:nil];
             [self presentViewController:self.SIVC animated:NO completion:nil];
             senderFromSIVC = [[NSString alloc]initWithString:@"not nil"];
+        }else {
+            [[self navigationController] setNavigationBarHidden:NO animated:YES];
+            json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+            NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
+            
+            //цвета кнопки
+            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+            }else {
+                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+            }
+            [self changeLabelText];
+            [timer1second invalidate];
+
+            count30times = 29;
+            timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+
         }
+    }else {
+        [[self navigationController] setNavigationBarHidden:NO animated:YES];
+        json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+        NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
+        
+        //цвета кнопки
+        if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+            [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+        }else {
+            [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+        }
+        [self changeLabelText];
+        [timer1second invalidate];
+
+        count30times = 29;
+        timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+        //self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     }
+
 }
 
 - (BOOL)connected {
@@ -87,11 +123,15 @@
 - (IBAction)exit:(id)sender {
     //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"signIn" source:self destination:SIVC];
     //[self performSegueWithIdentifier:@"signIn" sender:nil];
+    
+    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     [self presentViewController:self.SIVC animated:YES completion:nil];
 }
 
 - (IBAction)exitToSignIn:(id)sender {
-    [self presentViewController:self.SIVC animated:YES completion:nil];
+    
+    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
+    [self presentViewController:self.SIVC animated:NO completion:nil];
 }
 
 - (void)timerTick:(NSTimer *)timer {
