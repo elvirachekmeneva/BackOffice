@@ -61,7 +61,7 @@
     
     
 }
-//-(void)viewDidLayoutSubviews
+
 -(void)viewWillAppear:(BOOL)animated {
     if (senderFromSIVC == nil) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
