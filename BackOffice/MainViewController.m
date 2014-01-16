@@ -60,13 +60,14 @@
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     
 }
-
+//-(void)viewDidLayoutSubviews
 -(void)viewWillAppear:(BOOL)animated {
     if (senderFromSIVC == nil) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
             //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"exit" source:self destination:SIVC];
 //            [self performSegueWithIdentifier:@"exit" sender:nil];
             [self presentViewController:self.SIVC animated:NO completion:nil];
+            senderFromSIVC = [[NSString alloc]initWithString:@"not nil"];
         }
     }
 }

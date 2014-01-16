@@ -154,7 +154,8 @@
         [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //[self performSegueWithIdentifier:@"SignIn" sender:nil];
-        [self presentViewController:mainVC animated:YES completion:nil];
+        //[self presentViewController:mainVC animated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }else {
         [invalidLabel setAlpha:1];
         [userPassword setText:@""];
