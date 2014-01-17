@@ -341,6 +341,12 @@
 
 - (IBAction)stopAndStart:(id)sender {
     NSLog(@"Button Pressed!!!");
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"login"], [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:3.0];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"on" forHTTPHeaderField:@"cmd"];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+
 }
 
 - (IBAction)showInfo:(id)sender {
