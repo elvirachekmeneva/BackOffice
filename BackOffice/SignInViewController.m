@@ -105,8 +105,8 @@
 //    }
 }
 
-- (void) connectWithLogin:(NSString*)login password:(NSString*)password {
-    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login,[password MD5]];
+- (void) connectWithLogin:(NSString*)loginn password:(NSString*)passsword {
+    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",loginn,[passsword MD5]];
     NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
@@ -165,17 +165,7 @@
     
 }
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"SignIn"]) {
-//        MainViewController *mainVC = [segue destinationViewController];
-//        if (self.saveOrNot.on) {
-//            mainVC.senderFromSIVC = @"saved";
-//        }else {
-//            mainVC.senderFromSIVC = @"not saved";
-//        }
-//    }
-//}
+
 
 - (IBAction)signInButtonPressed:(id)sender {
     login = [[NSString alloc]initWithString:[userLogin text]];

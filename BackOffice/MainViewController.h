@@ -20,14 +20,15 @@
 - (IBAction)stopAndStart:(id)sender;
 - (IBAction)showInfo:(id)sender;
 - (BOOL)connected;
-
-- (IBAction)exit:(id)sender;
+- (IBAction)showTeam:(id)sender;
 - (IBAction)exitToSignIn:(id)sender;
+
 @property NSString* senderFromSIVC;
 @property (weak, nonatomic) IBOutlet UILabel *changedTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
 @property (strong, nonatomic) IBOutlet UILabel *cameInInfoLabel;
+
 @property NSMutableDictionary *json;
 @property UIStoryboardSegue *showInfo;
 @property UIViewController *infoVC;
