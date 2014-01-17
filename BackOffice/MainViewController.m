@@ -65,10 +65,8 @@
 -(void)viewWillAppear:(BOOL)animated {
     if (senderFromSIVC == nil) {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
-            //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"exit" source:self destination:SIVC];
-//            [self performSegueWithIdentifier:@"exit" sender:nil];
             [self presentViewController:self.SIVC animated:NO completion:nil];
-            senderFromSIVC = [[NSString alloc]initWithString:@"not nil"];
+            senderFromSIVC = @"not nil";
         }else {
             [[self navigationController] setNavigationBarHidden:NO animated:YES];
             json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
@@ -103,7 +101,6 @@
 
         count30times = 29;
         timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
-        //self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     }
 
 }
@@ -121,8 +118,6 @@
 }
 
 - (IBAction)exit:(id)sender {
-    //signIn = [[UIStoryboardSegue alloc]initWithIdentifier:@"signIn" source:self destination:SIVC];
-    //[self performSegueWithIdentifier:@"signIn" sender:nil];
     
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     [self presentViewController:self.SIVC animated:YES completion:nil];
@@ -135,13 +130,12 @@
 }
 
 - (void)timerTick:(NSTimer *)timer {
-    NSMutableString *nowString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
-    //NSDate * nowDate = [self makeNSDateFromString:nowString];
+    NSString *workedTimeFromJson = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"workedTime"];
     SIVC = [[SignInViewController alloc]init];
     loadingFinish = NO;
     
     if (count30times < 10) {
-        [self tickTack:nowString count:count30times];
+        [self tickTack:workedTimeFromJson count:count30times];
         count30times++;
         NSLog(@"sec %i",count30times);
     } else {
@@ -165,46 +159,39 @@
                 //установка зеленого цвета кнопки
                 [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
                 
-                NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-                [dateFormat setTimeZone:[NSTimeZone localTimeZone]];
-                [dateFormat setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
-                [dateFormat setDateStyle:NSDateFormatterMediumStyle];
-                [dateFormat setDateFormat:@"yyyy:dd:MMMM HH:mm"];
-                //смена года на нынешний
-                NSDateFormatter *year = [[NSDateFormatter alloc] init];
-                [year setDateFormat:@"yyyy"];
-                NSDate *nowYear = [NSDate date];
-                NSString *yearString =[year stringFromDate:nowYear];
+                //потом обязательно удалить эту строчку!!!!!!
+               // NSDate* loadingDate = [[NSDate alloc] initWithTimeInterval:-600 sinceDate:[NSDate date]];
                 
-                //вычисление разницы между нынешней датой и датой начала работы
-                NSString* startDateFromJson = [[NSString alloc]initWithFormat:@"%@:%@ %@",yearString,
-                                               [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"],
-                                               [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"]];
-                NSDate *startTime = [dateFormat dateFromString:startDateFromJson];
-                NSLog(@"start time = %@", [startTime description]);
+                NSTimeInterval intervalBetweenLoadingAndNow = [[NSDate date] timeIntervalSinceDate:[json objectForKey:@"loading date"]];
+                NSInteger intervalBetweenInInt = intervalBetweenLoadingAndNow;
                 
-                NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:startTime];
-                NSInteger intervalInInt = interval;
-                NSInteger hoursBetweenDates = interval / 3600;
-                NSInteger minutesBetweenDates = (intervalInInt / 60) % 60;
+                NSString *hoursString = [workedTimeFromJson substringWithRange:NSMakeRange(0, 2)];
+                NSString *minutesString = [workedTimeFromJson substringWithRange:NSMakeRange(3, 2)];
+                NSInteger workedTimeInSeconds = [hoursString intValue] *3600 + [minutesString intValue] *60;
                 
+                NSInteger resultWorkedTime = intervalBetweenInInt + workedTimeInSeconds;
+                
+                NSInteger resultHours = resultWorkedTime / 3600;
+                NSInteger resultMinutes = (resultWorkedTime / 60) % 60;
+                
+                NSLog(@"result worked time: %ld:%ld",(long)resultHours,(long)resultMinutes);
                 NSString* hours = @"";
                 NSString* minutes = @"";
                 
                 //добавление нолика, если в минутах одна цифра
-                if (hoursBetweenDates < 10) {
-                    hours = [NSString stringWithFormat:@"0%i",hoursBetweenDates];
+                if (resultHours < 10) {
+                    hours = [NSString stringWithFormat:@"0%i",resultHours];
                 }else {
-                    hours = [NSString stringWithFormat:@"%i",hoursBetweenDates];
+                    hours = [NSString stringWithFormat:@"%i",resultHours];
                 }
-                if (minutesBetweenDates < 10) {
-                    minutes = [NSString stringWithFormat:@"0%i",minutesBetweenDates];
+                if (resultMinutes < 10) {
+                    minutes = [NSString stringWithFormat:@"0%i",resultMinutes];
                 }else {
-                    minutes = [NSString stringWithFormat:@"%i",minutesBetweenDates];
+                    minutes = [NSString stringWithFormat:@"%i",resultMinutes];
                 }
                 
                 
-                NSMutableString *workedTime = [NSMutableString stringWithFormat:@"%@:%@",hours,minutes];
+                NSString *workedTime = [NSString stringWithFormat:@"%@:%@",hours,minutes];
                 [self tickTack:workedTime count:count30times];
                 NSLog(@"WorkedTime = %@", workedTime);
             }else {
@@ -217,7 +204,7 @@
     }
 }
 
-- (void) tickTack:(NSMutableString*) workTime count:(int)count {
+- (void) tickTack:(NSString*) workTime count:(int)count {
     if ((count % 2) == 0) {
         self.timeButton.titleLabel.text = workTime;
     }else {
@@ -228,6 +215,8 @@
 
 - (NSDate*)makeNSDateFromString:(NSString*)dateString {
     static NSDateFormatter *dateFormatter1;
+    [dateFormatter1 setTimeZone:[NSTimeZone localTimeZone]];
+    [dateFormatter1 setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US"]];
     if (!dateFormatter1) {
         dateFormatter1 = [[NSDateFormatter alloc] init];
         dateFormatter1.dateFormat = @"HH:mm";
@@ -319,6 +308,7 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
     json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
+    [json setObject:[NSDate date] forKey:@"loading date"];
     NSLog(@"json %@", self.json);
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
     [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
@@ -361,9 +351,6 @@
 
         infoVC = [segue destinationViewController];
         
-    }//else if([[segue identifier] isEqualToString:@"exit"]) {
-        
-//        SIVC = [segue destinationViewController];
-//    }
+    }
 }
 @end

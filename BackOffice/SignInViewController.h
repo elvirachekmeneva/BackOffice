@@ -25,7 +25,6 @@
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password;
 - (NSString*)MD5;
 
-//@property NSURLConnection *connection;
 @property UIViewController *mainVC;
 @property NSString *login;
 @property NSString *password;

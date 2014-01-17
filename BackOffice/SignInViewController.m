@@ -144,6 +144,7 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
     json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
+    [json setValue:[NSDate date] forKey:@"loading date"];
     NSLog(@"json %@", self.json);
     [activityIndicator setAlpha:0];
     if ([[json objectForKey:@"loginSuccess"] integerValue] == 1) {
@@ -156,8 +157,6 @@
         [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
         [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        //[self performSegueWithIdentifier:@"SignIn" sender:nil];
-        //[self presentViewController:mainVC animated:YES completion:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
     }else {
         [invalidLabel setAlpha:1];

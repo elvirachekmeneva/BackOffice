@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
 @property (strong, nonatomic) IBOutlet UILabel *cameInInfoLabel;
-@property NSDictionary *json;
+@property NSMutableDictionary *json;
 @property UIStoryboardSegue *showInfo;
 @property UIViewController *infoVC;
 
