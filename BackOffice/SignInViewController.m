@@ -144,7 +144,10 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
     json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
-    [json setValue:[NSDate date] forKey:@"loading date"];
+    NSDate *loadingDate = [NSDate date];
+    //[json setValue:loadingDate forKey:@"loading_date"];
+    [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     NSLog(@"json %@", self.json);
     [activityIndicator setAlpha:0];
     if ([[json objectForKey:@"loginSuccess"] integerValue] == 1) {
@@ -196,6 +199,15 @@
         login = textField.text;
     }else if(textField == userPassword) {
         password = textField.text;
+    }
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == userLogin) {
+        [userPassword  setText:@""];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"login"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"passwordMD5"];
     }
 }
 

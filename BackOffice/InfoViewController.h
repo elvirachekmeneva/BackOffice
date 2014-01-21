@@ -13,5 +13,9 @@
 
 
 @property NSDictionary *json;
+@property (weak, nonatomic) IBOutlet UILabel *userNameAndSurname;
+@property (weak, nonatomic) IBOutlet UILabel *userDepartment;
+@property (weak, nonatomic) IBOutlet UILabel *userPosition;
+@property (weak, nonatomic) IBOutlet UIImageView *userPhoto;
 
 @end

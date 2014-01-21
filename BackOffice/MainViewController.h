@@ -16,7 +16,6 @@
     BOOL loadingFinish;
     
 }
-
 - (IBAction)stopAndStart:(id)sender;
 - (IBAction)showInfo:(id)sender;
 - (BOOL)connected;
@@ -29,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
 @property (strong, nonatomic) IBOutlet UILabel *cameInInfoLabel;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property NSMutableDictionary *json;
 @property UIStoryboardSegue *showInfo;
 @property UIViewController *infoVC;

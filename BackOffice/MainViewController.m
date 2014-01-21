@@ -17,7 +17,7 @@
 @end
 
 @implementation MainViewController
-@synthesize cameInInfoLabel,changedTimeLabel,json,senderFromSIVC;
+@synthesize cameInInfoLabel,changedTimeLabel,json,senderFromSIVC,activityIndicator;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize signIn,SIVC,mutableData;
@@ -43,17 +43,18 @@
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
     //цвета кнопки
-    if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-        [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-    }else {
-        [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-    }
-    
+//    if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+//        [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+//    }else {
+//        [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+//    }
+    [self changeButtonColor];
     
     [self changeLabelText];
     [timer1second invalidate];
-
-    count30times = 29;
+    
+    [activityIndicator setAlpha:1];
+    count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
@@ -80,8 +81,9 @@
             }
             [self changeLabelText];
             [timer1second invalidate];
-
-            count30times = 29;
+            
+            [activityIndicator setAlpha:1];
+            count30times = 30;
             timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
 
         }
@@ -91,13 +93,15 @@
         NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
         
         //цвета кнопки
-        if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-            [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-        }else {
-            [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-        }
+//        if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+//            [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+//        }else {
+//            [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+//        }
         [self changeLabelText];
         [timer1second invalidate];
+        
+        [activityIndicator setAlpha:1];
 
         count30times = 29;
         timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
@@ -145,13 +149,13 @@
         //проверка инета
         if ([self connected]) {
             [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
-            
+            [self changeButtonColor];
             //цвета кнопки
-            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-            }else {
-                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-            }
+//            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+//                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+//            }else {
+//                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+//            }
             
             count30times = 0;
         }else {
@@ -160,12 +164,13 @@
             if ([endTimeString isEqualToString:@""]) {
                 NSLog(@"ENDTIME === NIL");
                 //установка зеленого цвета кнопки
-                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+                //[timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+                [self changeButtonColor];
                 
                 //потом обязательно удалить эту строчку!!!!!!
                // NSDate* loadingDate = [[NSDate alloc] initWithTimeInterval:-600 sinceDate:[NSDate date]];
                 
-                NSTimeInterval intervalBetweenLoadingAndNow = [[NSDate date] timeIntervalSinceDate:[json objectForKey:@"loading date"]];
+                NSTimeInterval intervalBetweenLoadingAndNow = [[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"loadingDate"]];//[json objectForKey:@"loading date"]];
                 NSInteger intervalBetweenInInt = intervalBetweenLoadingAndNow;
                 
                 NSString *hoursString = [workedTimeFromJson substringWithRange:NSMakeRange(0, 2)];
@@ -311,13 +316,20 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
     json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
-    [json setObject:[NSDate date] forKey:@"loading date"];
+    //[json setObject:[NSDate date] forKey:@"loading date"];
+    NSDate* loadingDate = [NSDate date];
+    [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     NSLog(@"json %@", self.json);
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
     [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self changeLabelText];
     [_tasksTable reloadData];
+    [self changeButtonColor];
+    [activityIndicator setAlpha:0];
+    
     
 }
 
@@ -338,14 +350,46 @@
     }
 }
 
+- (void) changeButtonColor {
+    int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
+    if (isWork == 1) {
+        [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+    }else {
+        [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+    }
+}
 
 - (IBAction)stopAndStart:(id)sender {
     NSLog(@"Button Pressed!!!");
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"login"], [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLCacheStorageNotAllowed timeoutInterval:3.0];
+    [timer1second invalidate];
+    [activityIndicator setAlpha:1];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/setUserStatus.php?login=%@&passwrdHash=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"login"], [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]]];
+    NSString* command;
+    if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endDate"] isEqualToString:@""]) {
+        command = @"cmd=off";
+        //[timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+
+    } else {
+        command = @"cmd=on";
+        //[timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+
+    }
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
+    [request setURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setValue:@"on" forHTTPHeaderField:@"cmd"];
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [request setHTTPBody:[command dataUsingEncoding:NSUTF8StringEncoding]];
+    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    
+    count30times = 30;
+    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    
+    if(conn) {
+        NSLog(@"Connection Successful");
+    }
+    else {
+        NSLog(@"Connection could not be made");
+    }
+    
 
 }
 
