@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WorkedTableDataSource.h"
 
 @interface InfoViewController : UIViewController
 
@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *userDepartment;
 @property (weak, nonatomic) IBOutlet UILabel *userPosition;
 @property (weak, nonatomic) IBOutlet UIImageView *userPhoto;
+@property WorkedTableDataSource* ds;
 
 @end

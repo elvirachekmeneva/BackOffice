@@ -13,7 +13,7 @@
 @end
 
 @implementation InfoViewController
-@synthesize json;
+@synthesize json,ds;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,6 +51,7 @@
             self.userPhoto.clipsToBounds = YES;
         });
     });
+
 }
 
 - (void)didReceiveMemoryWarning
