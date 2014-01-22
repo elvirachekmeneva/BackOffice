@@ -15,7 +15,7 @@
 @property NSMutableArray* daysInMonth;
 @property NSDictionary* infoByDay;
 @property NSMutableDictionary* allMonthInfo;
-@property NSDictionary* infoByMonth;
+@property NSMutableDictionary* infoByMonth;
 
 - (void) initWithDictionary: (NSDictionary*)allData;
 @end
