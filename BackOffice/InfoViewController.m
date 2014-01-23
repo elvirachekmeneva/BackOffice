@@ -58,7 +58,7 @@
 }
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password {
-    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=2012-11-01&endDate=2014-01-23",login,password];
+    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=2014-01-20&endDate=2014-01-23",login,password];
     NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url

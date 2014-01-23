@@ -63,6 +63,7 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
                          [[daysFromJson objectForKey:currentDay] objectForKey:@"zpSum"],@"zpSum",
                          [[daysFromJson objectForKey:currentDay] objectForKey:@"prSum"],@"prSum",
                          [[daysFromJson objectForKey:currentDay] objectForKey:@"addSum"],@"addSum",
+                         [[daysFromJson objectForKey:currentDay] objectForKey:@"totalHours"],@"totalHours",
                          [[daysFromJson objectForKey:currentDay] objectForKey:@"coeff"], @"coeff",
                          nil];
             [allMonthInfo setObject:infoByMonth forKey:keyMonth]; //= [[NSMutableDictionary alloc] initWithObjectsAndKeys:infoByMonth,keyMonth, nil];
