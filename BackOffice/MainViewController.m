@@ -74,11 +74,13 @@
             NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
             
             //цвета кнопки
-            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-            }else {
-                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-            }
+//            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
+//                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+//            }else {
+//                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+//            }
+            
+            [self changeButtonColor]; //???
             [self changeLabelText];
             [timer1second invalidate];
             
@@ -98,6 +100,7 @@
 //        }else {
 //            [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
 //        }
+        [self changeButtonColor]; //???
         [self changeLabelText];
         [timer1second invalidate];
         

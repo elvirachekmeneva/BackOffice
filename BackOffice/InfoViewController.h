@@ -18,5 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *userPosition;
 @property (weak, nonatomic) IBOutlet UIImageView *userPhoto;
 @property WorkedTableDataSource* ds;
+@property NSMutableData *mutableData;
+@property NSMutableDictionary *workLog;
 
 @end

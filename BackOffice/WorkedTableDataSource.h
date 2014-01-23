@@ -13,7 +13,7 @@
 @property NSMutableArray* yearMonthArray;
 @property NSMutableDictionary* yearMonthDict;
 @property NSMutableArray* daysInMonth;
-@property NSDictionary* infoByDay;
+@property NSMutableDictionary* infoByDay;
 @property NSMutableDictionary* allMonthInfo;
 @property NSMutableDictionary* infoByMonth;
 
