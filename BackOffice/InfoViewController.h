@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "WorkedTableDataSource.h"
 
-@interface InfoViewController : UIViewController
+@interface InfoViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 
 @property NSDictionary *json;
@@ -20,5 +20,7 @@
 @property WorkedTableDataSource* ds;
 @property NSMutableData *mutableData;
 @property NSMutableDictionary *workLog;
+@property NSArray* list;
+@property (weak, nonatomic) IBOutlet UITableView *workInfoTable;
 
 @end

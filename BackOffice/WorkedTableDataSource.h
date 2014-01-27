@@ -17,5 +17,9 @@
 @property NSMutableDictionary* allMonthInfo;
 @property NSMutableDictionary* infoByMonth;
 
-- (void) initWithDictionary: (NSDictionary*)allData;
+- (id) initWithDictionary: (NSDictionary*)allData;
+- (int)countOfMonth;
+- (NSArray*)headerNamesArray;
+- (int) countOfDaysInMonth:(NSString*) monthKey;
+- (NSString*) datesArrayByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
 @end

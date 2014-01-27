@@ -14,6 +14,7 @@
 
 @implementation InfoViewController
 @synthesize json,ds,mutableData,workLog;
+@synthesize  list,workInfoTable;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,13 +28,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-     [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    workLog = [[NSUserDefaults standardUserDefaults]objectForKey:@"workLog"];
+    ds = [[WorkedTableDataSource alloc]initWithDictionary:workLog];
+
+    
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     json = [[NSUserDefaults standardUserDefaults]objectForKey:@"data"];
     NSLog(@"Json in INFO VC %@", [json valueForKey:@"loginSuccess"]);
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
+    
     
     self.userNameAndSurname.text = [NSString stringWithFormat:@"%@ %@",
                                     [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"name"],
@@ -54,50 +60,62 @@
         });
     });
     
-
 }
 
-- (void) connectWithLogin:(NSString*)login password:(NSString*)password {
-    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=2014-01-20&endDate=2014-01-23",login,password];
-    NSLog(@"url %@", urlString);
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-    [request setHTTPMethod: @"GET"];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if (connection)
-    {
-        mutableData = [[NSMutableData alloc] init];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger count = [ds countOfDaysInMonth:[[ds headerNamesArray]objectAtIndex:section]];
+    return count;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    int count = [ds countOfMonth];
+    return count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleSubtitle
+                reuseIdentifier:@"cell"];
     }
-}
-
--(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
-{
-    [mutableData setLength:0];
-}
-
--(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [mutableData appendData:data];
-}
-
-
-
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    workLog = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
-//    NSDate* loadingDate = [NSDate date];
-//    [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    NSLog(@"WorkLog %@", self.workLog);
-//    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
-//    [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-    [[WorkedTableDataSource alloc] initWithDictionary:self.workLog];
-    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 70, 28)];
+    [label setFont:[UIFont boldSystemFontOfSize:12]];
+    NSString *string =[ds datesArrayByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
+    [label setText:string];
+    [label setBackgroundColor:[UIColor greenColor]];
+    [view addSubview:label];
+    [cell.contentView addSubview:view];
+
+    return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 30;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return  30;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 100)];
+    /* Create custom view to display section header... */
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 70, 28)];
+    [label setFont:[UIFont boldSystemFontOfSize:12]];
+    [label setBackgroundColor:[UIColor redColor]];
+    
+    NSString *string =[[ds headerNamesArray]objectAtIndex:section];
+    /* Section header is in 0th index... */
+    [label setText:string];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1]]; //your background color...
+    return view;
+}
+
 
 
 - (void)didReceiveMemoryWarning

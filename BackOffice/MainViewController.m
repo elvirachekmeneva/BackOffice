@@ -20,7 +20,7 @@
 @synthesize cameInInfoLabel,changedTimeLabel,json,senderFromSIVC,activityIndicator;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
-@synthesize signIn,SIVC,mutableData;
+@synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -296,38 +296,72 @@
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
     [request setHTTPMethod: @"GET"];
     
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    connnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-    if (connection)
+    if (connnection)
     {
         mutableData = [[NSMutableData alloc] init];
     }
-    
+
 }
 
 -(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
 {
-    [mutableData setLength:0];
+    if (connection == connnection){
+        [mutableData setLength:0];
+    } else {
+        [mutableDataWork setLength:0];
+    }
 }
 
 -(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [mutableData appendData:data];
+    if (connection == connnection){
+        [mutableData appendData:data];
+    } else {
+        [mutableDataWork appendData:data];
+    }
 }
 
 
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
-    //[json setObject:[NSDate date] forKey:@"loading date"];
-    NSDate* loadingDate = [NSDate date];
-    [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (connection == connnection){
+        json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
+        //[json setObject:[NSDate date] forKey:@"loading date"];
+        NSDate* loadingDate = [NSDate date];
+        [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSLog(@"json %@", self.json);
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
+        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=%@&endDate=2014-01-30",
+                                   [[NSUserDefaults standardUserDefaults] objectForKey:@"login"],
+                                   [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"],
+                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"emplStartDate"]];
+        NSLog(@"url %@", urlStringWork);
+        NSURL *urlWork = [NSURL URLWithString:urlStringWork];
+        NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork
+                                                                   cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+        [requestWork setHTTPMethod: @"GET"];
+        
+        NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
+        if (connectionWork)
+        {
+            mutableDataWork = [[NSMutableData alloc] init];
+        }
+        
+    } else {
+        workLog = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];
+        [[NSUserDefaults standardUserDefaults] setObject:workLog forKey:@"workLog"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
-    NSLog(@"json %@", self.json);
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
-    [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self changeLabelText];
     [_tasksTable reloadData];
     [self changeButtonColor];

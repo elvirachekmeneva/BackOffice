@@ -265,14 +265,25 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-ff-Rof">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-ff-Rof">
                                 <rect key="frame" x="0.0" y="181" width="320" height="387"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="dOa-JR-sSR"/>
+                                </constraints>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="v16-QM-Hog" id="dOA-Rd-Snm"/>
+                                    <outlet property="delegate" destination="v16-QM-Hog" id="jnf-rQ-Zaa"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Kwk-ff-Rof" firstAttribute="top" secondItem="8dF-RO-4wX" secondAttribute="bottom" constant="117" id="21V-di-uOd"/>
+                            <constraint firstItem="Sob-e1-nzL" firstAttribute="top" secondItem="Kwk-ff-Rof" secondAttribute="bottom" id="Sl2-Pj-KTq"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Dx5-lU-P2W"/>
                     <connections>
@@ -280,6 +291,7 @@
                         <outlet property="userNameAndSurname" destination="eaQ-QM-rHa" id="7pP-23-hJP"/>
                         <outlet property="userPhoto" destination="urV-Y8-RX8" id="fTo-Gs-xDB"/>
                         <outlet property="userPosition" destination="vxk-tS-gdN" id="kLA-6U-PK8"/>
+                        <outlet property="workInfoTable" destination="Kwk-ff-Rof" id="lad-YX-NH2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w45-e0-Qfr" userLabel="First Responder" sceneMemberID="firstResponder"/>

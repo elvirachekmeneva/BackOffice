@@ -37,5 +37,8 @@
 @property UIStoryboardSegue *signIn;
 @property UIViewController *SIVC;
 @property NSMutableData *mutableData;
+@property NSMutableData* mutableDataWork;
+@property NSURLConnection *connnection;
+@property NSMutableDictionary *workLog;
 
 @end
