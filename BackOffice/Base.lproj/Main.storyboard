@@ -266,7 +266,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-ff-Rof">
-                                <rect key="frame" x="0.0" y="181" width="320" height="387"/>
+                                <rect key="frame" x="0.0" y="227" width="320" height="335"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
@@ -278,11 +278,19 @@
                                     <outlet property="delegate" destination="v16-QM-Hog" id="jnf-rQ-Zaa"/>
                                 </connections>
                             </tableView>
+                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" misplaced="YES" selectionStyle="default" indentationWidth="10" translatesAutoresizingMaskIntoConstraints="NO" id="wSL-Vg-wfl">
+                                <rect key="frame" x="0.0" y="181" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wSL-Vg-wfl" id="LLS-g3-IOC">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Kwk-ff-Rof" firstAttribute="top" secondItem="8dF-RO-4wX" secondAttribute="bottom" constant="117" id="21V-di-uOd"/>
+                            <constraint firstItem="Kwk-ff-Rof" firstAttribute="top" secondItem="wSL-Vg-wfl" secondAttribute="bottom" constant="8" id="J1X-Tn-zFP"/>
                             <constraint firstItem="Sob-e1-nzL" firstAttribute="top" secondItem="Kwk-ff-Rof" secondAttribute="bottom" id="Sl2-Pj-KTq"/>
+                            <constraint firstItem="wSL-Vg-wfl" firstAttribute="top" secondItem="8dF-RO-4wX" secondAttribute="bottom" constant="117" id="UR5-bz-k7I"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Dx5-lU-P2W"/>

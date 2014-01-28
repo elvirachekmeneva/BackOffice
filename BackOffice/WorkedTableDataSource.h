@@ -21,5 +21,5 @@
 - (int)countOfMonth;
 - (NSArray*)headerNamesArray;
 - (int) countOfDaysInMonth:(NSString*) monthKey;
-- (NSString*) datesArrayByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
+- (NSString*) dateStringByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
 @end

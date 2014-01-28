@@ -80,13 +80,9 @@
                 reuseIdentifier:@"cell"];
     }
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 70, 28)];
-    [label setFont:[UIFont boldSystemFontOfSize:12]];
-    NSString *string =[ds datesArrayByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
-    [label setText:string];
-    [label setBackgroundColor:[UIColor greenColor]];
-    [view addSubview:label];
+    
+    NSString *string =[ds dateStringByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
+    UIView *view = [self makeDateViewColumnWithString:string];
     [cell.contentView addSubview:view];
 
     return cell;
@@ -102,21 +98,23 @@
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 100)];
-    /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 70, 28)];
-    [label setFont:[UIFont boldSystemFontOfSize:12]];
-    [label setBackgroundColor:[UIColor redColor]];
     
     NSString *string =[[ds headerNamesArray]objectAtIndex:section];
-    /* Section header is in 0th index... */
-    [label setText:string];
-    [view addSubview:label];
-    [view setBackgroundColor:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1]]; //your background color...
+    UIView *view = [self makeDateViewColumnWithString:string];
     return view;
 }
 
-
+- (UIView*) makeDateViewColumnWithString:(NSString*)dateString {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, workInfoTable.frame.size.width, 30)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, 0, 70, 28)];
+    [label setFont:[UIFont boldSystemFontOfSize:12]];
+    label.textAlignment = NSTextAlignmentCenter;
+    NSString *string = dateString;
+    [label setText:string];
+    //[label setBackgroundColor:[UIColor greenColor]];
+    [view addSubview:label];
+    return  view;
+}
 
 - (void)didReceiveMemoryWarning
 {

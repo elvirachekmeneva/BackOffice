@@ -147,13 +147,8 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     return [[yearMonthDict objectForKey:monthKey]count];
 }
 
-- (NSString*) datesArrayByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+- (NSString*) dateStringByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
     NSString* resultString = [[NSString alloc] init];
-//    for (NSMutableDictionary* item in [[yearMonthDict objectForKey:monthKey]allValues]) {
-//        
-//        //[resultSt addObject:[item objectForKey:@"day"]];
-//    }
-    
     resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"];
     return resultString;
 }
