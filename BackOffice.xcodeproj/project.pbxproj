@@ -27,7 +27,6 @@
 		76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76405FCF18893BDC00D5F6F7 /* TeamViewController.m */; };
 		76703A1718894F4800094F73 /* phone1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76703A1618894F4800094F73 /* phone1.png */; };
 		76703A66188FA22400094F73 /* WorkedTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76703A65188FA22400094F73 /* WorkedTableDataSource.m */; };
-		76703A6E1891624A00094F73 /* WorkTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76703A6D1891624A00094F73 /* WorkTableCell.m */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -73,8 +72,6 @@
 		76703A1618894F4800094F73 /* phone1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone1.png; sourceTree = "<group>"; };
 		76703A64188FA22400094F73 /* WorkedTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkedTableDataSource.h; sourceTree = "<group>"; };
 		76703A65188FA22400094F73 /* WorkedTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkedTableDataSource.m; sourceTree = "<group>"; };
-		76703A6C1891624A00094F73 /* WorkTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkTableCell.h; sourceTree = "<group>"; };
-		76703A6D1891624A00094F73 /* WorkTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkTableCell.m; sourceTree = "<group>"; };
 		8C5A7FD7E3E942B3B9EB22AE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -153,8 +150,6 @@
 				76703A65188FA22400094F73 /* WorkedTableDataSource.m */,
 				76405FCE18893BDC00D5F6F7 /* TeamViewController.h */,
 				76405FCF18893BDC00D5F6F7 /* TeamViewController.m */,
-				76703A6C1891624A00094F73 /* WorkTableCell.h */,
-				76703A6D1891624A00094F73 /* WorkTableCell.m */,
 				76703A1618894F4800094F73 /* phone1.png */,
 				76126B2B18604A9000FD8EA7 /* Images.xcassets */,
 				76126B1A18604A9000FD8EA7 /* Supporting Files */,
@@ -326,7 +321,6 @@
 			files = (
 				76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */,
 				76703A66188FA22400094F73 /* WorkedTableDataSource.m in Sources */,
-				76703A6E1891624A00094F73 /* WorkTableCell.m in Sources */,
 				76126B2A18604A9000FD8EA7 /* SignInViewController.m in Sources */,
 				76126B2418604A9000FD8EA7 /* AppDelegate.m in Sources */,
 				76126B2018604A9000FD8EA7 /* main.m in Sources */,

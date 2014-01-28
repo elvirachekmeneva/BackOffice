@@ -258,7 +258,7 @@
                                 <color key="textColor" red="0.2856075615681975" green="0.65349014945652173" blue="0.25217390510542587" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="&lt;Unknown>" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="vxk-tS-gdN">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="&lt;Unknown>" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="vxk-tS-gdN">
                                 <rect key="frame" x="106" y="152" width="205" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -266,7 +266,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-ff-Rof">
-                                <rect key="frame" x="0.0" y="227" width="320" height="335"/>
+                                <rect key="frame" x="0.0" y="208" width="320" height="341"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
@@ -279,22 +279,36 @@
                                 </connections>
                             </tableView>
                             <tableViewCell contentMode="scaleToFill" ambiguous="YES" misplaced="YES" selectionStyle="default" indentationWidth="10" translatesAutoresizingMaskIntoConstraints="NO" id="wSL-Vg-wfl">
-                                <rect key="frame" x="0.0" y="181" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wSL-Vg-wfl" id="LLS-g3-IOC">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" misplaced="YES" selectionStyle="default" indentationWidth="10" translatesAutoresizingMaskIntoConstraints="NO" id="x6A-iv-Uim">
+                                <rect key="frame" x="0.0" y="176" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x6A-iv-Uim" id="7OS-Mt-2Xg">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="29"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                             </tableViewCell>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Kwk-ff-Rof" firstAttribute="top" secondItem="wSL-Vg-wfl" secondAttribute="bottom" constant="8" id="J1X-Tn-zFP"/>
+                            <constraint firstAttribute="trailing" secondItem="Kwk-ff-Rof" secondAttribute="trailing" id="38x-Ut-Ibb"/>
+                            <constraint firstItem="Kwk-ff-Rof" firstAttribute="top" secondItem="x6A-iv-Uim" secondAttribute="bottom" id="C9B-KD-2Vt"/>
+                            <constraint firstItem="x6A-iv-Uim" firstAttribute="top" secondItem="vxk-tS-gdN" secondAttribute="bottom" constant="3" id="NII-o9-xg7"/>
+                            <constraint firstItem="Kwk-ff-Rof" firstAttribute="leading" secondItem="bbw-ye-2cb" secondAttribute="leading" id="Q1D-qb-7iv"/>
                             <constraint firstItem="Sob-e1-nzL" firstAttribute="top" secondItem="Kwk-ff-Rof" secondAttribute="bottom" id="Sl2-Pj-KTq"/>
                             <constraint firstItem="wSL-Vg-wfl" firstAttribute="top" secondItem="8dF-RO-4wX" secondAttribute="bottom" constant="117" id="UR5-bz-k7I"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Dx5-lU-P2W"/>
                     <connections>
+                        <outlet property="headerCell" destination="x6A-iv-Uim" id="ILV-Jk-7Zn"/>
                         <outlet property="userDepartment" destination="rbn-M2-QZn" id="hdF-RB-cad"/>
                         <outlet property="userNameAndSurname" destination="eaQ-QM-rHa" id="7pP-23-hJP"/>
                         <outlet property="userPhoto" destination="urV-Y8-RX8" id="fTo-Gs-xDB"/>

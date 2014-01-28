@@ -22,5 +22,8 @@
 @property NSMutableDictionary *workLog;
 @property NSArray* list;
 @property (weak, nonatomic) IBOutlet UITableView *workInfoTable;
+@property (strong, nonatomic) IBOutlet UITableViewCell *headerCell;
+
+@property UIView* cellView;
 
 @end

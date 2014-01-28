@@ -153,5 +153,12 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     return resultString;
 }
 
+- (NSString*)workedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[NSString alloc] init];
+    resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"workHours"];
+    return resultString;
+
+}
+
 
 @end
