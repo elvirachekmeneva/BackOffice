@@ -59,7 +59,8 @@
     });
     
     NSString *string =@"Дата";
-    [headerCell.contentView addSubview:[self makeCellView:string workHoursString:@"Отработано"]];
+    [headerCell.contentView addSubview:[self makeCellView:string workHoursString:@"Отработано" totalSumString:@"Заработано"]];
+    
 
     
 }
@@ -74,6 +75,30 @@
     return count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 30;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return  40;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    NSString *string = [self makeMonthAndYearFromString: [[ds headerNamesArray]objectAtIndex:section]];
+    NSString *workHoursString = [NSString stringWithFormat:@"%@(+%@)",
+                                 [[ds.allMonthInfo objectForKey:string]objectForKey:@"workHours"],
+                                 @"hh:mm"];
+                                 //[[ds.allMonthInfo objectForKey:string]objectForKey:@"hh:mm"]];
+    NSString *totalSumm = [ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:section]];
+    UIView * header = [self makeCellView:string workHoursString:workHoursString totalSumString:totalSumm];
+    
+   // [[header subviews][0]  setBackgroundColor: [UIColor colorWithRed:0 green:0 blue:1 alpha:1] ];
+    [header setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.95 alpha:0.9]];
+    [header setFrame:CGRectMake(0, 0, workInfoTable.frame.size.width, 40)];
+    return header;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                                    reuseIdentifier:@"cell"];
@@ -82,34 +107,17 @@
     NSString *workHoursString = [NSString stringWithFormat:@"%@(+%@)",
                                  [ds workedHoursByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section]  andDayNumber:indexPath.row],
                                  @"hh:mm"];
-                                 //[[ds.allMonthInfo objectForKey:string]objectForKey:@"hh:mm"]];
-    [cell.contentView addSubview:[self makeCellView:string workHoursString:workHoursString]];
+    NSString *totalSumString = [ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section]   andDayNumber:indexPath.row];
+    [cell.contentView addSubview:[self makeCellView:string workHoursString:workHoursString totalSumString:totalSumString]];
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 30;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return  30;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    NSString *string =[[ds headerNamesArray]objectAtIndex:section];
-    NSString *workHoursString = [NSString stringWithFormat:@"%@(+%@)",
-                                 [[ds.allMonthInfo objectForKey:string]objectForKey:@"workHours"],
-                                 @"hh:mm"];
-                                 //[[ds.allMonthInfo objectForKey:string]objectForKey:@"hh:mm"]];
-    return [self makeCellView:string workHoursString:workHoursString];
-}
-
-- (UIView*) makeCellView:(NSString*)dateString workHoursString:(NSString*)workHours {
+- (UIView*) makeCellView:(NSString*)dateString workHoursString:(NSString*)workHours totalSumString:(NSString*)totalSum {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, workInfoTable.frame.size.width, 30)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, 30)];
     [label setFont:[UIFont boldSystemFontOfSize:11]];
     label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
     [label setText:dateString];
     //[label setBackgroundColor:[UIColor greenColor]];
     [view addSubview:label];
@@ -135,7 +143,7 @@
     UILabel *zpSummLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 0, 70, 30)];
     [zpSummLabel setFont:[UIFont boldSystemFontOfSize:11]];
     zpSummLabel.textAlignment = NSTextAlignmentCenter;
-    [zpSummLabel setText:@"500000"];
+    [zpSummLabel setText:totalSum];
     //[zpSummLabel setBackgroundColor:[UIColor greenColor]];
     [view addSubview:zpSummLabel];
 
@@ -153,6 +161,15 @@
     return  view;
 }
 
+- (NSString*)makeMonthAndYearFromString:(NSString*)dateString {
+    NSString* string = [dateString substringWithRange:NSMakeRange(5, 2)];
+    NSDateFormatter*  dateFormatter1 = [[NSDateFormatter alloc] init];
+    [dateFormatter1 setLocale:[NSLocale localeWithLocaleIdentifier:@"ru_RU"]];
+    NSArray * sss = dateFormatter1.standaloneMonthSymbols ;
+    NSString* resultMonth = [sss objectAtIndex:[string integerValue]-1];
+    NSString* resultString = [NSString stringWithFormat:@"%@ %@", resultMonth, [dateString substringWithRange:NSMakeRange(0, 4)]];
+    return resultString;
+}
 
 - (void)didReceiveMemoryWarning
 {

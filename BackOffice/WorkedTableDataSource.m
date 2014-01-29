@@ -148,18 +148,38 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
 }
 
 - (NSString*) dateStringByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
-    NSString* resultString = [[NSString alloc] init];
-    resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"];
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"];
     return resultString;
 }
 
 - (NSString*)workedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
-    NSString* resultString = [[NSString alloc] init];
-    resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"workHours"];
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"workHours"];
     return resultString;
-
-    
 }
 
+- (NSString*)loggedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"loggedHours"];
+    return resultString;
+}
+
+- (NSString*)coeffByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"coeff"];
+    return resultString;
+}
+
+- (NSString*)totalSumByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[NSString alloc] init];
+    NSInteger resultSum = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]
+                            objectForKey:@"totalSum"] integerValue];
+    resultString = [NSString stringWithFormat:@"%ld р.",(long)resultSum];
+    return resultString;
+}
+
+-(NSString*)totalSumByMonth:(NSString*)monthString{
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue];
+    NSString* resultString = [NSString stringWithFormat:@"%ld р.",(long)resSum];
+
+    return resultString;
+}
 
 @end

@@ -23,4 +23,7 @@
 - (int) countOfDaysInMonth:(NSString*) monthKey;
 - (NSString*) dateStringByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
 - (NSString*)workedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
+- (NSString*)loggedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
+- (NSString*)totalSumByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
+- (NSString*)totalSumByMonth:(NSString*)monthString;
 @end
