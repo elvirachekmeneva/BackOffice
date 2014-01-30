@@ -54,23 +54,20 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
                     [yearMonthDict setObject:daysInMonth forKey:keyMonth];// = [[NSMutableDictionary alloc]initWithObjectsAndKeys:daysInMonth,keyMonth, nil];
                     
                 }
-                else {
-                    infoByDay = [[NSMutableDictionary alloc]initWithDictionary:[daysFromJson objectForKey:currentDay]];
-                    [[yearMonthDict objectForKey:keyMonth] addObject:infoByDay];
-                }
+//                else {
+//                    infoByDay = [[NSMutableDictionary alloc]initWithDictionary:[daysFromJson objectForKey:currentDay]];
+//                    [[yearMonthDict objectForKey:keyMonth] addObject:infoByDay];
+//                }
                 //подсчет з/п за месяц
                 infoByMonth = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"workHours"],@"workHours",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"loggedHours"],@"loggedHours",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"loggedHoursFloat"],@"loggedHoursFloat",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"totalSum"], @"totalSum",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"zpSum"],@"zpSum",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"prSum"],@"prSum",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"addSum"],@"addSum",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"totalHours"],@"totalHours",
-                             [[daysFromJson objectForKey:currentDay] objectForKey:@"coeff"], @"coeff",
-                             nil];
-                [allMonthInfo setObject:infoByMonth forKey:keyMonth]; //= [[NSMutableDictionary alloc] initWithObjectsAndKeys:infoByMonth,keyMonth, nil];
+                               [[daysFromJson objectForKey:currentDay] objectForKey:@"workHours"],@"workHours",
+                               [[daysFromJson objectForKey:currentDay] objectForKey:@"loggedHours"],@"loggedHours",
+                               [[daysFromJson objectForKey:currentDay] objectForKey:@"zpSum"],@"zpSum",
+                               [[daysFromJson objectForKey:currentDay] objectForKey:@"prSum"],@"prSum",
+                               [[daysFromJson objectForKey:currentDay] objectForKey:@"addSum"],@"addSum",
+                               [[daysFromJson objectForKey:currentDay] objectForKey:@"totalSum"],@"totalSum",
+                               nil];
+                [allMonthInfo setObject:infoByMonth forKey:keyMonth];
                 
             }else {
                 infoByDay = [[NSMutableDictionary alloc]initWithDictionary:[daysFromJson objectForKey:currentDay]];
@@ -85,20 +82,18 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
                 [infoByMonth setObject:[self addSum:[[daysFromJson objectForKey:currentDay] objectForKey:@"totalSum"]
                                            toOldSum:[infoByMonth objectForKey:@"totalSum"]] forKey:@"totalSum"];
                 
+                [infoByMonth setObject:[self addSum:[[daysFromJson objectForKey:currentDay] objectForKey:@"zpSum"]
+                                           toOldSum:[infoByMonth objectForKey:@"zpSum"]] forKey:@"zpSum"];
+                
+                [infoByMonth setObject:[self addSum:[[daysFromJson objectForKey:currentDay] objectForKey:@"prSum"]
+                                           toOldSum:[infoByMonth objectForKey:@"prSum"]] forKey:@"prSum"];
+                
                 [infoByMonth setObject:[self addSum:[[daysFromJson objectForKey:currentDay] objectForKey:@"addSum"]
                                            toOldSum:[infoByMonth objectForKey:@"addSum"]] forKey:@"addSum"];
                 
-                [infoByMonth setObject:[self addSum:[[daysFromJson objectForKey:currentDay] objectForKey:@"loggedHoursFloat"]
-                                           toOldSum:[infoByMonth objectForKey:@"loggedHoursFloat"]]forKey:@"loggedHoursFloat"];
-                
-                [infoByMonth setObject:[self addSum:[[daysFromJson objectForKey:currentDay] objectForKey:@"totalHours"]
-                                           toOldSum:[infoByMonth objectForKey:@"totalHours"]]forKey:@"totalHours"];
-                
-                NSInteger logH = [[infoByMonth objectForKey:@"loggedHoursFloat"] integerValue];
-                NSInteger totalH = [[infoByMonth objectForKey:@"totalHours"] integerValue];
-                NSString *coeff = [NSString stringWithFormat:@"%d",(logH / totalH)];
-                [infoByMonth setObject:coeff forKey:@"coeff"];
                 [allMonthInfo setObject:infoByMonth forKey:keyMonth];
+
+                
                 
             }
         }
@@ -152,8 +147,20 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     return resultString;
 }
 
+- (NSString*) startAndEndTimeByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* startTime = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"startTime"];
+    NSString* endTime = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"endTime"];
+    NSString* resultString = [NSString stringWithFormat:@"%@ - %@", startTime,endTime];
+    return resultString;
+}
+
 - (NSString*)workedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
     NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"workHours"];
+    return resultString;
+}
+
+- (NSString*)addHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"addHours"];
     return resultString;
 }
 
@@ -162,24 +169,85 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     return resultString;
 }
 
-- (NSString*)coeffByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
-    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"coeff"];
-    return resultString;
-}
-
 - (NSString*)totalSumByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
     NSString* resultString = [[NSString alloc] init];
+    NSInteger zpSum = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]
+                            objectForKey:@"zpSum"] integerValue];
+    NSInteger prSum = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]
+                            objectForKey:@"prSum"] integerValue];
+    NSInteger addSum = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]
+                            objectForKey:@"addSum"] integerValue];
     NSInteger resultSum = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]
                             objectForKey:@"totalSum"] integerValue];
-    resultString = [NSString stringWithFormat:@"%ld р.",(long)resultSum];
+    
+    
+    resultString = [NSString stringWithFormat:@"%ld+%ld+%ld=%ld",(long)zpSum,(long)prSum,(long)addSum,(long)resultSum];
     return resultString;
 }
 
--(NSString*)totalSumByMonth:(NSString*)monthString{
-    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue];
-    NSString* resultString = [NSString stringWithFormat:@"%ld р.",(long)resSum];
 
+- (NSString*)coeffByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"prCoeff"];
     return resultString;
+}
+
+- (NSString*)commentByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    NSString* resultString = [[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"comment"];
+    return resultString;
+}
+
+
+
+
+- (NSString*)workHoursByMonth:(NSString*)monthString{
+    NSString *hoursAndMinutes = [[allMonthInfo objectForKey:monthString]objectForKey:@"workHours"];
+    NSString* resultString = [hoursAndMinutes substringWithRange:NSMakeRange(0, [hoursAndMinutes length]-3)];
+    return resultString;
+}
+
+- (NSString*)loggedHoursByMonth:(NSString*)monthString{
+    NSString *hoursAndMinutes = [[allMonthInfo objectForKey:monthString]objectForKey:@"loggedHours"];
+    NSString* resultString = [hoursAndMinutes substringWithRange:NSMakeRange(0, [hoursAndMinutes length]-3)];
+    return resultString;
+}
+
+- (NSString*)totalSumByMonth:(NSString*)monthString{
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue];
+    NSString* resultString = [NSString stringWithFormat:@"%ld",(long)resSum];
+    
+    return resultString;
+}
+
+- (NSString*)okladAndPremSumByMonth:(NSString*)monthString{
+    NSInteger zpSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"zpSum"] integerValue];
+    NSInteger prSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"prSum"] integerValue];
+    NSString* resultString = [NSString stringWithFormat:@"%ld",(long)(zpSum + prSum)];
+    
+    return resultString;
+}
+
+- (NSString*)addSumByMonth:(NSString*)monthString{
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"addSum"] integerValue];
+    NSString* resultString = [NSString stringWithFormat:@"%ld",(long)resSum];
+    
+    return resultString;
+}
+
+- (DaySuccess) successDayByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
+    if ([[[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"]substringWithRange:NSMakeRange(8,2)] isEqualToString:@"20"]){
+        return Success;
+    }
+    if ([[[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"]substringWithRange:NSMakeRange(8,2)] isEqualToString:@"10"]){
+        return Fail;
+    }
+    
+    float coeff = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"prCoeff"] floatValue];
+    if (coeff > 1) {
+        return Success;
+    } else if (coeff < 1){
+        return Fail;
+    }
+    return Norm;
 }
 
 @end

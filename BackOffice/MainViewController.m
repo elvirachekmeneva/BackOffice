@@ -53,6 +53,8 @@
     [self changeLabelText];
     [timer1second invalidate];
     
+    self.infoButton.enabled = NO;
+    self.teamButton.enabled = NO;
     [activityIndicator setAlpha:1];
     count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
@@ -289,6 +291,7 @@
 }
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password {
+    
     NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, password];
     NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -367,6 +370,8 @@
     [self changeButtonColor];
     [activityIndicator setAlpha:0];
     
+    self.infoButton.enabled = YES;
+    self.teamButton.enabled = YES;
     
 }
 
