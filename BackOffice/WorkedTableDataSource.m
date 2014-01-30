@@ -181,7 +181,7 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
                             objectForKey:@"totalSum"] integerValue];
     
     
-    resultString = [NSString stringWithFormat:@"%ld+%ld+%ld=%ld",(long)zpSum,(long)prSum,(long)addSum,(long)resultSum];
+    resultString = [NSString stringWithFormat:@"%ld + %ld + %ld = %ld",(long)zpSum,(long)prSum,(long)addSum,(long)resultSum];
     return resultString;
 }
 
@@ -212,35 +212,28 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
 }
 
 - (NSString*)totalSumByMonth:(NSString*)monthString{
-    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue];
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue] * 0.87;
     NSString* resultString = [NSString stringWithFormat:@"%ld",(long)resSum];
     
     return resultString;
 }
 
 - (NSString*)okladAndPremSumByMonth:(NSString*)monthString{
-    NSInteger zpSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"zpSum"] integerValue];
-    NSInteger prSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"prSum"] integerValue];
+    NSInteger zpSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"zpSum"] integerValue] * 0.87;
+    NSInteger prSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"prSum"] integerValue] * 0.87;
     NSString* resultString = [NSString stringWithFormat:@"%ld",(long)(zpSum + prSum)];
     
     return resultString;
 }
 
 - (NSString*)addSumByMonth:(NSString*)monthString{
-    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"addSum"] integerValue];
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"addSum"] integerValue] * 0.87;
     NSString* resultString = [NSString stringWithFormat:@"%ld",(long)resSum];
     
     return resultString;
 }
 
 - (DaySuccess) successDayByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber {
-    if ([[[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"]substringWithRange:NSMakeRange(8,2)] isEqualToString:@"20"]){
-        return Success;
-    }
-    if ([[[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"day"]substringWithRange:NSMakeRange(8,2)] isEqualToString:@"10"]){
-        return Fail;
-    }
-    
     float coeff = [[[[yearMonthDict valueForKey:monthKey]objectAtIndex:dayNumber]objectForKey:@"prCoeff"] floatValue];
     if (coeff > 1) {
         return Success;

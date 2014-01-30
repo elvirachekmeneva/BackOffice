@@ -267,6 +267,10 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="R6v-sI-Jou">
+                                <rect key="frame" x="0.0" y="274" width="320" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Kwk-ff-Rof">
                                 <rect key="frame" x="0.0" y="181" width="320" height="368"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -297,8 +301,15 @@
                             <constraint firstItem="wSL-Vg-wfl" firstAttribute="top" secondItem="8dF-RO-4wX" secondAttribute="bottom" constant="117" id="UR5-bz-k7I"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Выработка" id="Dx5-lU-P2W"/>
+                    <navigationItem key="navigationItem" title="Выработка" id="Dx5-lU-P2W">
+                        <barButtonItem key="rightBarButtonItem" title="Обновить" id="CSv-lK-kD9">
+                            <connections>
+                                <action selector="update:" destination="v16-QM-Hog" id="yQ8-Ma-s4o"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="R6v-sI-Jou" id="xDU-hZ-ZgW"/>
                         <outlet property="userDepartment" destination="rbn-M2-QZn" id="hdF-RB-cad"/>
                         <outlet property="userNameAndSurname" destination="eaQ-QM-rHa" id="7pP-23-hJP"/>
                         <outlet property="userPhoto" destination="urV-Y8-RX8" id="fTo-Gs-xDB"/>

@@ -291,7 +291,7 @@
 }
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password {
-    
+   
     NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, password];
     NSLog(@"url %@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
@@ -341,10 +341,17 @@
         [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=%@&endDate=2014-01-30",
+        
+        NSDateFormatter *dF = [[NSDateFormatter alloc] init];
+        dF.dateFormat = @"yyyy-MM-dd";
+        NSDate *today = [NSDate date];
+        NSString *todayString = [dF stringFromDate:today];
+
+        NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=%@&endDate=%@",
                                    [[NSUserDefaults standardUserDefaults] objectForKey:@"login"],
                                    [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"],
-                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"emplStartDate"]];
+                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"emplStartDate"],
+                                   todayString];
         NSLog(@"url %@", urlStringWork);
         NSURL *urlWork = [NSURL URLWithString:urlStringWork];
         NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork

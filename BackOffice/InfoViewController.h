@@ -11,6 +11,8 @@
 
 @interface InfoViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
+- (IBAction)update:(id)sender;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property NSDictionary *json;
 @property (weak, nonatomic) IBOutlet UILabel *userNameAndSurname;
@@ -22,6 +24,7 @@
 @property NSMutableDictionary *workLog;
 @property NSArray* list;
 @property (weak, nonatomic) IBOutlet UITableView *workInfoTable;
+@property NSMutableData* mutableDataWork;
 
 @property UIView* cellView;
 

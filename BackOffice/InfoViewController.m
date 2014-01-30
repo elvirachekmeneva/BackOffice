@@ -14,7 +14,7 @@
 
 @implementation InfoViewController
 @synthesize json,ds,mutableData,workLog;
-@synthesize  list,workInfoTable;
+@synthesize  list,workInfoTable,mutableDataWork,activityIndicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,7 +30,7 @@
     [super viewDidLoad];
     workLog = [[NSUserDefaults standardUserDefaults]objectForKey:@"workLog"];
     ds = [[WorkedTableDataSource alloc]initWithDictionary:workLog];
-
+    [activityIndicator setAlpha:0];
     
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
     json = [[NSUserDefaults standardUserDefaults]objectForKey:@"data"];
@@ -98,10 +98,6 @@
     NSString *totalSumm = [NSString stringWithFormat:@"%@ руб.",[ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
     NSString *okladAndPremSumm = [NSString stringWithFormat:@"%@ руб.",[ds okladAndPremSumByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
     NSString *addSumm = [NSString stringWithFormat:@"%@ руб.",[ds addSumByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
-
-    
-    
-
     
     UILabel *monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 130, 20)];
     [monthLabel setFont:[UIFont boldSystemFontOfSize:11]];
@@ -145,11 +141,6 @@
 //    [bonusLabel setBackgroundColor:[UIColor greenColor]];
     [view addSubview:bonusLabel];
     
-//    UILabel *coeffLabel = [[UILabel alloc] initWithFrame:CGRectMake(220, 0, 30, 30)];
-//    [coeffLabel setFont:[UIFont boldSystemFontOfSize:11]];
-//    coeffLabel.textAlignment = NSTextAlignmentCenter;
-//    [coeffLabel setText:@"1.00"];
-//    [view addSubview:coeffLabel];
     
     
     
@@ -188,7 +179,7 @@
     NSString *workHoursString = [NSString stringWithFormat:@"%@(+%@)",
                                  [ds workedHoursByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row],
                                  [ds addHoursByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row]];
-    NSString *totalSumString = [ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section]   andDayNumber:indexPath.row];
+    NSString *totalSumString = [NSString stringWithFormat:@"%@ руб.",[ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section]   andDayNumber:indexPath.row]];
     
     NSString *startEndString = [ds startAndEndTimeByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
     NSString *commentString = [ds commentByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
@@ -202,7 +193,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     [label setText:dateString];
-    //[label setBackgroundColor:[UIColor greenColor]];
+//    [label setBackgroundColor:[UIColor greenColor]];
     [view addSubview:label];
     
     UILabel *startEndLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, 90, 30)];
@@ -242,7 +233,7 @@
 
     UILabel *kommentLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 60, workInfoTable.frame.size.width - 40, 50)];
     [kommentLabel setFont:[UIFont boldSystemFontOfSize:14]];
-    kommentLabel.textAlignment = NSTextAlignmentCenter;
+    kommentLabel.textAlignment = NSTextAlignmentLeft;
     kommentLabel.numberOfLines = 0;
 //    [kommentLabel setBackgroundColor:[UIColor greenColor]];
     kommentLabel.adjustsFontSizeToFitWidth = YES;
@@ -268,5 +259,62 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (IBAction)update:(id)sender {
+    [activityIndicator setAlpha:1];
+    [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
+}
+
+- (void) connectWithLogin:(NSString*)login password:(NSString*)password {
+    NSDateFormatter *dF = [[NSDateFormatter alloc] init];
+    dF.dateFormat = @"yyyy-MM-dd";
+    NSDate *today = [NSDate date];
+    NSString *todayString = [dF stringFromDate:today];
+    NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=%@&endDate=%@",
+                               [[NSUserDefaults standardUserDefaults] objectForKey:@"login"],
+                               [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"],
+                               [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"emplStartDate"],
+                               todayString];
+    NSLog(@"url %@", urlStringWork);
+    NSURL *urlWork = [NSURL URLWithString:urlStringWork];
+    NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+    [requestWork setHTTPMethod: @"GET"];
+    
+    NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
+    if (connectionWork)
+    {
+        mutableDataWork = [[NSMutableData alloc] init];
+    }
+
+    
+}
+
+-(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
+{
+    [mutableDataWork setLength:0];
+}
+
+-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [mutableDataWork appendData:data];
+}
+
+
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+    workLog = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];
+    [[NSUserDefaults standardUserDefaults] setObject:workLog forKey:@"workLog"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    ds = [[WorkedTableDataSource alloc]initWithDictionary:workLog];
+    
+    [workInfoTable reloadData];
+    [activityIndicator setAlpha:0];
+    
+}
+
+
 
 @end
