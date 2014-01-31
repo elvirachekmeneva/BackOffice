@@ -28,21 +28,11 @@ typedef enum {
 - (int)countOfMonth;
 - (NSArray*)headerNamesArray;
 - (int) countOfDaysInMonth:(NSString*) monthKey;
-- (NSString*) dateStringByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*) startAndEndTimeByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*)workedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*)addHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*)loggedHoursByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*)totalSumByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*)coeffByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
-- (NSString*)commentByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
 
-- (NSString*)workHoursByMonth:(NSString*)monthString;
-- (NSString*)loggedHoursByMonth:(NSString*)monthString;
-- (NSString*)totalSumByMonth:(NSString*)monthString;
-- (NSString*)okladAndPremSumByMonth:(NSString*)monthString;
-- (NSString*)addSumByMonth:(NSString*)monthString;
 
 - (DaySuccess) successDayByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
+- (NSString*)commentByMonth:(NSString*) monthKey andDayNumber:(NSInteger)dayNumber;
+- (NSMutableDictionary*)getInfoByMonth:(NSInteger)monthNumber;
+- (NSMutableDictionary*) getInfoByMonth:(NSInteger) monthNumber andDayNumber:(NSInteger)dayNumber;
 
 @end

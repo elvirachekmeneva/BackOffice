@@ -20,7 +20,7 @@
 @synthesize cameInInfoLabel,changedTimeLabel,json,senderFromSIVC,activityIndicator;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
-@synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog;
+@synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog,nameLabel,photo;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,6 +89,18 @@
             [activityIndicator setAlpha:1];
             count30times = 30;
             timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+            NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Update the UI
+                    self.photo.image = [UIImage imageWithData:imageData];
+                    self.photo.layer.cornerRadius = 6;
+                    self.photo.clipsToBounds = YES;
+                });
+            });
 
         }
     }else {
@@ -397,6 +409,10 @@
         NSString* timeLabelText = [[NSString alloc]initWithFormat:@"%@ %@", endDate, endTime];
         [changedTimeLabel setText:timeLabelText];
     }
+    
+    [nameLabel setText:[NSString stringWithFormat:@"%@ %@",
+                        [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"name"],
+                        [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"surname"]]];
 }
 
 - (void) changeButtonColor {

@@ -91,13 +91,17 @@
 
 - (UIView*) makeHeaderViewForSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, workInfoTable.frame.size.width, 60)];
-    NSString *dateString = [self makeMonthAndYearFromString: [[ds headerNamesArray]objectAtIndex:section]];
-    NSString *workHours = [NSString stringWithFormat:@"Отработано: %@ ч.",
-                                 [ds workHoursByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
-    NSString *loggedHours = [NSString stringWithFormat:@"Залогировано: %@ ч.", [ds loggedHoursByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
-    NSString *totalSumm = [NSString stringWithFormat:@"%@ руб.",[ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
-    NSString *okladAndPremSumm = [NSString stringWithFormat:@"%@ руб.",[ds okladAndPremSumByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
-    NSString *addSumm = [NSString stringWithFormat:@"%@ руб.",[ds addSumByMonth:[[ds headerNamesArray]objectAtIndex:section]]];
+    
+    NSMutableDictionary* monthInfoDictionary = [ds getInfoByMonth:section];
+    
+    NSString *dateString = [self makeMonthAndYearFromString: [monthInfoDictionary objectForKey:@"dateString"]];
+    NSString *workHours = [NSString stringWithFormat:@"Отработано: %@ ч.",[monthInfoDictionary objectForKey:@"workHours"]];
+    NSString *loggedHours = [NSString stringWithFormat:@"Залогировано: %@ ч.",
+                             [monthInfoDictionary objectForKey:@"loggedHours"]];
+    NSString *totalSumm = [NSString stringWithFormat:@"%@ руб.",[monthInfoDictionary objectForKey:@"totalSumm"]];
+    NSString *okladAndPremSumm = [NSString stringWithFormat:@"%@ руб.",
+                                  [monthInfoDictionary objectForKey:@"okladAndPremSumm"]];
+    NSString *addSumm = [NSString stringWithFormat:@"%@ руб.",[monthInfoDictionary objectForKey:@"addSumm"]];
     
     UILabel *monthLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 130, 20)];
     [monthLabel setFont:[UIFont boldSystemFontOfSize:11]];
@@ -173,18 +177,17 @@
 
 - (UIView*) makeCellViewForIndexPath:(NSIndexPath *)indexPath {
     UIView *view = [[UIView alloc] init];//WithFrame:CGRectMake(0, 0, workInfoTable.frame.size.width, 30)];
+    NSMutableDictionary* dayInfoDictionary = [ds getInfoByMonth:indexPath.section andDayNumber:indexPath.row];
     
-    NSString *dateString =[[ds dateStringByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row] substringWithRange:NSMakeRange(8, 2)];
+    NSString *dateString =[[dayInfoDictionary objectForKey:@"dateString"]  substringWithRange:NSMakeRange(8, 2)];
     
-    NSString *workHoursString = [NSString stringWithFormat:@"%@(+%@)",
-                                 [ds workedHoursByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row],
-                                 [ds addHoursByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row]];
-    NSString *totalSumString = [NSString stringWithFormat:@"%@ руб.",[ds totalSumByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section]   andDayNumber:indexPath.row]];
+    NSString *workHoursString = [dayInfoDictionary objectForKey:@"workHoursString"];
+    NSString *totalSumString = [NSString stringWithFormat:@"%@ руб.",[dayInfoDictionary objectForKey:@"totalSumString"]];
     
-    NSString *startEndString = [ds startAndEndTimeByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
-    NSString *commentString = [ds commentByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
-    NSString *loggedHoursString = [ds loggedHoursByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
-    NSString *coeffString = [ds coeffByMonth:[[ds headerNamesArray]objectAtIndex:indexPath.section] andDayNumber:indexPath.row];
+    NSString *startEndString = [dayInfoDictionary objectForKey:@"startEndString"];
+    NSString *commentString = [dayInfoDictionary objectForKey:@"commentString"];
+    NSString *loggedHoursString = [dayInfoDictionary objectForKey:@"loggedHoursString"];
+    NSString *coeffString = [dayInfoDictionary objectForKey:@"coeffString"];
 
 
     

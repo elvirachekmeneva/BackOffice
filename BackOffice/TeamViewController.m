@@ -14,7 +14,7 @@
 
 @implementation TeamViewController
 
-
+@synthesize teamTable;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,8 +44,55 @@
     [allert show];
 }
 
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 5;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 6;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return  40;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView * header = [self makeHeaderViewForSection:section];
+    [header setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.95 alpha:0.95]];
+    return header;
+}
+
+- (UIView*) makeHeaderViewForSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 40)];
+    
+    //NSMutableDictionary* monthInfoDictionary = [ds getInfoByMonth:section];
+    
+    UILabel *onlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 20)];
+    [onlineLabel setFont:[UIFont boldSystemFontOfSize:11]];
+        onlineLabel.textAlignment = NSTextAlignmentLeft;
+    //[onlineLabel setBackgroundColor:[UIColor greenColor]];
+    if (section < teamTable.numberOfSections/2) {
+        [onlineLabel setTextColor:[UIColor blueColor]];
+        [onlineLabel setText:@"OnLine"];
+    } else {
+        [onlineLabel setTextColor:[UIColor redColor]];
+        [onlineLabel setText:@"OffLine"];
+    }
+    [view addSubview:onlineLabel];
+  
+    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 20, teamTable.frame.size.width, 20)];
+    [departmentLabel setFont:[UIFont boldSystemFontOfSize:11]];
+    departmentLabel.textAlignment = NSTextAlignmentLeft;
+    [departmentLabel setText:@"dep.name"];
+    //    [monthLabel setBackgroundColor:[UIColor greenColor]];
+    [view addSubview:departmentLabel];
+    
+    
+    
+    
+    return  view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -70,18 +117,6 @@
          [[cell textLabel]setText:@"I'm home..."];
     }
     return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return @"Online";
-    } else {
-        return @"Offline";
-    }
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
 }
 
 

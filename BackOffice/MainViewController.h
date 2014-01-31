@@ -24,11 +24,13 @@
 
 @property NSString* senderFromSIVC;
 @property (weak, nonatomic) IBOutlet UILabel *changedTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UITableView *tasksTable;
 @property (strong, nonatomic) IBOutlet UILabel *cameInInfoLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *infoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *teamButton;
+@property (weak, nonatomic) IBOutlet UIImageView *photo;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property NSMutableDictionary *json;

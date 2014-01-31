@@ -243,4 +243,51 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     return Norm;
 }
 
+- (NSMutableDictionary*) getInfoByMonth:(NSInteger) monthNumber andDayNumber:(NSInteger)dayNumber {
+    NSString *dateString =[self dateStringByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber];
+    NSString *workHoursString = [NSString stringWithFormat:@"%@(+%@)",
+                                 [self workedHoursByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber],
+                                 [self addHoursByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber]];
+    NSString *totalSumString = [self totalSumByMonth:[[self headerNamesArray]objectAtIndex:monthNumber]andDayNumber:dayNumber];
+    
+    NSString *startEndString = [self startAndEndTimeByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber];
+    NSString *commentString = [self commentByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber];
+    NSString *loggedHoursString = [self loggedHoursByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber];
+    NSString *coeffString = [self coeffByMonth:[[self headerNamesArray]objectAtIndex:monthNumber] andDayNumber:dayNumber];
+    
+    NSMutableDictionary* resultDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                             dateString,@"dateString",
+                                             workHoursString,@"workHoursString",
+                                             totalSumString,@"totalSumString",
+                                             startEndString,@"startEndString",
+                                             commentString,@"commentString",
+                                             loggedHoursString,@"loggedHoursString",
+                                             coeffString,@"coeffString",
+                                             nil];
+    return  resultDictionary;
+}
+
+
+- (NSMutableDictionary*)getInfoByMonth:(NSInteger)monthNumber{
+    NSString *dateString = [[self headerNamesArray]objectAtIndex:monthNumber];
+    NSString *workHours = [self workHoursByMonth:[[self headerNamesArray]objectAtIndex:monthNumber]];
+    NSString *loggedHours = [self loggedHoursByMonth:[[self headerNamesArray]objectAtIndex:monthNumber]];
+    NSString *totalSumm = [self totalSumByMonth:[[self headerNamesArray]objectAtIndex:monthNumber]];
+    NSString *okladAndPremSumm = [self okladAndPremSumByMonth:[[self headerNamesArray]objectAtIndex:monthNumber]];
+    NSString *addSumm = [self addSumByMonth:[[self headerNamesArray]objectAtIndex:monthNumber]];
+    
+    NSMutableDictionary *resultDictionary = [[NSMutableDictionary alloc]initWithObjectsAndKeys:
+                                             dateString, @"dateString",
+                                             workHours,@"workHours",
+                                             loggedHours,@"loggedHours",
+                                             totalSumm,@"totalSumm",
+                                             okladAndPremSumm,@"okladAndPremSumm",
+                                             addSumm,@"addSumm",
+                                             nil];
+    return resultDictionary;
+    
+ 
+}
+
+
 @end
