@@ -196,9 +196,6 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     return resultString;
 }
 
-
-
-
 - (NSString*)workHoursByMonth:(NSString*)monthString{
     NSString *hoursAndMinutes = [[allMonthInfo objectForKey:monthString]objectForKey:@"workHours"];
     NSString* resultString = [hoursAndMinutes substringWithRange:NSMakeRange(0, [hoursAndMinutes length]-3)];

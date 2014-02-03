@@ -7,6 +7,7 @@
 //
 
 #import "TeamViewController.h"
+#import "CustomCell.h"
 
 @interface TeamViewController ()
 
@@ -27,7 +28,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    teamTable.hidden = YES;
+    teamJson = [[NSUserDefaults standardUserDefaults]objectForKey:@"teamInfo"];
+    
+    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
     [self getTeamInfoFromServer];
 	// Do any additional setup after loading the view.
     
@@ -80,9 +83,9 @@
     return  view;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 40;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return 40;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
@@ -91,12 +94,69 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell* cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleSubtitle
-                             reuseIdentifier:@"cell"];
+//    UITableViewCell* cell = [[UITableViewCell alloc]
+//                initWithStyle:UITableViewCellStyleSubtitle
+//                             reuseIdentifier:@"cell"];
     
-    UIView* cellView = [self makeCellViewForIndexPath:indexPath];
-    [cell.contentView addSubview:cellView];
+    
+    
+    CustomCell * cell = (CustomCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
+    }
+    
+    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:indexPath.section];
+    NSURL *imageURL;
+    if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > indexPath.row) {
+        NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"firstName"];
+        NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"lastName"];
+        NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"workedTime"];
+        [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
+        
+        [cell.timeLabel setText:workedTime];
+        [cell.timeLabel setBackgroundColor:[UIColor greenColor]];
+        
+        //[nameLabel setTextColor:[UIColor greenColor]];
+        imageURL = [NSURL URLWithString:[[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"imageURL"]];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.photo.image = [UIImage imageWithData:imageData];
+                cell.photo.layer.cornerRadius = 6;
+               // cell.photo.clipsToBounds = YES;
+
+            });
+        });
+        
+    } else {
+        NSInteger offLineNumber = indexPath.row - [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"] count];
+        NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"firstName"];
+        NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"lastName"];
+        NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"workedTime"];
+        NSString* imageURL = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"];
+        [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
+        
+        [cell.timeLabel setText:workedTime];
+        [cell.timeLabel setBackgroundColor:[UIColor grayColor]];
+        imageURL = [NSURL URLWithString:[[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"]];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cell.photo.image = [UIImage imageWithData:imageData];
+                cell.photo.layer.cornerRadius = 6;
+               // cell.photo.clipsToBounds = YES;
+                
+            });
+        });
+
+    }
+    
+//    UIView* cellView = [self makeCellViewForIndexPath:indexPath];
+//    [cell.contentView addSubview:cellView];
     
 //    UIButton* phone = [UIButton buttonWithType:UIButtonTypeCustom];
 //    [phone setImage:[UIImage imageNamed:@"phone1.png"] forState:UIControlStateNormal];
@@ -186,8 +246,8 @@
     
     teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
     allTeamInfoSorted = [teamInfo getAllTeamInfo];
-    teamTable.hidden = NO;
     [teamTable reloadData];
+
     
 }
 

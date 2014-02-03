@@ -20,7 +20,8 @@
 @synthesize cameInInfoLabel,changedTimeLabel,json,senderFromSIVC,activityIndicator;
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
-@synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog,nameLabel,photo;
+@synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog;
+@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,12 +43,6 @@
     json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
-    //цвета кнопки
-//    if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-//        [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-//    }else {
-//        [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-//    }
     [self changeButtonColor];
     
     [self changeLabelText];
@@ -75,12 +70,6 @@
             json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
             NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
             
-            //цвета кнопки
-//            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-//                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-//            }else {
-//                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-//            }
             
             [self changeButtonColor]; //???
             [self changeLabelText];
@@ -108,12 +97,6 @@
         json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
         NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
         
-        //цвета кнопки
-//        if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-//            [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-//        }else {
-//            [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-//        }
         [self changeButtonColor]; //???
         [self changeLabelText];
         [timer1second invalidate];
@@ -127,7 +110,7 @@
 }
 
 - (BOOL)connected {
-    NSURL *url = [NSURL URLWithString:@"http://m.bossnote.ru/empl/"];
+    NSURL *url = [NSURL URLWithString:@"http://google.ru"];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (data != nil){
         NSLog(@"Device is connected to the internet");
@@ -181,12 +164,7 @@
             
             if ([endTimeString isEqualToString:@""]) {
                 NSLog(@"ENDTIME === NIL");
-                //установка зеленого цвета кнопки
-                //[timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
                 [self changeButtonColor];
-                
-                //потом обязательно удалить эту строчку!!!!!!
-               // NSDate* loadingDate = [[NSDate alloc] initWithTimeInterval:-600 sinceDate:[NSDate date]];
                 
                 NSTimeInterval intervalBetweenLoadingAndNow = [[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"loadingDate"]];//[json objectForKey:@"loading date"]];
                 NSInteger intervalBetweenInInt = intervalBetweenLoadingAndNow;
@@ -318,6 +296,19 @@
     {
         mutableData = [[NSMutableData alloc] init];
     }
+    
+    NSString *urlTeamString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"];
+    NSURL *urlTeam = [NSURL URLWithString:urlTeamString];
+    NSMutableURLRequest *requestTeam = [NSMutableURLRequest requestWithURL:urlTeam
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+    [requestTeam setHTTPMethod: @"GET"];
+    
+    teamConnection = [[NSURLConnection alloc] initWithRequest:requestTeam delegate:self];
+    if (teamConnection)
+    {
+        mutableTeamData = [[NSMutableData alloc] init];
+    }
+
 
 }
 
@@ -325,6 +316,8 @@
 {
     if (connection == connnection){
         [mutableData setLength:0];
+    } else if (connection == teamConnection){
+        [mutableTeamData setLength:0];
     } else {
         [mutableDataWork setLength:0];
     }
@@ -334,9 +327,12 @@
 {
     if (connection == connnection){
         [mutableData appendData:data];
-    } else {
+    } else if (connection == teamConnection) {
+        [mutableTeamData appendData:data];
+    }else {
         [mutableDataWork appendData:data];
     }
+
 }
 
 
@@ -377,6 +373,11 @@
             mutableDataWork = [[NSMutableData alloc] init];
         }
         
+    } else if (connection == teamConnection){
+        teamInfo = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"teamInfo"];
+        [[NSUserDefaults standardUserDefaults] setObject:teamInfo forKey:@"teamInfo"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     } else {
         workLog = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];

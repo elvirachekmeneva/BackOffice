@@ -45,4 +45,9 @@
 @property NSURLConnection *connnection;
 @property NSMutableDictionary *workLog;
 
+@property NSURLConnection *teamConnection;
+@property NSMutableData* mutableTeamData;
+@property NSMutableDictionary* teamInfo;
+
+
 @end
