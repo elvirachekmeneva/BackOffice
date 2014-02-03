@@ -44,12 +44,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) didTapInfoButton:(UIButton*)button {
-    UIAlertView *allert = [[UIAlertView alloc] initWithTitle:@"You can't call" message:@"Phone number doesn't exist yet" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [allert show];
-}
-
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [[teamInfo getDepartmentsKeys]count];
@@ -83,10 +77,6 @@
     return  view;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return 40;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
     NSInteger rowCount = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] + [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]count];
@@ -94,11 +84,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    UITableViewCell* cell = [[UITableViewCell alloc]
-//                initWithStyle:UITableViewCellStyleSubtitle
-//                             reuseIdentifier:@"cell"];
-    
-    
     
     CustomCell * cell = (CustomCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
@@ -106,7 +91,6 @@
     }
     
     NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:indexPath.section];
-    NSURL *imageURL;
     if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > indexPath.row) {
         NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"firstName"];
         NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"lastName"];
@@ -116,58 +100,57 @@
         [cell.timeLabel setText:workedTime];
         [cell.timeLabel setBackgroundColor:[UIColor greenColor]];
         
-        //[nameLabel setTextColor:[UIColor greenColor]];
-        imageURL = [NSURL URLWithString:[[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"imageURL"]];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                             NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString* path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat: @"%@.png",
+                                                                             [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"userID"]]];
+        if ([UIImage imageWithContentsOfFile:path]){
+            UIImage* image = [UIImage imageWithContentsOfFile:path];
+            cell.photo.image = image;
+            cell.photo.layer.cornerRadius = 6;
+        }else {
+            NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"imageURL"];
+            UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
+            cell.photo.image = image;
+            cell.photo.layer.cornerRadius = 6;
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.photo.image = [UIImage imageWithData:imageData];
-                cell.photo.layer.cornerRadius = 6;
-               // cell.photo.clipsToBounds = YES;
-
-            });
-        });
+            NSData* data = UIImagePNGRepresentation(image);
+            [data writeToFile:path atomically:YES];
+        }
         
     } else {
         NSInteger offLineNumber = indexPath.row - [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"] count];
+        
         NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"firstName"];
         NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"lastName"];
         NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"workedTime"];
-        NSString* imageURL = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"];
+        
         [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
         
         [cell.timeLabel setText:workedTime];
         [cell.timeLabel setBackgroundColor:[UIColor grayColor]];
-        imageURL = [NSURL URLWithString:[[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"]];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.photo.image = [UIImage imageWithData:imageData];
-                cell.photo.layer.cornerRadius = 6;
-               // cell.photo.clipsToBounds = YES;
-                
-            });
-        });
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                             NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString* path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat: @"%@.png",
+                           [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"userID"] ] ];
+        if ([UIImage imageWithContentsOfFile:path]){
+            UIImage* image = [UIImage imageWithContentsOfFile:path];
+            cell.photo.image = image;
+            cell.photo.layer.cornerRadius = 6;
+        }else {
+            NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"];
+            UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
+            cell.photo.image = image;
+            cell.photo.layer.cornerRadius = 6;
+
+            NSData* data = UIImagePNGRepresentation(image);
+            [data writeToFile:path atomically:YES];
+        }
 
     }
-    
-//    UIView* cellView = [self makeCellViewForIndexPath:indexPath];
-//    [cell.contentView addSubview:cellView];
-    
-//    UIButton* phone = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [phone setImage:[UIImage imageNamed:@"phone1.png"] forState:UIControlStateNormal];
-//    phone.frame = CGRectMake(0, 0, 15, 15);
-//    phone.userInteractionEnabled = YES;
-//    [phone addTarget:self action:@selector(didTapInfoButton:) forControlEvents:UIControlEventTouchDown];
-//    cell.accessoryView = phone;
-    
-    //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
-    
     
     return cell;
 }
