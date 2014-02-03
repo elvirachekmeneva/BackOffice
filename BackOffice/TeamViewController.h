@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TeamInfo.h"
 
 @interface TeamViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *teamTable;
-
+@property NSMutableDictionary* teamJson;
+@property NSMutableData* mutabelTeamData;
+@property TeamInfo* teamInfo;
 @end

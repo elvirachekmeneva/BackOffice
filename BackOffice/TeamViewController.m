@@ -14,7 +14,7 @@
 
 @implementation TeamViewController
 
-@synthesize teamTable;
+@synthesize teamTable,teamJson,mutabelTeamData,teamInfo;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,6 +27,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self getTeamInfoFromServer];
 	// Do any additional setup after loading the view.
     
 }
@@ -39,7 +41,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) didTapCallButton:(UIButton*)button {
+- (void) didTapInfoButton:(UIButton*)button {
     UIAlertView *allert = [[UIAlertView alloc] initWithTitle:@"You can't call" message:@"Phone number doesn't exist yet" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [allert show];
 }
@@ -69,28 +71,25 @@
     
     //NSMutableDictionary* monthInfoDictionary = [ds getInfoByMonth:section];
     
-    UILabel *onlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 20)];
-    [onlineLabel setFont:[UIFont boldSystemFontOfSize:11]];
-        onlineLabel.textAlignment = NSTextAlignmentLeft;
-    //[onlineLabel setBackgroundColor:[UIColor greenColor]];
-    if (section < teamTable.numberOfSections/2) {
-        [onlineLabel setTextColor:[UIColor blueColor]];
-        [onlineLabel setText:@"OnLine"];
-    } else {
-        [onlineLabel setTextColor:[UIColor redColor]];
-        [onlineLabel setText:@"OffLine"];
-    }
-    [view addSubview:onlineLabel];
+//    UILabel *onlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 20)];
+//    [onlineLabel setFont:[UIFont boldSystemFontOfSize:11]];
+//        onlineLabel.textAlignment = NSTextAlignmentLeft;
+////    [onlineLabel setBackgroundColor:[UIColor greenColor]];
+//    if (section < teamTable.numberOfSections/2) {
+//        [onlineLabel setTextColor:[UIColor blueColor]];
+//        [onlineLabel setText:@"OnLine"];
+//    } else {
+//        [onlineLabel setTextColor:[UIColor redColor]];
+//        [onlineLabel setText:@"OffLine"];
+//    }
+//    [view addSubview:onlineLabel];
   
-    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 20, teamTable.frame.size.width, 20)];
+    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 20)];
     [departmentLabel setFont:[UIFont boldSystemFontOfSize:11]];
     departmentLabel.textAlignment = NSTextAlignmentLeft;
     [departmentLabel setText:@"dep.name"];
-    //    [monthLabel setBackgroundColor:[UIColor greenColor]];
+//    [departmentLabel setBackgroundColor:[UIColor greenColor]];
     [view addSubview:departmentLabel];
-    
-    
-    
     
     return  view;
 }
@@ -107,7 +106,7 @@
     [phone setImage:[UIImage imageNamed:@"phone1.png"] forState:UIControlStateNormal];
     phone.frame = CGRectMake(0, 0, 15, 15);
     phone.userInteractionEnabled = YES;
-    [phone addTarget:self action:@selector(didTapCallButton:) forControlEvents:UIControlEventTouchDown];
+    [phone addTarget:self action:@selector(didTapInfoButton:) forControlEvents:UIControlEventTouchDown];
     cell.accessoryView = phone;
     
     //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -117,6 +116,41 @@
          [[cell textLabel]setText:@"I'm home..."];
     }
     return cell;
+}
+
+- (void) getTeamInfoFromServer {
+    NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"];
+    NSURL *urlWork = [NSURL URLWithString:urlStringWork];
+    NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+    [requestWork setHTTPMethod: @"GET"];
+    
+    NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
+    if (connectionWork)
+    {
+        mutabelTeamData = [[NSMutableData alloc] init];
+    }
+    
+    
+}
+
+-(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
+{
+    [mutabelTeamData setLength:0];
+}
+
+-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [mutabelTeamData appendData:data];
+}
+
+
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+    teamJson = [NSJSONSerialization JSONObjectWithData:mutabelTeamData options:kNilOptions error:nil];
+    NSLog(@"team json %@",teamJson);
+    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
+    [teamTable reloadData];
 }
 
 

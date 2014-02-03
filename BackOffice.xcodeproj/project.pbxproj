@@ -23,6 +23,7 @@
 		76126B3F18604A9000FD8EA7 /* BackOfficeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76126B3E18604A9000FD8EA7 /* BackOfficeTests.m */; };
 		76126B4A18605ED000FD8EA7 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76126B4918605ED000FD8EA7 /* MainViewController.m */; };
 		76126B4D18605EE000FD8EA7 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76126B4C18605EE000FD8EA7 /* InfoViewController.m */; };
+		762ACCAF189BDEB5007F3BF9 /* TeamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */; };
 		763DB830186C0D4D00843252 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 763DB82F186C0D4D00843252 /* Reachability.m */; };
 		76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76405FCF18893BDC00D5F6F7 /* TeamViewController.m */; };
 		76703A1718894F4800094F73 /* phone1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76703A1618894F4800094F73 /* phone1.png */; };
@@ -65,6 +66,8 @@
 		76126B4918605ED000FD8EA7 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		76126B4B18605EE000FD8EA7 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
 		76126B4C18605EE000FD8EA7 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		762ACCAD189BDEB5007F3BF9 /* TeamInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamInfo.h; sourceTree = "<group>"; };
+		762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamInfo.m; sourceTree = "<group>"; };
 		763DB82E186C0D4300843252 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		763DB82F186C0D4D00843252 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		76405FCE18893BDC00D5F6F7 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamViewController.h; sourceTree = "<group>"; };
@@ -150,6 +153,8 @@
 				76703A65188FA22400094F73 /* WorkedTableDataSource.m */,
 				76405FCE18893BDC00D5F6F7 /* TeamViewController.h */,
 				76405FCF18893BDC00D5F6F7 /* TeamViewController.m */,
+				762ACCAD189BDEB5007F3BF9 /* TeamInfo.h */,
+				762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */,
 				76703A1618894F4800094F73 /* phone1.png */,
 				76126B2B18604A9000FD8EA7 /* Images.xcassets */,
 				76126B1A18604A9000FD8EA7 /* Supporting Files */,
@@ -324,6 +329,7 @@
 				76126B2A18604A9000FD8EA7 /* SignInViewController.m in Sources */,
 				76126B2418604A9000FD8EA7 /* AppDelegate.m in Sources */,
 				76126B2018604A9000FD8EA7 /* main.m in Sources */,
+				762ACCAF189BDEB5007F3BF9 /* TeamInfo.m in Sources */,
 				76126B4D18605EE000FD8EA7 /* InfoViewController.m in Sources */,
 				763DB830186C0D4D00843252 /* Reachability.m in Sources */,
 				76126B4A18605ED000FD8EA7 /* MainViewController.m in Sources */,

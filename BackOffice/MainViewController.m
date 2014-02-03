@@ -127,7 +127,7 @@
 }
 
 - (BOOL)connected {
-    NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
+    NSURL *url = [NSURL URLWithString:@"http://m.bossnote.ru/empl/"];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (data != nil){
         NSLog(@"Device is connected to the internet");
@@ -176,6 +176,7 @@
             
             count30times = 0;
         }else {
+            [activityIndicator setAlpha:1];
             NSString * endTimeString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"];
             
             if ([endTimeString isEqualToString:@""]) {

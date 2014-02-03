@@ -212,22 +212,23 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
 }
 
 - (NSString*)totalSumByMonth:(NSString*)monthString{
-    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue] * 0.87;
-    NSString* resultString = [NSString stringWithFormat:@"%ld",(long)resSum];
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue];
+    NSInteger resSum87prc = [[[allMonthInfo objectForKey:monthString]objectForKey:@"totalSum"] integerValue]*0.87;
+    NSString* resultString = [NSString stringWithFormat:@"%ld-13%% = %ld",(long)resSum, (long)resSum87prc];
     
     return resultString;
 }
 
 - (NSString*)okladAndPremSumByMonth:(NSString*)monthString{
-    NSInteger zpSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"zpSum"] integerValue] * 0.87;
-    NSInteger prSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"prSum"] integerValue] * 0.87;
+    NSInteger zpSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"zpSum"] integerValue] ;
+    NSInteger prSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"prSum"] integerValue] ;
     NSString* resultString = [NSString stringWithFormat:@"%ld",(long)(zpSum + prSum)];
     
     return resultString;
 }
 
 - (NSString*)addSumByMonth:(NSString*)monthString{
-    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"addSum"] integerValue] * 0.87;
+    NSInteger resSum = [[[allMonthInfo objectForKey:monthString]objectForKey:@"addSum"] integerValue] ;
     NSString* resultString = [NSString stringWithFormat:@"%ld",(long)resSum];
     
     return resultString;
