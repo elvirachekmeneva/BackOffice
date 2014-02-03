@@ -12,6 +12,7 @@
 @interface TeamViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *teamTable;
 @property NSMutableDictionary* teamJson;
-@property NSMutableData* mutabelTeamData;
+@property NSMutableData* mutableTeamData;
 @property TeamInfo* teamInfo;
+@property NSDictionary* allTeamInfoSorted;
 @end

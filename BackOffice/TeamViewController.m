@@ -14,7 +14,7 @@
 
 @implementation TeamViewController
 
-@synthesize teamTable,teamJson,mutabelTeamData,teamInfo;
+@synthesize teamTable,teamJson,mutableTeamData,teamInfo,allTeamInfoSorted;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    teamTable.hidden = YES;
     [self getTeamInfoFromServer];
 	// Do any additional setup after loading the view.
     
@@ -48,16 +48,12 @@
 
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 6;
+    return [[teamInfo getDepartmentsKeys]count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return  40;
+    return  30;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -67,55 +63,93 @@
 }
 
 - (UIView*) makeHeaderViewForSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 40)];
-    
-    //NSMutableDictionary* monthInfoDictionary = [ds getInfoByMonth:section];
-    
-//    UILabel *onlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 20)];
-//    [onlineLabel setFont:[UIFont boldSystemFontOfSize:11]];
-//        onlineLabel.textAlignment = NSTextAlignmentLeft;
-////    [onlineLabel setBackgroundColor:[UIColor greenColor]];
-//    if (section < teamTable.numberOfSections/2) {
-//        [onlineLabel setTextColor:[UIColor blueColor]];
-//        [onlineLabel setText:@"OnLine"];
-//    } else {
-//        [onlineLabel setTextColor:[UIColor redColor]];
-//        [onlineLabel setText:@"OffLine"];
-//    }
-//    [view addSubview:onlineLabel];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 30)];
   
-    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 20)];
-    [departmentLabel setFont:[UIFont boldSystemFontOfSize:11]];
-    departmentLabel.textAlignment = NSTextAlignmentLeft;
-    [departmentLabel setText:@"dep.name"];
+    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 30)];
+    [departmentLabel setFont:[UIFont boldSystemFontOfSize:13]];
+    departmentLabel.textAlignment = NSTextAlignmentCenter;
+    departmentLabel.adjustsFontSizeToFitWidth = YES;
+    departmentLabel.minimumScaleFactor = 0.5;
+    NSString* depKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
+    [departmentLabel setText:[[allTeamInfoSorted objectForKey:depKey]objectForKey:@"departmentName"]];
 //    [departmentLabel setBackgroundColor:[UIColor greenColor]];
     [view addSubview:departmentLabel];
+    
+    
     
     return  view;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 40;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
+    NSInteger rowCount = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] + [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]count];
+    return rowCount;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]
+    UITableViewCell* cell = [[UITableViewCell alloc]
                 initWithStyle:UITableViewCellStyleSubtitle
-                reuseIdentifier:@"cell"];
-    }
+                             reuseIdentifier:@"cell"];
     
-    UIButton* phone = [UIButton buttonWithType:UIButtonTypeCustom];
-    [phone setImage:[UIImage imageNamed:@"phone1.png"] forState:UIControlStateNormal];
-    phone.frame = CGRectMake(0, 0, 15, 15);
-    phone.userInteractionEnabled = YES;
-    [phone addTarget:self action:@selector(didTapInfoButton:) forControlEvents:UIControlEventTouchDown];
-    cell.accessoryView = phone;
+    UIView* cellView = [self makeCellViewForIndexPath:indexPath];
+    [cell.contentView addSubview:cellView];
+    
+//    UIButton* phone = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [phone setImage:[UIImage imageNamed:@"phone1.png"] forState:UIControlStateNormal];
+//    phone.frame = CGRectMake(0, 0, 15, 15);
+//    phone.userInteractionEnabled = YES;
+//    [phone addTarget:self action:@selector(didTapInfoButton:) forControlEvents:UIControlEventTouchDown];
+//    cell.accessoryView = phone;
     
     //cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    if (indexPath.section == 0) {
-        [[cell textLabel]setText:@"I'm here!"];
-    } else {
-         [[cell textLabel]setText:@"I'm home..."];
-    }
+    
+    
+    
     return cell;
+}
+
+- (UIView*) makeCellViewForIndexPath:(NSIndexPath *)indexPath {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 20)];
+    
+    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:indexPath.section];
+    
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, teamTable.frame.size.width, 20)];
+    [nameLabel setFont:[UIFont boldSystemFontOfSize:13]];
+    nameLabel.textAlignment = NSTextAlignmentLeft;
+    nameLabel.adjustsFontSizeToFitWidth = YES;
+    nameLabel.minimumScaleFactor = 0.5;
+    
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 2, 46, 40)];
+    [timeLabel setFont:[UIFont boldSystemFontOfSize:13]];
+    timeLabel.textAlignment = NSTextAlignmentCenter;
+    
+    if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > indexPath.row) {
+        NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"firstName"];
+        NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"lastName"];
+        NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"workedTime"];
+        [nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
+        [nameLabel setTextColor:[UIColor greenColor]];
+        
+        [timeLabel setText:workedTime];
+        [timeLabel setBackgroundColor:[UIColor greenColor]];
+    } else {
+        NSInteger offLineNumber = indexPath.row - [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"] count];
+        NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"firstName"];
+        NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"lastName"];
+        NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"workedTime"];
+        [nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
+        
+        [timeLabel setText:workedTime];
+        [timeLabel setBackgroundColor:[UIColor grayColor]];
+    }
+    [view addSubview:timeLabel];
+    [view addSubview:nameLabel];
+    return view;
+
 }
 
 - (void) getTeamInfoFromServer {
@@ -128,7 +162,7 @@
     NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
     if (connectionWork)
     {
-        mutabelTeamData = [[NSMutableData alloc] init];
+        mutableTeamData = [[NSMutableData alloc] init];
     }
     
     
@@ -136,21 +170,25 @@
 
 -(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
 {
-    [mutabelTeamData setLength:0];
+    [mutableTeamData setLength:0];
 }
 
 -(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [mutabelTeamData appendData:data];
+    [mutableTeamData appendData:data];
 }
 
 
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    teamJson = [NSJSONSerialization JSONObjectWithData:mutabelTeamData options:kNilOptions error:nil];
+    teamJson = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
     NSLog(@"team json %@",teamJson);
+    
     teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
+    allTeamInfoSorted = [teamInfo getAllTeamInfo];
+    teamTable.hidden = NO;
     [teamTable reloadData];
+    
 }
 
 

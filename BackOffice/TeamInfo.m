@@ -58,4 +58,8 @@
     return resultString;
 }
 
+- (NSDictionary*) getAllTeamInfo {
+    return allTeam;
+}
+
 @end

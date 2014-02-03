@@ -16,5 +16,6 @@
 - (id) initWithDictionary: (NSMutableDictionary*)allData;
 - (NSArray*) getDepartmentsKeys;
 - (NSString*)departmentNameByKey:(NSString*)depKey;
+- (NSDictionary*) getAllTeamInfo;
 
 @end
