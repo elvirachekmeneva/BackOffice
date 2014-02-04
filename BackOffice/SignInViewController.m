@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+//    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     if (self.saveOrNot.on == YES){
         [self loadData];
     }

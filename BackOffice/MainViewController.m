@@ -9,7 +9,7 @@
 #import "MainViewController.h"
 #import "InfoViewController.h"
 #import "SignInViewController.h"
-#import "Reachability.h"
+//#import "Reachability.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 @interface MainViewController ()
@@ -122,13 +122,9 @@
 }
 
 - (IBAction)showTeam:(id)sender {
+    
 }
 
-- (IBAction)exit:(id)sender {
-    
-    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
-    [self presentViewController:self.SIVC animated:YES completion:nil];
-}
 
 - (IBAction)exitToSignIn:(id)sender {
     
@@ -374,7 +370,7 @@
         }
         
     } else if (connection == teamConnection){
-        teamInfo = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
+        teamInfo = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"teamInfo"];
         [[NSUserDefaults standardUserDefaults] setObject:teamInfo forKey:@"teamInfo"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -463,6 +459,7 @@
 - (IBAction)showInfo:(id)sender {
     showInfo = [[UIStoryboardSegue alloc]initWithIdentifier:@"showInfo" source:self destination:infoVC];
     [self performSegueWithIdentifier:@"showInfo" sender:nil];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

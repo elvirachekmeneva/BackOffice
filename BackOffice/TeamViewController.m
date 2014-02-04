@@ -15,7 +15,8 @@
 
 @implementation TeamViewController
 
-@synthesize teamTable,teamJson,mutableTeamData,teamInfo,allTeamInfoSorted;
+@synthesize teamTable,teamJson,mutableTeamData,teamInfo,allTeamInfoSorted,personVC,showPersonInfoSegue;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,15 +29,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    teamJson = [[NSUserDefaults standardUserDefaults]objectForKey:@"teamInfo"];
-    
-    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
-    [self getTeamInfoFromServer];
-	// Do any additional setup after loading the view.
-    
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    teamJson = [[NSUserDefaults standardUserDefaults]objectForKey:@"teamInfo"];
+    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
+    [self getTeamInfoFromServer];
+    timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [timer invalidate];
+}
+
+-(void)reloadData:(NSTimer *)timer {
+    [self getTeamInfoFromServer];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -72,8 +81,6 @@
 //    [departmentLabel setBackgroundColor:[UIColor greenColor]];
     [view addSubview:departmentLabel];
     
-    
-    
     return  view;
 }
 
@@ -95,8 +102,11 @@
         NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"firstName"];
         NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"lastName"];
         NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"workedTime"];
+        NSString* position = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"position"];
+        NSString* empStatus = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"employeestatus"];
         [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
-        
+        [cell.position setText:[NSString stringWithFormat:@"%@, %@",position,empStatus]];
+
         [cell.timeLabel setText:workedTime];
         [cell.timeLabel setBackgroundColor:[UIColor greenColor]];
         
@@ -125,8 +135,11 @@
         NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"firstName"];
         NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"lastName"];
         NSString* workedTime = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"workedTime"];
+        NSString* position = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"position"];
+        NSString* empStatus = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"employeestatus"];
         
         [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
+        [cell.position setText:[NSString stringWithFormat:@"%@, %@",position,empStatus]];
         
         [cell.timeLabel setText:workedTime];
         [cell.timeLabel setBackgroundColor:[UIColor grayColor]];
@@ -149,10 +162,48 @@
             NSData* data = UIImagePNGRepresentation(image);
             [data writeToFile:path atomically:YES];
         }
+        
 
     }
-    
+    cell.personInfoButton.tag = [self makeButtonTagByIndexPath:indexPath];
+    [cell.personInfoButton  addTarget:self action:@selector(personInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
+}
+
+- (NSInteger) makeButtonTagByIndexPath:(NSIndexPath*) indexPath {
+    NSInteger result = 100 * indexPath.section + indexPath.row;
+    return result;
+}
+
+- (NSArray*) makeIndexPathByTag: (NSInteger) tag {
+    int sectionInt = tag / 100;
+    NSString* section = [NSString stringWithFormat:@"%d",sectionInt];
+    
+    int rowInt  = tag % 100;
+    NSString* row = [NSString stringWithFormat:@"%d",rowInt];
+    
+    NSArray* resultArray = [NSArray arrayWithObjects:section,row, nil];
+    return resultArray;
+    
+}
+
+- (void)personInfoButtonPressed:(UIButton*)button {
+    int tag = button.tag;
+    NSLog(@"button tag %d",tag);
+    NSInteger section = [[self makeIndexPathByTag:tag][0] integerValue];
+    NSInteger row = [[self makeIndexPathByTag:tag][1] integerValue];
+    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
+    
+    NSDictionary* userInfo;
+    if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > row) {
+        userInfo = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:row];
+    } else {
+        NSInteger offLineNumber = row - [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"] count];
+        userInfo = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber];
+    }
+    NSLog(@"UserInfo %@", userInfo );
+    [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"personInfo"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (UIView*) makeCellViewForIndexPath:(NSIndexPath *)indexPath {
@@ -225,15 +276,29 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection {
     teamJson = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
-    NSLog(@"team json %@",teamJson);
+    //NSLog(@"team json %@",teamJson);
     
     teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
     allTeamInfoSorted = [teamInfo getAllTeamInfo];
     [teamTable reloadData];
+    NSLog(@" Team Data loaded!");
 
     
 }
 
+- (IBAction)showUserInfo:(id)sender {
+    NSLog(@"Show info Button Pressed!!!!");
+    
+   // showPersonInfoSegue = [[UIStoryboardSegue alloc]initWithIdentifier:@"showPerson" source:self destination:personVC];
+//    [self performSegueWithIdentifier:@"showPerson" sender:nil];
+}
 
-
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([[segue identifier] isEqualToString:@"showPerson"]) {
+//        
+//        //personVC = [segue destinationViewController];
+//        
+//    }
+//}
 @end

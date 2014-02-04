@@ -15,7 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *photo;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *position;
+@property (weak, nonatomic) IBOutlet UIButton *personInfoButton;
 
-- (IBAction)showInfo:(id)sender;
 
 @end
