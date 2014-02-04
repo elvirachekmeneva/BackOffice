@@ -41,11 +41,29 @@
     [positionLabel setText:[NSString stringWithFormat:@"%@, %@",
                            [userInfo objectForKey:@"position"],
                            [userInfo objectForKey:@"employeestatus"]]];
-    [callButton.titleLabel setText:[userInfo objectForKey:@"cellphone"]];
-    [emailButton.titleLabel setText:[userInfo objectForKey:@"elvira.chekmeneva@gmail.com"]];
-//    [emailButton.titleLabel setText:[userInfo objectForKey:@"email"]];
-    
-    
+   // callButton.titleLabel.text = [userInfo objectForKey:@"cellphone"];
+    //[callButton.titleLabel setText:[userInfo objectForKey:@"cellphone"]];
+    [callButton setTitle:[userInfo objectForKey:@"cellphone"] forState:UIControlStateNormal];
+    [emailButton setTitle:[userInfo objectForKey:@"email"] forState:UIControlStateNormal];
+    //[emailButton.titleLabel setText:[userInfo objectForKey:@"email"]];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString* path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat: @"%@.png",
+                                                                        [userInfo objectForKey:@"userID"]]];
+    if ([UIImage imageWithContentsOfFile:path]){
+        UIImage* image = [UIImage imageWithContentsOfFile:path];
+        photo.image = image;
+        photo.layer.cornerRadius = 6;
+    }else {
+        NSString * photoURLString = [userInfo objectForKey:@"imageURL"];
+        UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
+        photo.image = image;
+        photo.layer.cornerRadius = 6;
+        NSData* data = UIImagePNGRepresentation(image);
+        [data writeToFile:path atomically:YES];
+    }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -74,7 +92,7 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController * emailController = [[MFMailComposeViewController alloc] init];
         emailController.mailComposeDelegate = self;
-        NSArray* recipients = [NSArray arrayWithObject:@"elvira.chekmeneva@gmail.com"];
+        NSArray* recipients = [NSArray arrayWithObject:[userInfo objectForKey:@"email"]];
         [emailController setSubject:@"theme"];
         [emailController setMessageBody:@"Hi!" isHTML:YES];
         [emailController setToRecipients:recipients];

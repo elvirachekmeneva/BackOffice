@@ -27,6 +27,8 @@
 		76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76405FCF18893BDC00D5F6F7 /* TeamViewController.m */; };
 		76703A1718894F4800094F73 /* phone1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76703A1618894F4800094F73 /* phone1.png */; };
 		76703A66188FA22400094F73 /* WorkedTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76703A65188FA22400094F73 /* WorkedTableDataSource.m */; };
+		7693EF0C18A12F6C003A3E6F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7693EF0B18A12F6C003A3E6F /* AddressBook.framework */; };
+		7693EF0E18A12F82003A3E6F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7693EF0D18A12F82003A3E6F /* MessageUI.framework */; };
 		76B6EFAE189FB617008C5D3D /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFAD189FB617008C5D3D /* CustomCell.m */; };
 		76B6EFB118A0CD3D008C5D3D /* PersonInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
@@ -74,6 +76,8 @@
 		76703A1618894F4800094F73 /* phone1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone1.png; sourceTree = "<group>"; };
 		76703A64188FA22400094F73 /* WorkedTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkedTableDataSource.h; sourceTree = "<group>"; };
 		76703A65188FA22400094F73 /* WorkedTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkedTableDataSource.m; sourceTree = "<group>"; };
+		7693EF0B18A12F6C003A3E6F /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		7693EF0D18A12F82003A3E6F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		76B6EFAC189FB617008C5D3D /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
 		76B6EFAD189FB617008C5D3D /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
 		76B6EFAF18A0CD3D008C5D3D /* PersonInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonInfoVC.h; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7693EF0E18A12F82003A3E6F /* MessageUI.framework in Frameworks */,
+				7693EF0C18A12F6C003A3E6F /* AddressBook.framework in Frameworks */,
 				76126B1618604A9000FD8EA7 /* CoreGraphics.framework in Frameworks */,
 				76126B1818604A9000FD8EA7 /* UIKit.framework in Frameworks */,
 				76126B1418604A9000FD8EA7 /* Foundation.framework in Frameworks */,
@@ -129,6 +135,8 @@
 		76126B1218604A9000FD8EA7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7693EF0D18A12F82003A3E6F /* MessageUI.framework */,
+				7693EF0B18A12F6C003A3E6F /* AddressBook.framework */,
 				76126B1318604A9000FD8EA7 /* Foundation.framework */,
 				76126B1518604A9000FD8EA7 /* CoreGraphics.framework */,
 				76126B1718604A9000FD8EA7 /* UIKit.framework */,
@@ -475,7 +483,7 @@
 				GCC_PREFIX_HEADER = "BackOffice/BackOffice-Prefix.pch";
 				INFOPLIST_FILE = "BackOffice/BackOffice-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0B483BE4-BF3A-4DAA-B3D5-0425F135D200";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -492,7 +500,7 @@
 				GCC_PREFIX_HEADER = "BackOffice/BackOffice-Prefix.pch";
 				INFOPLIST_FILE = "BackOffice/BackOffice-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0B483BE4-BF3A-4DAA-B3D5-0425F135D200";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
