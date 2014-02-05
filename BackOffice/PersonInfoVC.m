@@ -116,6 +116,35 @@
 }
 
 - (IBAction)saveContact:(id)sender {
+    
+    // Request authorization to Address Book
+    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
+    
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+        ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) {
+            if (granted) {
+                // First time access has been granted, add the contact
+                [self addNewContact];
+            } else {
+                // User denied access
+                // Display an alert telling user the contact could not be added
+            }
+        });
+    }
+    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        // The user has previously given access, add the contact
+        [self addNewContact];
+    }
+    else {
+        // The user has previously denied access
+        // Send an alert telling user to change privacy setting in settings app
+    }
+    
+    
+}
+
+- (void) addNewContact {
+    
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(nil, nil);
     if (addressBook != NULL) {
         if ([self doesPersonExistWithFirstName:[userInfo objectForKey:@"firstName"] lastName:[userInfo objectForKey:@"lastName"] inAddressBook:addressBook]) {
@@ -123,7 +152,7 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.mode = MBProgressHUDModeText;
             hud.labelText = @"Контакт уже существует";
-            [hud hide:YES afterDelay:2.0];
+            [hud hide:YES afterDelay:1.2];
         } else {
             NSLog(@"this contact does not exist");
             NSData* imageData = UIImagePNGRepresentation(photo.image);
@@ -138,7 +167,7 @@
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 hud.mode = MBProgressHUDModeCustomView;
                 hud.labelText = @"Контакт сохранен";
-                [hud hide:YES afterDelay:2.0];
+                [hud hide:YES afterDelay:1.2];
             } else {
                 NSLog(@"failed to create a record for new contact");
             }
@@ -146,6 +175,9 @@
         
         CFRelease(addressBook);
     }
+
+    
+    
 }
 
 
@@ -194,7 +226,7 @@
     if (couldAddPerson) {
         NSLog(@"succesfully added the person");
     } else {
-        NSLog(@"failed to add the person");
+        NSLog(@"failed to add the person %@", couldAddPersonError);
         CFRelease(result);
         result = NULL;
         return result;

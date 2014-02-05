@@ -35,7 +35,7 @@
     teamJson = [[NSUserDefaults standardUserDefaults]objectForKey:@"teamInfo"];
     teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
     [self getTeamInfoFromServer];
-    timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
 }
 

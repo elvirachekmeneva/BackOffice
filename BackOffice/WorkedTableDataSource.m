@@ -116,9 +116,9 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
     NSInteger resultH = hours + (minutes / 60);
     NSString* minutesStr;
     if (resultM < 10) {
-        minutesStr = [NSString stringWithFormat:@"0%i",resultM];
+        minutesStr = [NSString stringWithFormat:@"0%li",(long)resultM];
     }else {
-        minutesStr = [NSString stringWithFormat:@"%i",resultM];
+        minutesStr = [NSString stringWithFormat:@"%li",(long)resultM];
     }
     resultTime = [NSString stringWithFormat:@"%ld:%@", (long)resultH,minutesStr];
     return resultTime;
