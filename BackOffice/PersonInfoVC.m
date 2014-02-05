@@ -9,6 +9,7 @@
 #import <AddressBook/AddressBook.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "PersonInfoVC.h"
+#import "MBProgressHUD.h"
 
 @interface PersonInfoVC ()
 
@@ -43,11 +44,8 @@
     [positionLabel setText:[NSString stringWithFormat:@"%@, %@",
                            [userInfo objectForKey:@"position"],
                            [userInfo objectForKey:@"employeestatus"]]];
-   // callButton.titleLabel.text = [userInfo objectForKey:@"cellphone"];
-    //[callButton.titleLabel setText:[userInfo objectForKey:@"cellphone"]];
     [callButton setTitle:[userInfo objectForKey:@"cellphone"] forState:UIControlStateNormal];
     [emailButton setTitle:[userInfo objectForKey:@"email"] forState:UIControlStateNormal];
-    //[emailButton.titleLabel setText:[userInfo objectForKey:@"email"]];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -118,26 +116,14 @@
 }
 
 - (IBAction)saveContact:(id)sender {
-//    ABRecordRef person = ABPersonCreate();
-//    ABRecordSetValue(<#ABRecordRef record#>, <#ABPropertyID property#>, <#CFTypeRef value#>, <#CFErrorRef *error#>)
-//    
-//    ABMutableMultiValueRef multiAddress = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
-//    NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
-//    
-//    ABUnknownPersonViewController *controller = [[ABUnknownPersonViewController alloc] init];
-//    
-//    controller.displayedPerson = person;
-//    controller.allowsAddingToAddressBook = YES;
-//    
-//    // current view must have a navigation controller
-//    
-//    [self.navigationController pushViewController:controller animated:YES];
-//    
-//    CFRelease(person);
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(nil, nil);
     if (addressBook != NULL) {
         if ([self doesPersonExistWithFirstName:[userInfo objectForKey:@"firstName"] lastName:[userInfo objectForKey:@"lastName"] inAddressBook:addressBook]) {
             NSLog(@"This contact exists in the address book");
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Контакт уже существует";
+            [hud hide:YES afterDelay:2.0];
         } else {
             NSLog(@"this contact does not exist");
             NSData* imageData = UIImagePNGRepresentation(photo.image);
@@ -149,6 +135,10 @@
             if (newContact != NULL) {
                 NSLog(@"successfuly created a record for new contact");
                 CFRelease(newContact);
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.labelText = @"Контакт сохранен";
+                [hud hide:YES afterDelay:2.0];
             } else {
                 NSLog(@"failed to create a record for new contact");
             }
