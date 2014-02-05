@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Эльвира Чекменева. All rights reserved.
 //
 #import <MessageUI/MessageUI.h>
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 #import "PersonInfoVC.h"
 
 @interface PersonInfoVC ()
@@ -88,6 +90,8 @@
         [calert show];
     }
 }
+
+
 - (IBAction)emailButtonPressed:(id)sender {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController * emailController = [[MFMailComposeViewController alloc] init];
@@ -108,7 +112,154 @@
     
 }
 
-- (IBAction)saveContact:(id)sender {
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error __OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_3_0){
     
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (IBAction)saveContact:(id)sender {
+//    ABRecordRef person = ABPersonCreate();
+//    ABRecordSetValue(<#ABRecordRef record#>, <#ABPropertyID property#>, <#CFTypeRef value#>, <#CFErrorRef *error#>)
+//    
+//    ABMutableMultiValueRef multiAddress = ABMultiValueCreateMutable(kABMultiDictionaryPropertyType);
+//    NSMutableDictionary *addressDictionary = [[NSMutableDictionary alloc] init];
+//    
+//    ABUnknownPersonViewController *controller = [[ABUnknownPersonViewController alloc] init];
+//    
+//    controller.displayedPerson = person;
+//    controller.allowsAddingToAddressBook = YES;
+//    
+//    // current view must have a navigation controller
+//    
+//    [self.navigationController pushViewController:controller animated:YES];
+//    
+//    CFRelease(person);
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(nil, nil);
+    if (addressBook != NULL) {
+        if ([self doesPersonExistWithFirstName:[userInfo objectForKey:@"firstName"] lastName:[userInfo objectForKey:@"lastName"] inAddressBook:addressBook]) {
+            NSLog(@"This contact exists in the address book");
+        } else {
+            NSLog(@"this contact does not exist");
+            NSData* imageData = UIImagePNGRepresentation(photo.image);
+            ABRecordRef newContact = [self newPersonWithFirstName:[userInfo objectForKey:@"firstName"]
+                                                         lastName:[userInfo objectForKey:@"lastName"]
+                                                        cellphone:[userInfo objectForKey:@"cellphone"]
+                                                            email:[userInfo objectForKey:@"email"]
+                                                        imageData:imageData                                                     inAddressBook:addressBook];
+            if (newContact != NULL) {
+                NSLog(@"successfuly created a record for new contact");
+                CFRelease(newContact);
+            } else {
+                NSLog(@"failed to create a record for new contact");
+            }
+        }
+        
+        CFRelease(addressBook);
+    }
+}
+
+
+- (ABRecordRef) newPersonWithFirstName:(NSString*) paramFirstName lastName:(NSString*) paramLastName cellphone:(NSString*) paramCellphone email:(NSString*)paramEmail imageData:(NSData*)paramImageData inAddressBook:(ABAddressBookRef)paramAddressBook {
+    ABRecordRef result = NULL;
+    if (paramAddressBook == NULL) {
+        NSLog(@"The address book is Null");
+        return  NULL;
+    }
+    if ([paramFirstName length] == 0 && [paramLastName length] == 0) {
+        NSLog(@"FirstName and LastName are both empty");
+        return NULL;
+    }
+    
+    result = ABPersonCreate();
+    
+    if (result == NULL) {
+        NSLog(@"Failed to create a new person");
+        return NULL;
+    }
+    
+    BOOL couldSetFirstName = NO;
+    BOOL couldSetLastName = NO;
+    CFErrorRef setFirstNameError = NULL;
+    CFErrorRef setLastNameError = NULL;
+    CFErrorRef setCellphoneError = NULL;
+    CFErrorRef setEmailError = NULL;
+    CFErrorRef setPersonImageError = NULL;
+    
+    couldSetFirstName = ABRecordSetValue(result, kABPersonFirstNameProperty, (__bridge CFTypeRef) paramFirstName, &setFirstNameError);
+    couldSetLastName = ABRecordSetValue(result, kABPersonLastNameProperty, (__bridge CFTypeRef) paramLastName, &setLastNameError);
+    ABMutableMultiValueRef multiPhone = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    
+    ABMultiValueAddValueAndLabel(multiPhone, (__bridge CFTypeRef)(paramCellphone), kABPersonPhoneMobileLabel, NULL);
+    ABRecordSetValue(result, kABPersonPhoneProperty, multiPhone,&setCellphoneError);
+    
+    ABMutableMultiValueRef multiEmail = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+    ABMultiValueAddValueAndLabel(multiEmail,(__bridge CFTypeRef)(paramEmail), kABWorkLabel, NULL);
+    ABRecordSetValue(result, kABPersonEmailProperty, multiEmail, &setEmailError);
+    CFRelease(multiEmail);
+    
+    ABPersonSetImageData(result, (__bridge CFDataRef)(paramImageData), &setPersonImageError);
+    
+    CFErrorRef couldAddPersonError = NULL;
+    BOOL couldAddPerson = ABAddressBookAddRecord(paramAddressBook, result, &couldAddPersonError);
+    if (couldAddPerson) {
+        NSLog(@"succesfully added the person");
+    } else {
+        NSLog(@"failed to add the person");
+        CFRelease(result);
+        result = NULL;
+        return result;
+    }
+    if (ABAddressBookHasUnsavedChanges(paramAddressBook)){
+        CFErrorRef couldSaveAddressBookError = NULL;
+        BOOL couldSaveAddressBook = ABAddressBookSave(paramAddressBook, &couldSaveAddressBookError);
+        if (couldSaveAddressBook){
+            NSLog(@"successfully saved the address book");
+        } else {
+            NSLog(@"failed to save the address book");
+        }
+    }
+    
+    if (couldSetFirstName && couldSetLastName){
+        NSLog(@"successfully set the first name and last name of the person");
+    } else{
+        NSLog(@"failed to set the first name and/or last name of the person");
+    }
+    return result;
+}
+
+- (BOOL) doesPersonExistWithFirstName:(NSString*) paramFirstName
+                             lastName:(NSString*) paramLastName
+                        inAddressBook:(ABRecordRef) paramAddressBook {
+    BOOL result = NO;
+    if (paramAddressBook == NULL) {
+        NSLog(@"The address book is null");
+        return NO;
+    }
+    NSArray* allPeople = (__bridge NSArray*) ABAddressBookCopyArrayOfAllPeople(paramAddressBook);
+    NSUInteger peopleCounter = 0;
+    for (peopleCounter = 0; peopleCounter < [allPeople count]; peopleCounter ++) {
+        ABRecordRef person = (__bridge  ABRecordRef) [allPeople objectAtIndex:peopleCounter];
+        NSString *firstName = (__bridge NSString*) ABRecordCopyValue(person, kABPersonFirstNameProperty);
+        NSString* lastName = (__bridge NSString*) ABRecordCopyValue(person, kABPersonLastNameProperty);
+        BOOL firstNameIsEqual = NO;
+        BOOL lastNameIsEqual = NO;
+        if ([firstName length] == 0 && [paramFirstName length] == 0) {
+            firstNameIsEqual = YES;
+        } else if ([firstName isEqualToString:paramFirstName]){
+            firstNameIsEqual = YES;
+        }
+        
+        if ([lastName length] == 0 && [paramLastName length] == 0) {
+            lastNameIsEqual = YES;
+        }else if ([lastName isEqualToString:paramLastName]) {
+            lastNameIsEqual = YES;
+        }
+        
+        if (firstNameIsEqual && lastNameIsEqual) {
+            return YES;
+        }
+    }
+    return result;
+}
+
 @end
