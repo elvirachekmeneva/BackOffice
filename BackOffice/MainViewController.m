@@ -21,7 +21,7 @@
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog;
-@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo;
+@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo,taskDetails;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -103,7 +103,7 @@
         
         [activityIndicator setAlpha:1];
 
-        count30times = 29;
+        count30times = 30;
         timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     }
 
@@ -137,7 +137,7 @@
     SIVC = [[SignInViewController alloc]init];
     loadingFinish = NO;
     
-    if (count30times < 10) {
+    if (count30times < 30) {
         [self tickTack:workedTimeFromJson count:count30times];
         count30times++;
         NSLog(@"sec %i",count30times);
@@ -213,6 +213,8 @@
     }
 }
 
+
+
 - (NSDate*)makeNSDateFromString:(NSString*)dateString {
     static NSDateFormatter *dateFormatter1;
     [dateFormatter1 setTimeZone:[NSTimeZone localTimeZone]];
@@ -232,31 +234,37 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] count];
+        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] count];
     } else if(section == 1) {
         return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] count];
     }else {
-        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] count];
+        return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] count];
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleSubtitle
-                reuseIdentifier:@"cell"];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+//    
+//    if (cell == nil) {
+    while (json == nil) {
+        NSLog(@"Json is nill!!!");
     }
     
-    NSDictionary *currentTask;
+      UITableViewCell *  cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleSubtitle
+                reuseIdentifier:@"cell"];
+//    }
     
+    NSDictionary *currentTask;
+    int sec = indexPath.section;
+    int rowNum = indexPath.row;
+    NSLog(@"%d %d", sec, rowNum);
     if (indexPath.section == 0) {
-        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
+        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
     } else if(indexPath.section == 1) {
         currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row];
     }else {
-        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
+        currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
     }
     [[cell textLabel] setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
     return cell;
@@ -265,12 +273,31 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"Assigned";
+        return @"Working";
     } else if(section == 1){
         return @"Pause";
     } else {
-        return @"Working";
+        return @"Assigned";
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *taskID;
+    if (indexPath.section == 0) {
+        taskID = [[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row]objectForKey:@"pkey"];
+    } else if(indexPath.section == 1) {
+        taskID = [[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row]objectForKey:@"pkey"];
+    }else {
+        taskID = [[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row] objectForKey:@"pkey"];
+    }
+    [[NSUserDefaults standardUserDefaults]setObject:taskID forKey:@"taskID"];
+//    [[NSUserDefaults standardUserDefaults]setObject:[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row] forKey:@"taskInfoJson"];
+
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    
+    self.taskDetails = [self.storyboard instantiateViewControllerWithIdentifier:@"TaskDatailsVC"];
+    [self presentViewController:self.taskDetails animated:NO completion:nil];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -307,6 +334,7 @@
 
 
 }
+
 
 -(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
 {

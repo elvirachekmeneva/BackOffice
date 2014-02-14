@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "SignInViewController.h"
+#import "TaskDetailsViewController.h"
 
 @interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
@@ -40,6 +41,7 @@
 @property NSTimer *timer1second;
 @property UIStoryboardSegue *signIn;
 @property UIViewController *SIVC;
+@property UIViewController *taskDetails;
 @property NSMutableData *mutableData;
 @property NSMutableData* mutableDataWork;
 @property NSURLConnection *connnection;

@@ -46,7 +46,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
-    [[self navigationController] setNavigationBarHidden:YES animated:YES];
+//    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     //[super viewWillAppear:animated];
     
 }
@@ -136,7 +136,7 @@
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     // If we get any connection error we can manage it here…
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"No Network Connection" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Connection Error"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
     [alertView show];
     [activityIndicator setAlpha:0];
     return;
@@ -189,8 +189,6 @@
         [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
         [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        NSString *myTest = [[NSUserDefaults standardUserDefaults] objectForKey:@"login"];
-        NSLog(myTest);
     }
 }
 

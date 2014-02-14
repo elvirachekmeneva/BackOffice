@@ -15,14 +15,16 @@ typedef enum {
     Fail
 }DaySuccess;
 
-@interface WorkedTableDataSource : NSObject
+@interface WorkedTableDataSource : NSObject {
+    NSMutableArray* yearMonthArray;
+    NSMutableDictionary* yearMonthDict;
+    NSMutableArray* daysInMonth;
+    NSMutableDictionary* infoByDay;
+    NSMutableDictionary* allMonthInfo;
+    NSMutableDictionary* infoByMonth;
+}
 
-@property NSMutableArray* yearMonthArray;
-@property NSMutableDictionary* yearMonthDict;
-@property NSMutableArray* daysInMonth;
-@property NSMutableDictionary* infoByDay;
-@property NSMutableDictionary* allMonthInfo;
-@property NSMutableDictionary* infoByMonth;
+
 
 - (id) initWithDictionary: (NSDictionary*)allData;
 - (int)countOfMonth;

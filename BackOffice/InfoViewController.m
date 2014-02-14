@@ -60,12 +60,8 @@
             self.userPhoto.clipsToBounds = YES;
         });
     });
-//    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)  name:UIDeviceOrientationDidChangeNotification  object:nil];
 }
 
-//- (void)orientationChanged:(NSNotification *)notification{
-//    [workInfoTable reloadData];
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger count = [ds countOfDaysInMonth:[[ds headerNamesArray]objectAtIndex:section]];

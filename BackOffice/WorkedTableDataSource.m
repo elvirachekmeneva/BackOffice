@@ -10,12 +10,6 @@
 
 @implementation WorkedTableDataSource
 
-@synthesize yearMonthArray;
-@synthesize yearMonthDict;
-@synthesize daysInMonth;
-@synthesize infoByDay;
-@synthesize allMonthInfo;
-@synthesize infoByMonth;
 
 
 NSInteger alphabeticSort(id string1, id string2, void *reverse)
@@ -51,7 +45,7 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
                 if (![yearMonthDict objectForKey:keyMonth]) {
                     infoByDay = [[NSMutableDictionary alloc]initWithDictionary:[daysFromJson objectForKey:currentDay]];
                     daysInMonth = [[NSMutableArray alloc]initWithObjects:infoByDay, nil];
-                    [yearMonthDict setObject:daysInMonth forKey:keyMonth];// = [[NSMutableDictionary alloc]initWithObjectsAndKeys:daysInMonth,keyMonth, nil];
+                    [yearMonthDict setObject:daysInMonth forKey:keyMonth];
                     
                 }
 //                else {
@@ -97,8 +91,8 @@ NSInteger alphabeticSort(id string1, id string2, void *reverse)
                 
             }
         }
-        NSLog(@"Year Month Dictionaty %@", self.yearMonthDict);
-        NSLog(@"All Month Info %@", self.allMonthInfo);
+        NSLog(@"Year Month Dictionaty %@", yearMonthDict);
+        NSLog(@"All Month Info %@", allMonthInfo);
     
     }
     
