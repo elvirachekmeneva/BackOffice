@@ -285,10 +285,13 @@
     NSString *taskID;
     if (indexPath.section == 0) {
         taskID = [[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row]objectForKey:@"pkey"];
+        [[NSUserDefaults standardUserDefaults]setObject:[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row] forKey:@"taskInfoJson"];
     } else if(indexPath.section == 1) {
         taskID = [[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row]objectForKey:@"pkey"];
+        [[NSUserDefaults standardUserDefaults]setObject:[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row] forKey:@"taskInfoJson"];
     }else {
         taskID = [[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row] objectForKey:@"pkey"];
+        [[NSUserDefaults standardUserDefaults]setObject:[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row] forKey:@"taskInfoJson"];
     }
     [[NSUserDefaults standardUserDefaults]setObject:taskID forKey:@"taskID"];
 //    [[NSUserDefaults standardUserDefaults]setObject:[[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row] forKey:@"taskInfoJson"];

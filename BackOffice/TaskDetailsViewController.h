@@ -18,5 +18,12 @@
     NSMutableData* mutableTaskTransitionsData;
 }
 - (IBAction)atWorkButtonPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *typeIcon;
+@property (weak, nonatomic) IBOutlet UILabel *summaryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *typeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *autorNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *workerNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *updateLabel;
 
 @end
