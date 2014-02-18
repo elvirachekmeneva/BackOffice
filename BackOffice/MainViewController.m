@@ -55,7 +55,18 @@
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
-    
+    NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            self.photo.image = [UIImage imageWithData:imageData];
+            self.photo.layer.cornerRadius = 6;
+            self.photo.clipsToBounds = YES;
+        });
+    });
+
     
     
 }
@@ -79,7 +90,6 @@
             count30times = 30;
             timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
             NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
-            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
                 

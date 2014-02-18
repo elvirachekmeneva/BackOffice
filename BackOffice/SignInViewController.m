@@ -67,7 +67,9 @@
     }
     [invalidLabel setAlpha:0];
     [activityIndicator setAlpha:0];
-
+//    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"Untitled-1.png"]];
+//    self.view.backgroundColor = background;
+    
 }
 
 - (void)didReceiveMemoryWarning

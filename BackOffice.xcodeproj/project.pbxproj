@@ -33,6 +33,7 @@
 		76B6EFAE189FB617008C5D3D /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFAD189FB617008C5D3D /* CustomCell.m */; };
 		76B6EFB118A0CD3D008C5D3D /* PersonInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */; };
 		76B79E2218AE000F003C6028 /* TaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */; };
+		76B79E2418B35D9F003C6028 /* Untitled-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B79E2318B35D9F003C6028 /* Untitled-1.png */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,7 @@
 		76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInfoVC.m; sourceTree = "<group>"; };
 		76B79E2018AE000F003C6028 /* TaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailsViewController.h; sourceTree = "<group>"; };
 		76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailsViewController.m; sourceTree = "<group>"; };
+		76B79E2318B35D9F003C6028 /* Untitled-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Untitled-1.png"; sourceTree = "<group>"; };
 		8C5A7FD7E3E942B3B9EB22AE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -179,6 +181,7 @@
 				7693EF1118A22B32003A3E6F /* MBProgressHUD.h */,
 				7693EF0F18A22B26003A3E6F /* MBProgressHUD.m */,
 				76703A1618894F4800094F73 /* phone1.png */,
+				76B79E2318B35D9F003C6028 /* Untitled-1.png */,
 				76126B2B18604A9000FD8EA7 /* Images.xcassets */,
 				76126B1A18604A9000FD8EA7 /* Supporting Files */,
 			);
@@ -296,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76703A1718894F4800094F73 /* phone1.png in Resources */,
+				76B79E2418B35D9F003C6028 /* Untitled-1.png in Resources */,
 				76126B2C18604A9000FD8EA7 /* Images.xcassets in Resources */,
 				76126B1E18604A9000FD8EA7 /* InfoPlist.strings in Resources */,
 				76126B2718604A9000FD8EA7 /* Main.storyboard in Resources */,
