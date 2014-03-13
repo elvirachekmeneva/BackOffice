@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *photo;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) IBOutlet UIButton *photoButton;
 @property NSMutableDictionary *json;
 @property UIStoryboardSegue *showInfo;
 @property UIViewController *infoVC;

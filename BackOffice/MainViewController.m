@@ -51,21 +51,21 @@
     self.infoButton.enabled = NO;
     self.teamButton.enabled = NO;
     [activityIndicator setAlpha:1];
-    count30times = 30;
-    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    count30times = 30;
+//    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
-    NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // Update the UI
-            self.photo.image = [UIImage imageWithData:imageData];
-            self.photo.layer.cornerRadius = 6;
-            self.photo.clipsToBounds = YES;
-        });
-    });
+//    NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            // Update the UI
+//            self.photoButton.imageView.image = [UIImage imageWithData:imageData];
+//            self.photoButton.imageView.layer.cornerRadius = 23;
+//            self.photoButton.imageView.clipsToBounds = YES;
+//        });
+//    });
 
     
     
@@ -81,6 +81,18 @@
             json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
             NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
             
+            NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
+                NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+                UIImage *image = [UIImage imageWithData:imageData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Update the UI
+                    self.photo.image = image;
+                    self.photo.layer.cornerRadius = 30;
+                    self.photo.clipsToBounds = YES;
+                    
+                });
+            });
             
             [self changeButtonColor]; //???
             [self changeLabelText];
@@ -89,17 +101,7 @@
             [activityIndicator setAlpha:1];
             count30times = 30;
             timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
-            NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    // Update the UI
-                    self.photo.image = [UIImage imageWithData:imageData];
-                    self.photo.layer.cornerRadius = 6;
-                    self.photo.clipsToBounds = YES;
-                });
-            });
+            
 
         }
     }else {
@@ -156,12 +158,6 @@
         if ([self connected]) {
             [self connectWithLogin:[[NSUserDefaults standardUserDefaults] objectForKey:@"login"]  password:[[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]];
             [self changeButtonColor];
-            //цвета кнопки
-//            if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"] isEqualToString:@""]) {
-//                [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
-//            }else {
-//                [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
-//            }
             
             count30times = 0;
         }else {
@@ -215,11 +211,16 @@
 }
 
 - (void) tickTack:(NSString*) workTime count:(int)count {
-    if ((count % 2) == 0) {
+    int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
+    if (isWork == 1) {
+        if ((count % 2) == 0) {
+            self.timeButton.titleLabel.text = workTime;
+        }else {
+            
+            self.timeButton.titleLabel.text = [workTime stringByReplacingCharactersInRange:NSMakeRange(2, 1) withString:@" "];
+        }
+    } else {
         self.timeButton.titleLabel.text = workTime;
-    }else {
-        
-        self.timeButton.titleLabel.text = [workTime stringByReplacingCharactersInRange:NSMakeRange(2, 1) withString:@" "];
     }
 }
 
@@ -457,9 +458,11 @@
 - (void) changeButtonColor {
     int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
     if (isWork == 1) {
-        [timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+        [timeButton setAlpha:1];
+        //[timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
     }else {
-        [timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+        [timeButton setAlpha:0.3];
+        //[timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
     }
 }
 
@@ -471,11 +474,9 @@
     NSString* command;
     if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endDate"] isEqualToString:@""]) {
         command = @"cmd=off";
-        //[timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
 
     } else {
         command = @"cmd=on";
-        //[timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
 
     }
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
@@ -498,8 +499,8 @@
 }
 
 - (IBAction)showInfo:(id)sender {
-    showInfo = [[UIStoryboardSegue alloc]initWithIdentifier:@"showInfo" source:self destination:infoVC];
-    [self performSegueWithIdentifier:@"showInfo" sender:nil];
+    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"InfoVC"];
+    [self presentViewController:self.SIVC animated:NO completion:nil];
     
 }
 

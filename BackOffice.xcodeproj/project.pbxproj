@@ -24,16 +24,19 @@
 		76126B4A18605ED000FD8EA7 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76126B4918605ED000FD8EA7 /* MainViewController.m */; };
 		76126B4D18605EE000FD8EA7 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76126B4C18605EE000FD8EA7 /* InfoViewController.m */; };
 		762ACCAF189BDEB5007F3BF9 /* TeamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */; };
+		7634FD0118D1FA8100D5A721 /* main-bgr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7634FCFE18D1FA8100D5A721 /* main-bgr.png */; };
+		7634FD0218D1FA8100D5A721 /* main-team-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7634FCFF18D1FA8100D5A721 /* main-team-icon.png */; };
+		7634FD0318D1FA8100D5A721 /* main-workh-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7634FD0018D1FA8100D5A721 /* main-workh-icon.png */; };
 		76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76405FCF18893BDC00D5F6F7 /* TeamViewController.m */; };
-		76703A1718894F4800094F73 /* phone1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76703A1618894F4800094F73 /* phone1.png */; };
 		76703A66188FA22400094F73 /* WorkedTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 76703A65188FA22400094F73 /* WorkedTableDataSource.m */; };
+		7671ABC618D1D5D500A40694 /* login-bgr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7671ABC418D1D5D500A40694 /* login-bgr.png */; };
+		7671ABC718D1D5D500A40694 /* login-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 7671ABC518D1D5D500A40694 /* login-button.png */; };
 		7693EF0C18A12F6C003A3E6F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7693EF0B18A12F6C003A3E6F /* AddressBook.framework */; };
 		7693EF0E18A12F82003A3E6F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7693EF0D18A12F82003A3E6F /* MessageUI.framework */; };
 		7693EF1018A22B26003A3E6F /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7693EF0F18A22B26003A3E6F /* MBProgressHUD.m */; };
 		76B6EFAE189FB617008C5D3D /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFAD189FB617008C5D3D /* CustomCell.m */; };
 		76B6EFB118A0CD3D008C5D3D /* PersonInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */; };
 		76B79E2218AE000F003C6028 /* TaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */; };
-		76B79E2418B35D9F003C6028 /* Untitled-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B79E2318B35D9F003C6028 /* Untitled-1.png */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -74,11 +77,15 @@
 		76126B4C18605EE000FD8EA7 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
 		762ACCAD189BDEB5007F3BF9 /* TeamInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamInfo.h; sourceTree = "<group>"; };
 		762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamInfo.m; sourceTree = "<group>"; };
+		7634FCFE18D1FA8100D5A721 /* main-bgr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-bgr.png"; sourceTree = "<group>"; };
+		7634FCFF18D1FA8100D5A721 /* main-team-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-team-icon.png"; sourceTree = "<group>"; };
+		7634FD0018D1FA8100D5A721 /* main-workh-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-workh-icon.png"; sourceTree = "<group>"; };
 		76405FCE18893BDC00D5F6F7 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamViewController.h; sourceTree = "<group>"; };
 		76405FCF18893BDC00D5F6F7 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamViewController.m; sourceTree = "<group>"; };
-		76703A1618894F4800094F73 /* phone1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone1.png; sourceTree = "<group>"; };
 		76703A64188FA22400094F73 /* WorkedTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkedTableDataSource.h; sourceTree = "<group>"; };
 		76703A65188FA22400094F73 /* WorkedTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkedTableDataSource.m; sourceTree = "<group>"; };
+		7671ABC418D1D5D500A40694 /* login-bgr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-bgr.png"; sourceTree = "<group>"; };
+		7671ABC518D1D5D500A40694 /* login-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login-button.png"; sourceTree = "<group>"; };
 		7693EF0B18A12F6C003A3E6F /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		7693EF0D18A12F82003A3E6F /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		7693EF0F18A22B26003A3E6F /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
@@ -89,7 +96,6 @@
 		76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInfoVC.m; sourceTree = "<group>"; };
 		76B79E2018AE000F003C6028 /* TaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailsViewController.h; sourceTree = "<group>"; };
 		76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailsViewController.m; sourceTree = "<group>"; };
-		76B79E2318B35D9F003C6028 /* Untitled-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Untitled-1.png"; sourceTree = "<group>"; };
 		8C5A7FD7E3E942B3B9EB22AE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -180,9 +186,8 @@
 				76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */,
 				7693EF1118A22B32003A3E6F /* MBProgressHUD.h */,
 				7693EF0F18A22B26003A3E6F /* MBProgressHUD.m */,
-				76703A1618894F4800094F73 /* phone1.png */,
-				76B79E2318B35D9F003C6028 /* Untitled-1.png */,
 				76126B2B18604A9000FD8EA7 /* Images.xcassets */,
+				7671ABC318D1D5D500A40694 /* resources */,
 				76126B1A18604A9000FD8EA7 /* Supporting Files */,
 			);
 			path = BackOffice;
@@ -215,6 +220,18 @@
 				76126B3B18604A9000FD8EA7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7671ABC318D1D5D500A40694 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				7634FCFE18D1FA8100D5A721 /* main-bgr.png */,
+				7634FCFF18D1FA8100D5A721 /* main-team-icon.png */,
+				7634FD0018D1FA8100D5A721 /* main-workh-icon.png */,
+				7671ABC418D1D5D500A40694 /* login-bgr.png */,
+				7671ABC518D1D5D500A40694 /* login-button.png */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,10 +315,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76703A1718894F4800094F73 /* phone1.png in Resources */,
-				76B79E2418B35D9F003C6028 /* Untitled-1.png in Resources */,
+				7671ABC718D1D5D500A40694 /* login-button.png in Resources */,
+				7634FD0318D1FA8100D5A721 /* main-workh-icon.png in Resources */,
 				76126B2C18604A9000FD8EA7 /* Images.xcassets in Resources */,
+				7671ABC618D1D5D500A40694 /* login-bgr.png in Resources */,
+				7634FD0218D1FA8100D5A721 /* main-team-icon.png in Resources */,
 				76126B1E18604A9000FD8EA7 /* InfoPlist.strings in Resources */,
+				7634FD0118D1FA8100D5A721 /* main-bgr.png in Resources */,
 				76126B2718604A9000FD8EA7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

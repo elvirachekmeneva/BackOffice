@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @interface NSString(MD5)
 @end
 
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *saveOrNot;
 @property (weak, nonatomic) IBOutlet UITextField *userLogin;
 @property (weak, nonatomic) IBOutlet UITextField *userPassword;
+@property (strong, nonatomic) IBOutlet UIButton *forgotButton;
 
 - (IBAction)signInButtonPressed:(id)sender;
 - (IBAction)saveValueChenged:(id)sender;

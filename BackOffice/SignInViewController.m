@@ -46,6 +46,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated{
+    [self.signInButton setTitle:@"ВХОД" forState:UIControlStateNormal];
 //    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     //[super viewWillAppear:animated];
     
@@ -75,6 +76,12 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES]; // dismiss the keyboard
+    
+    [super touchesBegan:touches withEvent:event];
 }
 
 //получение адреса файла
@@ -138,9 +145,10 @@
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     // If we get any connection error we can manage it here…
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Connection Error"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Ошибка подключения"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
     [alertView show];
     [activityIndicator setAlpha:0];
+    [self.signInButton setTitle:@"ВХОД" forState:UIControlStateNormal];
     return;
 }
 
@@ -173,6 +181,7 @@
 
 
 - (IBAction)signInButtonPressed:(id)sender {
+    [self.signInButton setTitle:@"" forState:UIControlStateNormal];
     login = [[NSString alloc]initWithString:[userLogin text]];
     password = [[NSString alloc]initWithString:[userPassword text]];
     [activityIndicator setAlpha:1];
