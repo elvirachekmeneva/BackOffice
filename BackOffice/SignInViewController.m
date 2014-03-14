@@ -220,4 +220,16 @@
     }
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == userLogin) {
+        [textField resignFirstResponder];
+        [userPassword becomeFirstResponder];
+    } else if (textField == userPassword) {
+        [self signInButtonPressed:nil];
+        
+    }
+    return YES;
+}
+
+
 @end

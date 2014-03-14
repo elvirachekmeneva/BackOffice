@@ -51,32 +51,26 @@
     self.infoButton.enabled = NO;
     self.teamButton.enabled = NO;
     [activityIndicator setAlpha:1];
-//    count30times = 30;
-//    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    count30times = 30;
+    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
-//    NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-//        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            // Update the UI
-//            self.photoButton.imageView.image = [UIImage imageWithData:imageData];
-//            self.photoButton.imageView.layer.cornerRadius = 23;
-//            self.photoButton.imageView.clipsToBounds = YES;
-//        });
-//    });
-
+   
+    
     
     
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    if (senderFromSIVC == nil) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
-            [self presentViewController:self.SIVC animated:NO completion:nil];
-            senderFromSIVC = @"not nil";
-        }else {
+    
+    
+//    if (senderFromSIVC == nil) {
+//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
+//            [self exitToSignIn:self];
+//            self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
+//            [self presentViewController:self.SIVC animated:NO completion:nil];
+//            senderFromSIVC = @"not nil";
+//        }else {
             [[self navigationController] setNavigationBarHidden:NO animated:YES];
             json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
             NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
@@ -103,22 +97,33 @@
             timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
             
 
+//        }
+//    }else {
+//        [[self navigationController] setNavigationBarHidden:NO animated:YES];
+//        json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+//        NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
+//        
+//        [self changeButtonColor]; //???
+//        [self changeLabelText];
+//        [timer1second invalidate];
+//        
+//        [activityIndicator setAlpha:1];
+//
+//        count30times = 30;
+//        timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    }
+
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (senderFromSIVC == nil) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
+            [self presentViewController:self.SIVC animated:NO completion:nil];
+            senderFromSIVC = @"not nil";
         }
-    }else {
-        [[self navigationController] setNavigationBarHidden:NO animated:YES];
-        json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
-        NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
         
-        [self changeButtonColor]; //???
-        [self changeLabelText];
-        [timer1second invalidate];
-        
-        [activityIndicator setAlpha:1];
-
-        count30times = 30;
-        timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     }
-
 }
 
 - (BOOL)connected {
