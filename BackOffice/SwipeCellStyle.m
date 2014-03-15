@@ -14,9 +14,20 @@
 {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"main-pause-icon.png"], [UIImage imageNamed:@"main-pause-icon.png"], [UIImage imageNamed:@"main-done-icon.png"], [UIImage imageNamed:@"main-done-icon.png"]);
+        self.colorSet = SwipeCellColorSetMake([UIColor greenColor], [UIColor redColor], [UIColor brownColor], [UIColor orangeColor]);
+        
 		// set the 4 icons for the 4 swipe types
-//		self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"hp_dog.png"], [UIImage imageNamed:@"package_toys.png"], [UIImage imageNamed:@"sun.png"], [UIImage imageNamed:@"moon.png"]);
-		self.colorSet = SwipeCellColorSetMake([UIColor greenColor], [UIColor redColor], [UIColor brownColor], [UIColor orangeColor]);
+//        if (_currentSectionNumber == 0) {
+//            self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"main-pause-icon.png"], [UIImage imageNamed:@"main-pause-icon.png"], [UIImage imageNamed:@"main-done-icon.png"], [UIImage imageNamed:@"main-done-icon.png"]);
+//            self.colorSet = SwipeCellColorSetMake([UIColor greenColor], [UIColor redColor], [UIColor brownColor], [UIColor orangeColor]);
+//        } else if (_currentSectionNumber == 1) {
+//            self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"main-begin-icon.png"], [UIImage imageNamed:@"main-begin-icon.png"], [UIImage imageNamed:@"main-assign-icon.png"], [UIImage imageNamed:@"main-assign-icon.png"]);
+//            self.colorSet = SwipeCellColorSetMake([UIColor greenColor], [UIColor redColor], [UIColor brownColor], [UIColor orangeColor]);
+//        } else if (_currentSectionNumber == 2) {
+//            self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"main-begin-icon.png"], [UIImage imageNamed:@"main-begin-icon.png"], [UIImage imageNamed:@"main-assign-icon.png"], [UIImage imageNamed:@"main-assign-icon.png"]);
+//            self.colorSet = SwipeCellColorSetMake([UIColor greenColor], [UIColor redColor], [UIColor brownColor], [UIColor orangeColor]);
+//        }
         
     }
     self.defaultBackgroundColor = [UIColor clearColor];
@@ -28,14 +39,8 @@
 	return @"SwipeCell";
 }
 
-- (void) setNameText:(NSString*) name {
-    [self.taskNameLabel setText:name];
+- (void) sectionNumber:(int)section {
+    _currentSectionNumber = section;
 }
-
-- (void) showActivity {
-    
-    [self.taskActivity setAlpha:1];
-}
-
 
 @end

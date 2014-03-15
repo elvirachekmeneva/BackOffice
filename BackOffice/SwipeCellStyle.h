@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "JZSwipeCell.h"
 
-@interface SwipeCellStyle : JZSwipeCell
+@interface SwipeCellStyle : JZSwipeCell{
+    
+}
 
-@property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *taskActivity;
+@property int currentSectionNumber;
 
-- (void) setNameText:(NSString*)name;
-- (void) showActivity;
+- (void) sectionNumber:(int)section;
 + (NSString*)cellID;
 
 @end

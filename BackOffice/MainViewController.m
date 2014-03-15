@@ -273,6 +273,7 @@
     }
     
     SwipeCellStyle *cell = [tableView dequeueReusableCellWithIdentifier:[SwipeCellStyle cellID]];
+    [[SwipeCellStyle alloc] sectionNumber:indexPath.section];
     cell = [[SwipeCellStyle alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[SwipeCellStyle cellID]];
     
     
@@ -293,6 +294,7 @@
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
     [view setBackgroundColor:[UIColor clearColor]];
+    
     UILabel *taskNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 300, 40)];
     [taskNameLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:16]];
     taskNameLabel.textAlignment = NSTextAlignmentLeft;
@@ -300,9 +302,14 @@
     [taskNameLabel setBackgroundColor:[UIColor clearColor]];
     [view addSubview:taskNameLabel];
     
+    
+    
     [cell.contentView addSubview:view];
     [cell.contentView setBackgroundColor:[UIColor clearColor]];
     [cell setBackgroundColor:[UIColor clearColor]];
+    
+    [cell.backgroundView setBackgroundColor:[UIColor clearColor]];
+    
     
     cell.delegate = self;
     return cell;
@@ -349,10 +356,22 @@
 
 - (void)swipeCell:(JZSwipeCell*)cell triggeredSwipeWithType:(JZSwipeType)swipeType
 {
+    NSIndexPath *indexPath = [self.tasksTable indexPathForCell:cell];
+    
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
+//    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+//    //        [indicator setAlpha:1];
+//    indicator.color = [UIColor blueColor];
+//    [indicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
+//    
+//    [view addSubview:indicator];
+    
+//    [[self.tasksTable cellForRowAtIndexPath:indexPath].contentView addSubview:view];
+    
 	if (swipeType != JZSwipeTypeNone)
 	{
-        
-		NSIndexPath *indexPath = [self.tasksTable indexPathForCell:cell];
+        [cell.backgroundView setAlpha:1];
+		
 		if (indexPath)
 		{
             if (swipeType == JZSwipeTypeShortRight) {
@@ -373,15 +392,9 @@
 //			[task removeObjectAtIndex:indexPath.row];
 //			[self.tasksTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		}
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(20, 0, 40, 40)];
-        [indicator setAlpha:1];
-        [indicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
-        [indicator startAnimating];
-        
-        [view addSubview:indicator];
-        
-        [cell.contentView addSubview:view];
+       
+//        [cell.backgroundView addSubview:view];
+//        [cell.contentView addSubview:view];
         
         
 	}
