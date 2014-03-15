@@ -66,7 +66,7 @@
         mutableTaskTransitionsData = [[NSMutableData alloc] init];
     }
 
-    //заполнение полей информации о задачк
+    //заполнение полей информации о задачe
     NSURL *typeIconURL = [NSURL URLWithString:[taskInfoJson objectForKey:@"typeIcon"]];
     NSLog(@"%@",typeIconURL);
     

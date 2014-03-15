@@ -1,10 +1,13 @@
 PODS:
   - JSONKit (1.5pre)
+  - JZSwipeCell (1.1)
 
 DEPENDENCIES:
   - JSONKit (~> 1.5pre)
+  - JZSwipeCell (~> 1.1)
 
 SPEC CHECKSUMS:
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
+  JZSwipeCell: fcef9878e6284fa5df604eef7e9382172f2a453b
 
 COCOAPODS: 0.29.0

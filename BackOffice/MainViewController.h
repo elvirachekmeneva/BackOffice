@@ -10,8 +10,10 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "SignInViewController.h"
 #import "TaskDetailsViewController.h"
+#import "SwipeCellStyle.h"
+#import "TaskTransactions.h"
 
-@interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, JZSwipeCellDelegate>
 {
     int count30times;
     BOOL loadingFinish;
@@ -32,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *infoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *teamButton;
 @property (weak, nonatomic) IBOutlet UIImageView *photo;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *taskActivityIndicator;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UIButton *photoButton;

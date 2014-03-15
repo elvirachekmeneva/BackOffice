@@ -25,6 +25,8 @@
 		76126B4D18605EE000FD8EA7 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76126B4C18605EE000FD8EA7 /* InfoViewController.m */; };
 		76209C2618D344DA00D04ACB /* UIColor+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 76209C2518D344DA00D04ACB /* UIColor+Color.m */; };
 		76209C2918D3452B00D04ACB /* BackgroundVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 76209C2818D3452B00D04ACB /* BackgroundVC.m */; };
+		76209C2C18D4512600D04ACB /* SwipeCellStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 76209C2B18D4512600D04ACB /* SwipeCellStyle.m */; };
+		76209C3718D488EF00D04ACB /* TaskTransactions.m in Sources */ = {isa = PBXBuildFile; fileRef = 76209C3618D488EF00D04ACB /* TaskTransactions.m */; };
 		762ACCAF189BDEB5007F3BF9 /* TeamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */; };
 		7634FD0118D1FA8100D5A721 /* main-bgr.png in Resources */ = {isa = PBXBuildFile; fileRef = 7634FCFE18D1FA8100D5A721 /* main-bgr.png */; };
 		7634FD0218D1FA8100D5A721 /* main-team-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7634FCFF18D1FA8100D5A721 /* main-team-icon.png */; };
@@ -81,6 +83,10 @@
 		76209C2518D344DA00D04ACB /* UIColor+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Color.m"; sourceTree = "<group>"; };
 		76209C2718D3452B00D04ACB /* BackgroundVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundVC.h; sourceTree = "<group>"; };
 		76209C2818D3452B00D04ACB /* BackgroundVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundVC.m; sourceTree = "<group>"; };
+		76209C2A18D4512600D04ACB /* SwipeCellStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeCellStyle.h; sourceTree = "<group>"; };
+		76209C2B18D4512600D04ACB /* SwipeCellStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeCellStyle.m; sourceTree = "<group>"; };
+		76209C3618D488EF00D04ACB /* TaskTransactions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTransactions.m; sourceTree = "<group>"; };
+		76209C3818D488F800D04ACB /* TaskTransactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskTransactions.h; sourceTree = "<group>"; };
 		762ACCAD189BDEB5007F3BF9 /* TeamInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamInfo.h; sourceTree = "<group>"; };
 		762ACCAE189BDEB5007F3BF9 /* TeamInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamInfo.m; sourceTree = "<group>"; };
 		7634FCFE18D1FA8100D5A721 /* main-bgr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-bgr.png"; sourceTree = "<group>"; };
@@ -178,6 +184,10 @@
 				76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */,
 				76126B4818605ED000FD8EA7 /* MainViewController.h */,
 				76126B4918605ED000FD8EA7 /* MainViewController.m */,
+				76209C3818D488F800D04ACB /* TaskTransactions.h */,
+				76209C3618D488EF00D04ACB /* TaskTransactions.m */,
+				76209C2A18D4512600D04ACB /* SwipeCellStyle.h */,
+				76209C2B18D4512600D04ACB /* SwipeCellStyle.m */,
 				76126B4B18605EE000FD8EA7 /* InfoViewController.h */,
 				76126B4C18605EE000FD8EA7 /* InfoViewController.m */,
 				76703A64188FA22400094F73 /* WorkedTableDataSource.h */,
@@ -192,9 +202,9 @@
 				76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */,
 				7693EF1118A22B32003A3E6F /* MBProgressHUD.h */,
 				7693EF0F18A22B26003A3E6F /* MBProgressHUD.m */,
-				76209C2418D344DA00D04ACB /* UIColor+Color.h */,
 				76209C2718D3452B00D04ACB /* BackgroundVC.h */,
 				76209C2818D3452B00D04ACB /* BackgroundVC.m */,
+				76209C2418D344DA00D04ACB /* UIColor+Color.h */,
 				76209C2518D344DA00D04ACB /* UIColor+Color.m */,
 				76126B2B18604A9000FD8EA7 /* Images.xcassets */,
 				7671ABC318D1D5D500A40694 /* resources */,
@@ -387,12 +397,14 @@
 				76209C2918D3452B00D04ACB /* BackgroundVC.m in Sources */,
 				76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */,
 				76703A66188FA22400094F73 /* WorkedTableDataSource.m in Sources */,
+				76209C2C18D4512600D04ACB /* SwipeCellStyle.m in Sources */,
 				76B79E2218AE000F003C6028 /* TaskDetailsViewController.m in Sources */,
 				76126B2A18604A9000FD8EA7 /* SignInViewController.m in Sources */,
 				76126B2418604A9000FD8EA7 /* AppDelegate.m in Sources */,
 				7693EF1018A22B26003A3E6F /* MBProgressHUD.m in Sources */,
 				76B6EFAE189FB617008C5D3D /* CustomCell.m in Sources */,
 				76126B2018604A9000FD8EA7 /* main.m in Sources */,
+				76209C3718D488EF00D04ACB /* TaskTransactions.m in Sources */,
 				762ACCAF189BDEB5007F3BF9 /* TeamInfo.m in Sources */,
 				76B6EFB118A0CD3D008C5D3D /* PersonInfoVC.m in Sources */,
 				76126B4D18605EE000FD8EA7 /* InfoViewController.m in Sources */,

@@ -26,4 +26,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *workerNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *updateLabel;
 
+- (void) button1Clicked:(id) sender;
+
+- (void) button2Clicked:(id) sender;
+
+- (void) button3Clicked:(id) sender;
+
+- (void) button4Clicked:(id) sender;
+
 @end

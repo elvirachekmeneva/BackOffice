@@ -21,7 +21,7 @@
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog;
-@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo,taskDetails;
+@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo,taskDetails,taskActivityIndicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -55,10 +55,19 @@
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
-   
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(taskUpdate:)
+                                                 name:@"TasksUpdate"
+                                               object:nil];
     
     
-    
+}
+
+- (void) taskUpdate:(NSNotification *) notification {
+    [timer1second invalidate];
+    count30times = 30;
+    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -259,22 +268,20 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-//    
-//    if (cell == nil) {
     while (json == nil) {
         NSLog(@"Json is nill!!!");
     }
     
-      UITableViewCell *  cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleSubtitle
-                reuseIdentifier:@"cell"];
-//    }
+    SwipeCellStyle *cell = [tableView dequeueReusableCellWithIdentifier:[SwipeCellStyle cellID]];
+    cell = [[SwipeCellStyle alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[SwipeCellStyle cellID]];
     
+    
+    //    UITableViewCell *  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     NSDictionary *currentTask;
     int sec = indexPath.section;
     int rowNum = indexPath.row;
     NSLog(@"%d %d", sec, rowNum);
+    
     if (indexPath.section == 0) {
         currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
     } else if(indexPath.section == 1) {
@@ -282,7 +289,22 @@
     }else {
         currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
     }
-    [[cell textLabel] setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
+//    [[cell textLabel] setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
+    [view setBackgroundColor:[UIColor clearColor]];
+    UILabel *taskNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 300, 40)];
+    [taskNameLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:16]];
+    taskNameLabel.textAlignment = NSTextAlignmentLeft;
+    [taskNameLabel setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
+    [taskNameLabel setBackgroundColor:[UIColor clearColor]];
+    [view addSubview:taskNameLabel];
+    
+    [cell.contentView addSubview:view];
+    [cell.contentView setBackgroundColor:[UIColor clearColor]];
+    [cell setBackgroundColor:[UIColor clearColor]];
+    
+    cell.delegate = self;
     return cell;
 
 }
@@ -322,6 +344,58 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
 }
+
+#pragma mark - JZSwipeCellDelegate methods
+
+- (void)swipeCell:(JZSwipeCell*)cell triggeredSwipeWithType:(JZSwipeType)swipeType
+{
+	if (swipeType != JZSwipeTypeNone)
+	{
+        
+		NSIndexPath *indexPath = [self.tasksTable indexPathForCell:cell];
+		if (indexPath)
+		{
+            if (swipeType == JZSwipeTypeShortRight) {
+                if (indexPath.section == 0) {
+                    NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask];
+                    [taskTrans changeTransitionWithID:TASK_TRANS_PAUSE];
+                }else if (indexPath.section == 1) {
+                    NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask];
+                    [taskTrans changeTransitionWithID:TASK_TRANS_ATWORK];
+                } else if (indexPath.section == 2) {
+                    NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask];
+                    [taskTrans changeTransitionWithID:TASK_TRANS_ATWORK];
+                }
+            }
+//			[task removeObjectAtIndex:indexPath.row];
+//			[self.tasksTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		}
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(20, 0, 40, 40)];
+        [indicator setAlpha:1];
+        [indicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+        [indicator startAnimating];
+        
+        [view addSubview:indicator];
+        
+        [cell.contentView addSubview:view];
+        
+        
+	}
+
+    
+}
+
+- (void)swipeCell:(JZSwipeCell *)cell swipeTypeChangedFrom:(JZSwipeType)from to:(JZSwipeType)to
+{
+	// perform custom state changes here
+	NSLog(@"Swipe Changed From (%d) To (%d)", from, to);
+}
+
+#pragma mark - connection methods
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password {
    
