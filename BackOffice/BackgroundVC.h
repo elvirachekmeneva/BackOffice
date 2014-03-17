@@ -15,6 +15,7 @@
     UIColor *qaColor;
 }
 
-@property UIImage* backGroundImage;
+@property UIImageView* backGroundImage;
+- (id) initWithHeight:(int) height width:(int)width;
 
 @end

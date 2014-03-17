@@ -12,11 +12,13 @@
 #import "TaskDetailsViewController.h"
 #import "SwipeCellStyle.h"
 #import "TaskTransactions.h"
+#import "BackgroundVC.h"
 
 @interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, JZSwipeCellDelegate>
 {
     int count30times;
     BOOL loadingFinish;
+    BackgroundVC* background;
     
 }
 - (IBAction)stopAndStart:(id)sender;

@@ -155,7 +155,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main-bgr.png" translatesAutoresizingMaskIntoConstraints="NO" id="hn0-h5-SDe">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hn0-h5-SDe">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -271,7 +271,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="C7s-Ul-vNR" id="fhu-Ff-tGW"/>
-                        <outlet property="bgrImage" destination="hn0-h5-SDe" id="nlk-yQ-6dc"/>
+                        <outlet property="bgrImage" destination="hn0-h5-SDe" id="Bjt-3C-YVv"/>
                         <outlet property="changedTimeLabel" destination="NcW-yY-8mr" id="oJb-D4-TT5"/>
                         <outlet property="infoButton" destination="y5P-Le-ISC" id="e2C-p2-drG"/>
                         <outlet property="photo" destination="Y3F-WI-W4C" id="OHw-sJ-wHc"/>
@@ -726,7 +726,6 @@
     <resources>
         <image name="login-bgr.png" width="768" height="1280"/>
         <image name="login-button.png" width="592" height="117"/>
-        <image name="main-bgr.png" width="768" height="1280"/>
         <image name="main-team-icon.png" width="64" height="58"/>
         <image name="main-workh-icon.png" width="65" height="65"/>
     </resources>

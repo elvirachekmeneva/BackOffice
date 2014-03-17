@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76021A1218D722AE00E55012 /* main-bgr-color.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76021A1018D722AE00E55012 /* main-bgr-color.jpg */; };
+		76021A1318D722AE00E55012 /* main-bgr-gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76021A1118D722AE00E55012 /* main-bgr-gray.jpg */; };
 		76126B1418604A9000FD8EA7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76126B1318604A9000FD8EA7 /* Foundation.framework */; };
 		76126B1618604A9000FD8EA7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76126B1518604A9000FD8EA7 /* CoreGraphics.framework */; };
 		76126B1818604A9000FD8EA7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76126B1718604A9000FD8EA7 /* UIKit.framework */; };
@@ -45,8 +47,10 @@
 		76B6EFAE189FB617008C5D3D /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFAD189FB617008C5D3D /* CustomCell.m */; };
 		76B6EFB118A0CD3D008C5D3D /* PersonInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */; };
 		76B79E2218AE000F003C6028 /* TaskDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */; };
-		76B86DC218D6E92F0090D5C1 /* main-bgr-gray.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC118D6E92F0090D5C1 /* main-bgr-gray.jpg */; };
-		76B86DC418D6E9740090D5C1 /* main-bgr-color.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC318D6E9740090D5C1 /* main-bgr-color.jpg */; };
+		76B86DC618D70A300090D5C1 /* main-points.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC518D70A300090D5C1 /* main-points.png */; };
+		76B86DCA18D7122A0090D5C1 /* main-task-for-work.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC718D7122A0090D5C1 /* main-task-for-work.png */; };
+		76B86DCB18D7122A0090D5C1 /* main-task-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC818D7122A0090D5C1 /* main-task-pause.png */; };
+		76B86DCC18D7122A0090D5C1 /* main-task-work.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC918D7122A0090D5C1 /* main-task-work.png */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +66,8 @@
 
 /* Begin PBXFileReference section */
 		3A3738CE11A04ABF818B74E8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		76021A1018D722AE00E55012 /* main-bgr-color.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "main-bgr-color.jpg"; sourceTree = "<group>"; };
+		76021A1118D722AE00E55012 /* main-bgr-gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "main-bgr-gray.jpg"; sourceTree = "<group>"; };
 		76126B1018604A9000FD8EA7 /* BackOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BackOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76126B1318604A9000FD8EA7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		76126B1518604A9000FD8EA7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -118,8 +124,10 @@
 		76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInfoVC.m; sourceTree = "<group>"; };
 		76B79E2018AE000F003C6028 /* TaskDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailsViewController.h; sourceTree = "<group>"; };
 		76B79E2118AE000F003C6028 /* TaskDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailsViewController.m; sourceTree = "<group>"; };
-		76B86DC118D6E92F0090D5C1 /* main-bgr-gray.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "main-bgr-gray.jpg"; sourceTree = "<group>"; };
-		76B86DC318D6E9740090D5C1 /* main-bgr-color.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "main-bgr-color.jpg"; sourceTree = "<group>"; };
+		76B86DC518D70A300090D5C1 /* main-points.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-points.png"; sourceTree = "<group>"; };
+		76B86DC718D7122A0090D5C1 /* main-task-for-work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-for-work.png"; sourceTree = "<group>"; };
+		76B86DC818D7122A0090D5C1 /* main-task-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-pause.png"; sourceTree = "<group>"; };
+		76B86DC918D7122A0090D5C1 /* main-task-work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-work.png"; sourceTree = "<group>"; };
 		8C5A7FD7E3E942B3B9EB22AE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -200,8 +208,6 @@
 				76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */,
 				7693EF1118A22B32003A3E6F /* MBProgressHUD.h */,
 				7693EF0F18A22B26003A3E6F /* MBProgressHUD.m */,
-				76209C2718D3452B00D04ACB /* BackgroundVC.h */,
-				76209C2818D3452B00D04ACB /* BackgroundVC.m */,
 				76209C2418D344DA00D04ACB /* UIColor+Color.h */,
 				76209C2518D344DA00D04ACB /* UIColor+Color.m */,
 				76126B2B18604A9000FD8EA7 /* Images.xcassets */,
@@ -247,6 +253,8 @@
 				76126B4918605ED000FD8EA7 /* MainViewController.m */,
 				76209C2A18D4512600D04ACB /* SwipeCellStyle.h */,
 				76209C2B18D4512600D04ACB /* SwipeCellStyle.m */,
+				76209C2718D3452B00D04ACB /* BackgroundVC.h */,
+				76209C2818D3452B00D04ACB /* BackgroundVC.m */,
 			);
 			name = MainView;
 			sourceTree = "<group>";
@@ -289,8 +297,12 @@
 		7671ABC318D1D5D500A40694 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				76B86DC118D6E92F0090D5C1 /* main-bgr-gray.jpg */,
-				76B86DC318D6E9740090D5C1 /* main-bgr-color.jpg */,
+				76021A1018D722AE00E55012 /* main-bgr-color.jpg */,
+				76021A1118D722AE00E55012 /* main-bgr-gray.jpg */,
+				76B86DC718D7122A0090D5C1 /* main-task-for-work.png */,
+				76B86DC818D7122A0090D5C1 /* main-task-pause.png */,
+				76B86DC918D7122A0090D5C1 /* main-task-work.png */,
+				76B86DC518D70A300090D5C1 /* main-points.png */,
 				76209C4718D6C6AE00D04ACB /* main-assign.png */,
 				76209C4818D6C6AE00D04ACB /* main-done.png */,
 				76209C4918D6C6AE00D04ACB /* main-pause.png */,
@@ -387,17 +399,21 @@
 			files = (
 				7671ABC718D1D5D500A40694 /* login-button.png in Resources */,
 				76209C4B18D6C6AE00D04ACB /* main-done.png in Resources */,
+				76B86DCA18D7122A0090D5C1 /* main-task-for-work.png in Resources */,
+				76B86DCB18D7122A0090D5C1 /* main-task-pause.png in Resources */,
+				76021A1218D722AE00E55012 /* main-bgr-color.jpg in Resources */,
+				76B86DC618D70A300090D5C1 /* main-points.png in Resources */,
 				7634FD0318D1FA8100D5A721 /* main-workh-icon.png in Resources */,
 				76126B2C18604A9000FD8EA7 /* Images.xcassets in Resources */,
-				76B86DC418D6E9740090D5C1 /* main-bgr-color.jpg in Resources */,
 				76209C4A18D6C6AE00D04ACB /* main-assign.png in Resources */,
 				76209C4C18D6C6AE00D04ACB /* main-pause.png in Resources */,
 				7671ABC618D1D5D500A40694 /* login-bgr.png in Resources */,
 				76209C4618D6C4B500D04ACB /* main-begin.png in Resources */,
+				76B86DCC18D7122A0090D5C1 /* main-task-work.png in Resources */,
 				7634FD0218D1FA8100D5A721 /* main-team-icon.png in Resources */,
 				76126B1E18604A9000FD8EA7 /* InfoPlist.strings in Resources */,
+				76021A1318D722AE00E55012 /* main-bgr-gray.jpg in Resources */,
 				7634FD0118D1FA8100D5A721 /* main-bgr.png in Resources */,
-				76B86DC218D6E92F0090D5C1 /* main-bgr-gray.jpg in Resources */,
 				76126B2718604A9000FD8EA7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

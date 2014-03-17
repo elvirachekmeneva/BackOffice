@@ -21,7 +21,7 @@
 @synthesize showInfo,infoVC;
 @synthesize timer1second,timeButton;
 @synthesize signIn,SIVC,mutableData,mutableDataWork,connnection,workLog;
-@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo,taskDetails,taskActivityIndicator;
+@synthesize nameLabel,photo,teamConnection,mutableTeamData,teamInfo,taskDetails,taskActivityIndicator,bgrImage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -62,6 +62,7 @@
                                                object:nil];
     
     
+    
 }
 
 - (void) taskUpdate:(NSNotification *) notification {
@@ -73,55 +74,33 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+    NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
-//    if (senderFromSIVC == nil) {
-//        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"switch"] == NO) {
-//            [self exitToSignIn:self];
-//            self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
-//            [self presentViewController:self.SIVC animated:NO completion:nil];
-//            senderFromSIVC = @"not nil";
-//        }else {
-            [[self navigationController] setNavigationBarHidden:NO animated:YES];
-            json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
-            NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
-            
-            NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
-                NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-                UIImage *image = [UIImage imageWithData:imageData];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    // Update the UI
-                    self.photo.image = image;
-                    self.photo.layer.cornerRadius = 30;
-                    self.photo.clipsToBounds = YES;
-                    
-                });
-            });
-            
-            [self changeButtonColor]; //???
-            [self changeLabelText];
-            [timer1second invalidate];
-            
-            [activityIndicator setAlpha:1];
-            count30times = 30;
-            timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
-            
-
-//        }
-//    }else {
-//        [[self navigationController] setNavigationBarHidden:NO animated:YES];
-//        json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
-//        NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
-//        
-//        [self changeButtonColor]; //???
-//        [self changeLabelText];
-//        [timer1second invalidate];
-//        
-//        [activityIndicator setAlpha:1];
-//
-//        count30times = 30;
-//        timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
-//    }
+    NSURL *imageURL = [NSURL URLWithString:[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"photo"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            self.photo.image = image;
+            self.photo.layer.cornerRadius = 30;
+            self.photo.clipsToBounds = YES;
+        });
+    });
+    
+    [self changeButtonColor]; //???
+    [self changeLabelText];
+    [timer1second invalidate];
+    
+    [activityIndicator setAlpha:1];
+    count30times = 30;
+    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    
+//    background = [[BackgroundVC alloc] initWithHeight:_bgrImage.frame.size.height width:_bgrImage.frame.size.width];
+    
+//    self.bgrImage.image = [UIImage imageNamed:@"main-bgr-gray.jpg"];//background.backGroundImage.image;
 
 }
 
@@ -134,6 +113,18 @@
         }
         
     }
+    
+    background = [[BackgroundVC alloc] initWithHeight:self.bgrImage.frame.size.height width:self.bgrImage.frame.size.width];
+//    UIImage* image = [UIImage imageNamed:@"main-bgr-gray.jpg"];
+    self.bgrImage.image = background.backGroundImage.image;
+    self.bgrImage.contentMode = UIViewContentModeBottomRight;
+//    self.bgrImage.center = self.view.center;
+    
+//    [self.bgrImage setImage:[UIImage imageNamed:@"main-bgr-gray.png"]];//background.backGroundImage.image;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (BOOL)connected {
@@ -258,6 +249,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] count];
@@ -291,15 +290,33 @@
     }else {
         currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
     }
-//    [[cell textLabel] setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
     [view setBackgroundColor:[UIColor clearColor]];
     
-    UILabel *taskNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, 300, 40)];
-    [taskNameLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:16]];
+    UIImageView* taskIcon  = [[UIImageView alloc] initWithFrame:CGRectMake(5, 2.5, 20, 20)];
+    NSURL *taskIconURL = [NSURL URLWithString:[currentTask objectForKey:@"typeIcon"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:taskIconURL];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            taskIcon.image = [UIImage imageWithData:imageData];
+        });
+    });
+    [view addSubview:taskIcon];
+    
+    UILabel *taskPkeyLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 300, 25)];
+    [taskPkeyLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
+    taskPkeyLabel.textAlignment = NSTextAlignmentLeft;
+    [taskPkeyLabel setText:[currentTask objectForKey:@"pkey"]];
+    [taskPkeyLabel setTextColor:[UIColor whiteColor]];
+    [taskPkeyLabel setBackgroundColor:[UIColor clearColor]];
+    [view addSubview:taskPkeyLabel];
+    
+    UILabel *taskNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 25, 300, 25)];
+    [taskNameLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:16]];
     taskNameLabel.textAlignment = NSTextAlignmentLeft;
-    [taskNameLabel setText:[NSString stringWithFormat:@"%@ %@",[currentTask objectForKey:@"pkey"],[currentTask objectForKey:@"summary"]]];
+    [taskNameLabel setText:[currentTask objectForKey:@"summary"]];
+    [taskNameLabel setTextColor:[UIColor whiteColor]];
     [taskNameLabel setBackgroundColor:[UIColor clearColor]];
     [view addSubview:taskNameLabel];
     
@@ -317,15 +334,60 @@
 
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
+    [view setBackgroundColor:[UIColor clearColor]];
+    UILabel *sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 300, 38)];
+    [sectionNameLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:17]];
+    sectionNameLabel.textAlignment = NSTextAlignmentLeft;
+    [sectionNameLabel setTextColor:[UIColor whiteColor]];
+    [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
+    
+    UIImageView* points = [[UIImageView alloc] initWithFrame:CGRectMake(10, 38, self.tasksTable.frame.size.width, 2)];
+    [points setImage:[UIImage imageNamed:@"main-points.png"]];
+    [view addSubview:points];
+    
+    UIImageView* taskTypeIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 13, 12, 12)];
+    
     if (section == 0) {
-        return @"Working";
+        [taskTypeIcon setImage:[UIImage imageNamed:@"main-task-work.png"]];
+        [view addSubview:taskTypeIcon];
+        
+        [sectionNameLabel setText:@"В работе"];
+        [view addSubview:sectionNameLabel];
+        
+        return view;
     } else if(section == 1){
-        return @"Pause";
+        [taskTypeIcon setImage:[UIImage imageNamed:@"main-task-pause.png"]];
+        [view addSubview:taskTypeIcon];
+
+        [sectionNameLabel setText:@"Пауза"];
+        [view addSubview:sectionNameLabel];
+        
+        return view;
     } else {
-        return @"Assigned";
+        [taskTypeIcon setImage:[UIImage imageNamed:@"main-task-for-work.png"]];
+        [view addSubview:taskTypeIcon];
+
+        [sectionNameLabel setText:@"Задачи для работы"];
+        [view addSubview:sectionNameLabel];
+        
+        return view;
     }
+
 }
+
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (section == 0) {
+//        return @"Working";
+//    } else if(section == 1){
+//        return @"Pause";
+//    } else {
+//        return @"Assigned";
+//    }
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *taskID;
