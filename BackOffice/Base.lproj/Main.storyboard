@@ -271,6 +271,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="C7s-Ul-vNR" id="fhu-Ff-tGW"/>
+                        <outlet property="bgrImage" destination="hn0-h5-SDe" id="nlk-yQ-6dc"/>
                         <outlet property="changedTimeLabel" destination="NcW-yY-8mr" id="oJb-D4-TT5"/>
                         <outlet property="infoButton" destination="y5P-Le-ISC" id="e2C-p2-drG"/>
                         <outlet property="photo" destination="Y3F-WI-W4C" id="OHw-sJ-wHc"/>

@@ -68,6 +68,7 @@
     [timer1second invalidate];
     count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+    [_tasksTable reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -274,7 +275,7 @@
     
     SwipeCellStyle *cell = [tableView dequeueReusableCellWithIdentifier:[SwipeCellStyle cellID]];
     [[SwipeCellStyle alloc] sectionNumber:indexPath.section];
-    cell = [[SwipeCellStyle alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[SwipeCellStyle cellID]];
+    cell = [[SwipeCellStyle alloc] initWithStyle:UITableViewCellStyleValue1 section:indexPath.section reuseIdentifier:[SwipeCellStyle cellID]];
     
     
     //    UITableViewCell *  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
@@ -374,21 +375,36 @@
 		
 		if (indexPath)
 		{
-            if (swipeType == JZSwipeTypeShortRight) {
+            if (swipeType == JZSwipeTypeShortRight || swipeType == JZSwipeTypeLongRight) {
                 if (indexPath.section == 0) {
                     NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
-                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask];
-                    [taskTrans changeTransitionWithID:TASK_TRANS_PAUSE];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask transitionID:TASK_TRANS_PAUSE];
+//                    [taskTrans changeTransitionWithID:TASK_TRANS_PAUSE];
                 }else if (indexPath.section == 1) {
                     NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row];
-                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask];
-                    [taskTrans changeTransitionWithID:TASK_TRANS_ATWORK];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask transitionID:TASK_TRANS_ATWORK];
+//                    [taskTrans changeTransitionWithID:TASK_TRANS_ATWORK];
                 } else if (indexPath.section == 2) {
                     NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
-                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask];
-                    [taskTrans changeTransitionWithID:TASK_TRANS_ATWORK];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask transitionID:TASK_TRANS_ATWORK];
+//                    [taskTrans changeTransitionWithID:TASK_TRANS_ATWORK];
                 }
+            }else if (swipeType == JZSwipeTypeShortLeft || swipeType == JZSwipeTypeLongLeft) {
+                if (indexPath.section == 0) {
+                    NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask transitionID:TASK_TRANS_DONE];
+//                    [taskTrans changeTransitionWithID:TASK_TRANS_DONE];
+                }else if (indexPath.section == 1) {
+                    NSDictionary *currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"pause"] objectAtIndex:indexPath.row];
+                    TaskTransactions* taskTrans = [[TaskTransactions alloc] initWithTaskInfoJson:currentTask transitionID:TASK_TRANS_ASSIGN];
+//                    [taskTrans changeTransitionWithID:TASK_TRANS_ASSIGN];
+                } else if (indexPath.section == 2) {
+                    swipeType = JZSwipeTypeNone;
+                }
+
+
             }
+            
 //			[task removeObjectAtIndex:indexPath.row];
 //			[self.tasksTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		}

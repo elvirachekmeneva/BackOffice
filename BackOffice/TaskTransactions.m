@@ -10,7 +10,7 @@
 
 @implementation TaskTransactions
 
-- (id)initWithTaskInfoJson:(NSDictionary*) taskInfo {
+- (id)initWithTaskInfoJson:(NSDictionary*) taskInfo transitionID:(NSString*) transID{
     self = [super init];
     
     if (self) {
@@ -34,6 +34,7 @@
             mutableTaskTransitionsData = [[NSMutableData alloc] init];
         }
 
+        transactionID = transID;
     }
     return self;
 }
@@ -65,6 +66,7 @@
     if (connection == taskTransitionsConnection){
         NSDictionary* transitions = [NSJSONSerialization JSONObjectWithData:mutableTaskTransitionsData options:kNilOptions error:nil];
         taskTransitions = [[NSArray alloc]initWithArray:[transitions objectForKey:@"transitions"]];
+        [self changeTransitionWithID:transactionID];
         
     } else if (connection == postTransitionConnection) {
         
@@ -88,7 +90,7 @@
     NSLog(@"jsonString %@", jsonString);
     
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://bt.bossnote.ru/rest/api/latest/issue/%@/transitions",[[NSUserDefaults standardUserDefaults] objectForKey:@"taskID"]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://bt.bossnote.ru/rest/api/latest/issue/%@/transitions",taskInfoDic[@"pkey"]]];// [[NSUserDefaults standardUserDefaults] objectForKey:@"taskID"]]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [request setURL:url];

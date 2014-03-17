@@ -25,10 +25,12 @@
     
     NSDictionary* taskInfoDic;
     NSArray* taskTransitions;
+    
+    NSString* transactionID;
 
 }
 
-- (id)initWithTaskInfoJson:(NSDictionary*) taskInfo;
+- (id)initWithTaskInfoJson:(NSDictionary*) taskInfo transitionID:(NSString*) transID;
 - (void) changeTransitionWithID:(NSString*) transition;
 
 @end

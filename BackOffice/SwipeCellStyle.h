@@ -10,11 +10,10 @@
 #import "JZSwipeCell.h"
 
 @interface SwipeCellStyle : JZSwipeCell{
-    
+//    int currentSectionNumber;
 }
 
-@property int currentSectionNumber;
-
+- (id)initWithStyle:(UITableViewCellStyle)style section:(int)currentSectionNumber reuseIdentifier:(NSString *)reuseIdentifier;
 - (void) sectionNumber:(int)section;
 + (NSString*)cellID;
 

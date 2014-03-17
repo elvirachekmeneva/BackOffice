@@ -15,4 +15,6 @@
     UIColor *qaColor;
 }
 
+@property UIImage* backGroundImage;
+
 @end

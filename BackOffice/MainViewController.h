@@ -55,5 +55,6 @@
 @property NSMutableData* mutableTeamData;
 @property NSMutableDictionary* teamInfo;
 
+@property (strong, nonatomic) IBOutlet UIImageView *bgrImage;
 
 @end
