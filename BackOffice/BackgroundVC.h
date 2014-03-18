@@ -13,9 +13,10 @@
     UIColor *devColor;
     UIColor *webColor;
     UIColor *qaColor;
+    NSTimer * animationTimer;
 }
 
 @property UIImageView* backGroundImage;
 - (id) initWithHeight:(int) height width:(int)width;
-
+- (UIImage*) currentBgr;
 @end

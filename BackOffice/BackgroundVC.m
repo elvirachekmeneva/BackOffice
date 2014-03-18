@@ -1,3 +1,4 @@
+
 //
 //  BackgroundVC.m
 //  BackOffice
@@ -18,20 +19,22 @@
     self = [super init];
     if (self) {
         
-        
-        
         UIImage* image = [UIImage imageNamed:@"main-bgr-color.jpg"];
+        NSLog(@"h = %f, w = %f",image.size.height, image.size.width);
         self.backGroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        self.backGroundImage.contentMode = UIViewContentModeCenter;
         self.backGroundImage.image = image;
+        NSLog(@"h = %f, w = %f",self.backGroundImage.image.size.height, self.backGroundImage.image.size.width);
         
-//        self.backGroundImage.center = self.view.center;
-        
+//        animationTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(bgrAnimation:) userInfo:nil repeats:YES];
         CGRect frameRect = self.backGroundImage.frame;
         CGPoint rectPoint = frameRect.origin;
-        CGFloat newXPos = rectPoint.x - 0.9f;
-        CGFloat newYPos = rectPoint.y - 0.9f;
-        [UIImageView animateWithDuration:5 animations:^{
+        CGFloat newXPos = rectPoint.x - 100;
+        CGFloat newYPos = rectPoint.y - 100;
+        
+        [UIImageView animateWithDuration:10 animations:^{
             self.backGroundImage.frame = CGRectMake(newXPos, newYPos, self.backGroundImage.frame.size.width, self.backGroundImage.frame.size.height);
+//            self.backGroundImage
         }];
     }
     return self;
@@ -42,10 +45,31 @@
 //    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 //    if (self) {
 //        // Custom initialization
-//        _backGroundImage = [UIImage imageNamed:@"main-bgr-gray.png"];
+//        UIImage* image = [UIImage imageNamed:@"main-bgr-color.jpg"];
+//        self.backGroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, super.view.frame.size.width, super.view.frame.size.height)];
+//        self.backGroundImage.image = image;
+//        self.backGroundImage.contentMode = UIViewContentModeTopLeft;
+//
+//        animationTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(bgrAnimation:) userInfo:nil repeats:YES];
 //    }
 //    return self;
 //}
+
+- (void) bgrAnimation: (NSTimer*) timer {
+    CGRect frameRect = self.backGroundImage.frame;
+    CGPoint rectPoint = frameRect.origin;
+    CGFloat newXPos = rectPoint.x - 1000;
+    CGFloat newYPos = rectPoint.y - 1000;
+    
+    [UIImageView animateWithDuration:10 animations:^{
+        self.backGroundImage.frame = CGRectMake(newXPos, newYPos, self.backGroundImage.frame.size.width, self.backGroundImage.frame.size.height);
+    }];
+    
+}
+
+- (UIImage*) currentBgr {
+    return self.backGroundImage.image;
+}
 
 - (void)viewDidLoad
 {

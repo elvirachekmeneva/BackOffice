@@ -116,8 +116,22 @@
     
     background = [[BackgroundVC alloc] initWithHeight:self.bgrImage.frame.size.height width:self.bgrImage.frame.size.width];
 //    UIImage* image = [UIImage imageNamed:@"main-bgr-gray.jpg"];
-    self.bgrImage.image = background.backGroundImage.image;
-    self.bgrImage.contentMode = UIViewContentModeBottomRight;
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[background currentBgr]]; // это работает, но не правильно
+    [self.view addSubview:background.backGroundImage];
+    [self.view sendSubviewToBack:background.backGroundImage];
+//    self.bgrImage.image = background.backGroundImage.image;
+    NSLog(@"h = %f, w = %f", self.bgrImage.image.size.height, self.bgrImage.image.size.width);
+//    self.bgrImage.contentMode = UIViewContentModeCenter;
+    NSLog(@"h = %f, w = %f", self.bgrImage.image.size.height, self.bgrImage.image.size.width);
+
+//    CGRect frameRect = self.bgrImage.frame;
+//    CGPoint rectPoint = frameRect.origin;
+//    CGFloat newXPos = rectPoint.x - 1000;
+//    CGFloat newYPos = rectPoint.y - 1000;
+//    
+//    [UIImageView animateWithDuration:10 animations:^{
+//        self.bgrImage.frame = CGRectMake(newXPos, newYPos, self.bgrImage.frame.size.width, self.bgrImage.frame.size.height);
+//    }];
 //    self.bgrImage.center = self.view.center;
     
 //    [self.bgrImage setImage:[UIImage imageNamed:@"main-bgr-gray.png"]];//background.backGroundImage.image;
