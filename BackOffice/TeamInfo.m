@@ -62,4 +62,37 @@
     return allTeam;
 }
 
+- (NSString*) onlineCount{
+    unsigned int count = 0;
+    for (NSString *depKey in allTeam) {
+        count += [allTeam[depKey][@"online"] count];
+    }
+    return [NSString stringWithFormat:@"%d",count];
+    
+}
+
+- (NSString*) allTeamCount{
+    unsigned int count = 0;
+    for (NSString *depKey in allTeam) {
+        count += [allTeam[depKey][@"online"] count];
+        count += [allTeam[depKey][@"offline"] count];
+    }
+    return [NSString stringWithFormat:@"%d",count];
+}
+
+- (NSString*) onlineCountForDepartment:(NSString*) depName{
+    unsigned int count = 0;
+    count += [allTeam[depName][@"online"] count];
+    return [NSString stringWithFormat:@"%d",count];
+    
+}
+- (NSString*) allTeamCountForDepartment:(NSString*) depName{
+    unsigned int count = 0;
+    count += [allTeam[depName][@"online"] count];
+    count += [allTeam[depName][@"offline"] count];
+    
+    return [NSString stringWithFormat:@"%d",count];
+}
+
+
 @end

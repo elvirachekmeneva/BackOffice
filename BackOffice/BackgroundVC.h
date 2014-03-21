@@ -8,15 +8,32 @@
 
 #import <UIKit/UIKit.h>
 #import "UIColor+Color.h"
+#import "UIView+TLMotionEffect.h"
+
+
+#define VC_NAME_LOGIN @"loginVC"
+#define VC_NAME_MAIN_ON @"mainVC"
+#define VC_NAME_MAIN_OFF @"mainVC"
+#define VC_NAME_INFO @"infoVC"
+#define VC_NAME_TEAM @"teamVC"
+#define VC_NAME_PERSON @"personVC"
+#define VC_NAME_TASK_DETAILS @"taskDetailsVC"
 
 @interface BackgroundVC : UIViewController {
     UIColor *devColor;
     UIColor *webColor;
     UIColor *qaColor;
-    NSTimer * animationTimer;
+    int state;
+    int frameWidth;
+    int frameHeight;
+    UIImage* bgrImage;
+    
 }
 
 @property UIImageView* backGroundImage;
-- (id) initWithHeight:(int) height width:(int)width;
+- (id) initForView:(NSString*) vcName;
+
 - (UIImage*) currentBgr;
+- (UIColor*) toneColorForUser:(NSString*) login;
+- (UIColor*) toneColorForDepartment:(NSString*) depName;
 @end

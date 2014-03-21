@@ -11,6 +11,8 @@
 #import "SignInViewController.h"
 //#import "Reachability.h"
 #import <SystemConfiguration/SystemConfiguration.h>
+#import "UIView+TLMotionEffect.h"
+
 
 @interface MainViewController ()
 
@@ -39,11 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
     [self changeButtonColor];
+    
+    [self.timeButton addCenterMotionEffectsXYWithOffset:12];
+    [self.teamButton addCenterMotionEffectsXYWithOffset:12];
+    [self.infoButton addCenterMotionEffectsXYWithOffset:12];
     
     [self changeLabelText];
     [timer1second invalidate];
@@ -53,6 +58,7 @@
     [activityIndicator setAlpha:1];
     count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    [timer1second fire];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
     
@@ -69,12 +75,14 @@
     [timer1second invalidate];
     count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    [timer1second fire];
     [_tasksTable reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    [[self navigationController] setNavigationBarHidden:YES animated:NO];
+    
     json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
@@ -89,6 +97,7 @@
             self.photo.clipsToBounds = YES;
         });
     });
+//    [self.timeButton addCenterMotionEffectsXYWithOffset:10];
     
     [self changeButtonColor]; //???
     [self changeLabelText];
@@ -97,10 +106,8 @@
     [activityIndicator setAlpha:1];
     count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    [timer1second fire];
     
-//    background = [[BackgroundVC alloc] initWithHeight:_bgrImage.frame.size.height width:_bgrImage.frame.size.width];
-    
-//    self.bgrImage.image = [UIImage imageNamed:@"main-bgr-gray.jpg"];//background.backGroundImage.image;
 
 }
 
@@ -114,27 +121,22 @@
         
     }
     
-    background = [[BackgroundVC alloc] initWithHeight:self.bgrImage.frame.size.height width:self.bgrImage.frame.size.width];
-//    UIImage* image = [UIImage imageNamed:@"main-bgr-gray.jpg"];
-//    self.view.backgroundColor = [UIColor colorWithPatternImage:[background currentBgr]]; // это работает, но не правильно
-    [self.view addSubview:background.backGroundImage];
-    [self.view sendSubviewToBack:background.backGroundImage];
-//    self.bgrImage.image = background.backGroundImage.image;
-    NSLog(@"h = %f, w = %f", self.bgrImage.image.size.height, self.bgrImage.image.size.width);
-//    self.bgrImage.contentMode = UIViewContentModeCenter;
-    NSLog(@"h = %f, w = %f", self.bgrImage.image.size.height, self.bgrImage.image.size.width);
-
-//    CGRect frameRect = self.bgrImage.frame;
-//    CGPoint rectPoint = frameRect.origin;
-//    CGFloat newXPos = rectPoint.x - 1000;
-//    CGFloat newYPos = rectPoint.y - 1000;
-//    
-//    [UIImageView animateWithDuration:10 animations:^{
-//        self.bgrImage.frame = CGRectMake(newXPos, newYPos, self.bgrImage.frame.size.width, self.bgrImage.frame.size.height);
-//    }];
-//    self.bgrImage.center = self.view.center;
     
-//    [self.bgrImage setImage:[UIImage imageNamed:@"main-bgr-gray.png"]];//background.backGroundImage.image;
+    int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
+    if (isWork == 1) {
+        background = [[BackgroundVC alloc] initForView:VC_NAME_MAIN_ON];
+    }else {
+        background = [[BackgroundVC alloc] initForView:VC_NAME_MAIN_OFF];
+    }
+    
+    [self.toneImage setBackgroundColor:[background toneColorForUser:[[NSUserDefaults standardUserDefaults]objectForKey:@"login"]]];
+    [self.toneImage setAlpha:0.4];
+    
+    [self.bgrImage addSubview:background.backGroundImage];
+    [self.bgrImage sendSubviewToBack:background.backGroundImage];
+    
+//    [self.view addCenterMotionEffectsXYWithOffset:40];
+
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -151,10 +153,6 @@
         NSLog(@"Device is not connected to the internet");
         return NO;
    }
-}
-
-- (IBAction)showTeam:(id)sender {
-    
 }
 
 
@@ -264,11 +262,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 40;
+    return 50;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 60;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -287,15 +285,10 @@
     }
     
     SwipeCellStyle *cell = [tableView dequeueReusableCellWithIdentifier:[SwipeCellStyle cellID]];
-    [[SwipeCellStyle alloc] sectionNumber:indexPath.section];
-    cell = [[SwipeCellStyle alloc] initWithStyle:UITableViewCellStyleValue1 section:indexPath.section reuseIdentifier:[SwipeCellStyle cellID]];
+    [[SwipeCellStyle alloc] sectionNumber:(int)indexPath.section];
+    cell = [[SwipeCellStyle alloc] initWithStyle:UITableViewCellStyleValue1 section:(int)indexPath.section reuseIdentifier:[SwipeCellStyle cellID]];
     
-    
-    //    UITableViewCell *  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     NSDictionary *currentTask;
-    int sec = indexPath.section;
-    int rowNum = indexPath.row;
-    NSLog(@"%d %d", sec, rowNum);
     
     if (indexPath.section == 0) {
         currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"working"] objectAtIndex:indexPath.row];
@@ -305,7 +298,7 @@
         currentTask = [[[[json objectForKey:@"data"] objectForKey:@"tasks" ] objectForKey:@"assigned"] objectAtIndex:indexPath.row];
     }
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 60)];
     [view setBackgroundColor:[UIColor clearColor]];
     
     UIImageView* taskIcon  = [[UIImageView alloc] initWithFrame:CGRectMake(5, 2.5, 20, 20)];
@@ -335,6 +328,7 @@
     [view addSubview:taskNameLabel];
     
     
+    [view addCenterMotionEffectsXYWithOffset:12];
     
     [cell.contentView addSubview:view];
     [cell.contentView setBackgroundColor:[UIColor clearColor]];
@@ -351,15 +345,15 @@
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 40)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 50)];
     [view setBackgroundColor:[UIColor clearColor]];
-    UILabel *sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 300, 38)];
+    UILabel *sectionNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 300, 39)];
     [sectionNameLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:17]];
     sectionNameLabel.textAlignment = NSTextAlignmentLeft;
     [sectionNameLabel setTextColor:[UIColor whiteColor]];
     [sectionNameLabel setBackgroundColor:[UIColor clearColor]];
     
-    UIImageView* points = [[UIImageView alloc] initWithFrame:CGRectMake(10, 38, self.tasksTable.frame.size.width, 2)];
+    UIImageView* points = [[UIImageView alloc] initWithFrame:CGRectMake(10, 39, self.tasksTable.frame.size.width, 1)];
     [points setImage:[UIImage imageNamed:@"main-points.png"]];
     [view addSubview:points];
     
@@ -623,7 +617,7 @@
     if (isWork == 1){
         NSString* startDate = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startDate"];
         NSString* startTime = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"startTime"];
-        
+        startDate = [startDate stringByReplacingOccurrencesOfString:@":" withString:@" "];
         NSString* timeLabelText = [[NSString alloc]initWithFormat:@"%@ %@", startDate, startTime];
         [changedTimeLabel setText:timeLabelText];
     }else {
@@ -683,17 +677,24 @@
 }
 
 - (IBAction)showInfo:(id)sender {
-    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"InfoVC"];
-    [self presentViewController:self.SIVC animated:NO completion:nil];
+//    self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"InfoVC"];
+//    [self presentViewController:self.SIVC animated:NO completion:nil];
+    
+}
+
+- (IBAction)showTeam:(id)sender {
+//    [self performSegueWithIdentifier:@"teamInfo" sender:nil];
     
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showInfo"]) {
+    if ([[segue identifier] isEqualToString:@"infoVC"]) {
 
-        infoVC = [segue destinationViewController];
+        InfoViewController* iVC = [segue destinationViewController];
         
+    } else if ([[segue identifier] isEqualToString:@"teamInfo"]) {
+        TeamViewController* teamVC = [segue destinationViewController];
     }
 }
 @end

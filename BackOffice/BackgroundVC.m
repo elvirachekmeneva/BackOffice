@@ -14,55 +14,66 @@
 @end
 
 @implementation BackgroundVC
-- (id) initWithHeight:(int) height width:(int)width
+- (id) initForView:(NSString*) vcName
 {
     self = [super init];
     if (self) {
-        
-        UIImage* image = [UIImage imageNamed:@"main-bgr-color.jpg"];
-        NSLog(@"h = %f, w = %f",image.size.height, image.size.width);
-        self.backGroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-        self.backGroundImage.contentMode = UIViewContentModeCenter;
-        self.backGroundImage.image = image;
+        state = 0;
+        frameWidth = [UIScreen mainScreen].bounds.size.width;
+        frameHeight = [UIScreen mainScreen].bounds.size.height;
+        bgrImage = [vcName isEqual:VC_NAME_MAIN_ON] ? [UIImage imageNamed:@"main-bgr-color.jpg"] :
+                    [vcName isEqual:VC_NAME_MAIN_OFF] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+                    [vcName isEqual:VC_NAME_INFO] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+                    [vcName isEqual:VC_NAME_LOGIN] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+                    [vcName isEqual:VC_NAME_PERSON] ? [UIImage imageNamed:@"team-bgr.png"]:
+                    [vcName isEqual:VC_NAME_TASK_DETAILS] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+                    [vcName isEqual:VC_NAME_TEAM] ? [UIImage imageNamed:@"team-bgr.png"]: [UIImage imageNamed:@"main-bgr-gray.jpg"];
+//        bgrImage = [UIImage imageNamed:@"main-bgr-color.jpg"];
+        NSLog(@"h = %f, w = %f",bgrImage.size.height, bgrImage.size.width);
+        self.backGroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgrImage.size.width*bgrImage.scale, bgrImage.size.height*bgrImage.scale)];
+        self.backGroundImage.contentMode = UIViewContentModeScaleAspectFill;
+        self.backGroundImage.image = bgrImage;
         NSLog(@"h = %f, w = %f",self.backGroundImage.image.size.height, self.backGroundImage.image.size.width);
-        
-//        animationTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(bgrAnimation:) userInfo:nil repeats:YES];
-        CGRect frameRect = self.backGroundImage.frame;
-        CGPoint rectPoint = frameRect.origin;
-        CGFloat newXPos = rectPoint.x - 100;
-        CGFloat newYPos = rectPoint.y - 100;
-        
-        [UIImageView animateWithDuration:10 animations:^{
-            self.backGroundImage.frame = CGRectMake(newXPos, newYPos, self.backGroundImage.frame.size.width, self.backGroundImage.frame.size.height);
-//            self.backGroundImage
-        }];
+        [self bgrAnimation];
+//        [self.backGroundImage addCenterMotionEffectsXYWithOffset:100];
     }
     return self;
 }
 
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//        UIImage* image = [UIImage imageNamed:@"main-bgr-color.jpg"];
-//        self.backGroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, super.view.frame.size.width, super.view.frame.size.height)];
-//        self.backGroundImage.image = image;
-//        self.backGroundImage.contentMode = UIViewContentModeTopLeft;
-//
-//        animationTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(bgrAnimation:) userInfo:nil repeats:YES];
-//    }
-//    return self;
-//}
-
-- (void) bgrAnimation: (NSTimer*) timer {
-    CGRect frameRect = self.backGroundImage.frame;
-    CGPoint rectPoint = frameRect.origin;
-    CGFloat newXPos = rectPoint.x - 1000;
-    CGFloat newYPos = rectPoint.y - 1000;
+- (void) bgrAnimation {
+//    UIImage* image = [UIImage imageNamed:@"main-bgr-color.jpg"];
+    float imageWidth = bgrImage.size.width*bgrImage.scale;
+    float imageHeight = bgrImage.size.height*bgrImage.scale;
+    CGFloat newXPos = 0.0;
+    CGFloat newYPos = 0.0;
     
-    [UIImageView animateWithDuration:10 animations:^{
-        self.backGroundImage.frame = CGRectMake(newXPos, newYPos, self.backGroundImage.frame.size.width, self.backGroundImage.frame.size.height);
+    switch (state) {
+        case 0:
+            newXPos = -imageWidth + frameWidth;
+            newYPos = -imageHeight + frameHeight;
+            state = 1;
+            break;
+        case 1:
+            newXPos =  0;
+            newYPos =  -imageHeight + frameHeight;
+            state = 2;
+            break;
+        case 2:
+            newXPos = -imageWidth + frameWidth;
+            newYPos = 0;
+            state = 3;
+            break;
+        default:
+            newXPos = 0;
+            newYPos = 0;
+            state = 0;
+            break;
+    }
+    [UIImageView animateWithDuration:60 animations:^{
+
+        self.backGroundImage.frame = CGRectMake(newXPos, newYPos, imageWidth, imageHeight);
+    } completion:^(BOOL finished) {
+        [self bgrAnimation];
     }];
     
 }
@@ -73,9 +84,6 @@
 
 - (void)viewDidLoad
 {
-    devColor = [UIColor colorWithHexString:@"d36a2a"];
-    webColor = [UIColor colorWithHexString:@"1aa3e4"];
-    qaColor = [UIColor colorWithHexString:@"af30ce"];
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
@@ -86,6 +94,49 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (UIColor*) toneColorForUser:(NSString*) login {
+    NSDictionary* teamDic = [[NSDictionary alloc] initWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"teamInfo"]];
+    NSString* department;
+    for (NSString* depName in [teamDic allKeys]){
+        for (NSDictionary* personInfo in teamDic[depName]) {
+            if ([personInfo[@"userLogin"] isEqualToString:login]) {
+                department = depName;
+            }
+        }
+    }
+    if ([department isEqualToString:@"web"]) {
+        return [self webColor];
+    } else if ([department isEqualToString:@"tst"]) {
+        return [self qaColor];
+    }else if ([department isEqualToString:@"dev"]){
+        return [self devColor];
+    }
+    return [self qaColor];
+}
 
+- (UIColor*) toneColorForDepartment:(NSString*) depName {
+    
+    if ([depName isEqualToString:@"web"]) {
+        return [self webColor];
+    } else if ([depName isEqualToString:@"tst"]) {
+        return [self qaColor];
+    }else if ([depName isEqualToString:@"dev"]){
+        return [self devColor];
+    }
+    return [self qaColor];
+}
+
+
+- (UIColor*) devColor {
+    return [UIColor colorWithHexString:@"d36a2a"];
+}
+
+- (UIColor*) webColor {
+    return [UIColor colorWithHexString:@"1aa3e4"];
+}
+
+- (UIColor*) qaColor {
+    return [UIColor colorWithHexString:@"af30ce"];
+}
 
 @end

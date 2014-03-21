@@ -17,5 +17,8 @@
 - (NSArray*) getDepartmentsKeys;
 - (NSString*)departmentNameByKey:(NSString*)depKey;
 - (NSDictionary*) getAllTeamInfo;
-
+- (NSString*) onlineCount;
+- (NSString*) allTeamCount;
+- (NSString*) onlineCountForDepartment:(NSString*) depName;
+- (NSString*) allTeamCountForDepartment:(NSString*) depName;
 @end

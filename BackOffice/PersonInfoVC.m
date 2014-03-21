@@ -33,10 +33,13 @@
     [super viewDidLoad];
     userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"personInfo"];
     NSLog(@"UserInfo %@", userInfo);
+//    self.navigationController.navigationBar.backItem.title = @" dlfndl;em";
 	// Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+//    self.navigationController.navigationBar.backItem.title = @"";
+    
     [departmentLabel setText:[userInfo objectForKey:@"departName"]];
     [nameLabel setText:[NSString stringWithFormat:@"%@ %@",
                         [userInfo objectForKey:@"firstName"],
@@ -46,6 +49,14 @@
                            [userInfo objectForKey:@"employeestatus"]]];
     [callButton setTitle:[userInfo objectForKey:@"cellphone"] forState:UIControlStateNormal];
     [emailButton setTitle:[userInfo objectForKey:@"email"] forState:UIControlStateNormal];
+    
+    background = [[BackgroundVC alloc] initForView:VC_NAME_PERSON];
+//    [self.bgrImageView addSubview:background.backGroundImage];
+//    [self.bgrImageView sendSubviewToBack:background.backGroundImage];
+    [self.toneImageView setBackgroundColor:[background toneColorForUser:[[NSUserDefaults standardUserDefaults]objectForKey:[userInfo objectForKey:@"userLogin"]]]];
+    [self.toneImageView setAlpha:0.4];
+
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -63,7 +74,24 @@
         NSData* data = UIImagePNGRepresentation(image);
         [data writeToFile:path atomically:YES];
     }
+    
 
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.navigationController.navigationBar.backItem.title = @"";
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    UILabel *lblTitle = [[UILabel alloc] init];
+    lblTitle.text = @"";
+    lblTitle.backgroundColor = [UIColor clearColor];
+    self.navigationItem.titleView = lblTitle;
+
+//    self.navigationController.navigationBar.backItem.title = @"";
+//    self.navigationController.navigationItem.title = @"";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

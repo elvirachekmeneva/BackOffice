@@ -15,7 +15,7 @@
 
 @implementation TeamViewController
 
-@synthesize teamTable,teamJson,mutableTeamData,teamInfo,allTeamInfoSorted,personVC,showPersonInfoSegue;
+@synthesize teamTable,teamJson,mutableTeamData,teamInfo,allTeamInfoSorted,showPersonInfoSegue;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,11 +32,51 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
+    
+//    [self.title setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
+    
+    self.navigationController.navigationBar.backItem.title = @"";
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    
+    UILabel *lblTitle = [[UILabel alloc] init];
+    lblTitle.text = @"Soft-Artel Team";
+    lblTitle.backgroundColor = [UIColor clearColor];
+    lblTitle.textColor = [UIColor whiteColor];
+    lblTitle.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
+    [lblTitle sizeToFit];
+    self.navigationItem.titleView = lblTitle;
+    
+    NSURL *imageURL = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"data"][@"data"][@"user"][@"photo"]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        UIImage *image = [UIImage imageWithData:imageData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            self.userPhoto.image = image;
+            self.userPhoto.layer.cornerRadius = 15.5;
+            self.userPhoto.clipsToBounds = YES;
+        });
+    });
+    
     teamJson = [[NSUserDefaults standardUserDefaults]objectForKey:@"teamInfo"];
     teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
     [self getTeamInfoFromServer];
     timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
+    
+    background = [[BackgroundVC alloc] initForView:VC_NAME_TEAM];
+    [self.bgrImageView addSubview:background.backGroundImage];
+    [self.bgrImageView sendSubviewToBack:background.backGroundImage];
 
+    self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [teamInfo onlineCount],[teamInfo allTeamCount]];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -59,7 +99,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return  30;
+    return  40;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -69,18 +109,33 @@
 }
 
 - (UIView*) makeHeaderViewForSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 40)];
   
-    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(2, 0, teamTable.frame.size.width, 30)];
-    [departmentLabel setFont:[UIFont boldSystemFontOfSize:13]];
-    departmentLabel.textAlignment = NSTextAlignmentCenter;
+    UILabel *departmentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width - 50, 40)];
+    [departmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:16.0]];
+    [departmentLabel setTextColor:[UIColor whiteColor]];
+    departmentLabel.textAlignment = NSTextAlignmentLeft;
     departmentLabel.adjustsFontSizeToFitWidth = YES;
     departmentLabel.minimumScaleFactor = 0.5;
     NSString* depKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
     [departmentLabel setText:[[allTeamInfoSorted objectForKey:depKey]objectForKey:@"departmentName"]];
-//    [departmentLabel setBackgroundColor:[UIColor greenColor]];
-    [view addSubview:departmentLabel];
     
+    UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(teamTable.frame.size.width - 50, 0, 50, 40)];
+    [countLabel setFont:[UIFont fontWithName:@"HelveticaNeue-UltraLight" size:15.0]];
+    [countLabel setTextColor:[UIColor whiteColor]];
+    countLabel.textAlignment = NSTextAlignmentCenter;
+    countLabel.adjustsFontSizeToFitWidth = YES;
+    countLabel.minimumScaleFactor = 0.5;
+    countLabel.text = [NSString stringWithFormat:@"%@/%@",[teamInfo onlineCountForDepartment:depKey],[teamInfo allTeamCountForDepartment:depKey]];
+    
+//    [departmentLabel setBackgroundColor:[UIColor greenColor]];
+    [departmentLabel setBackgroundColor:[background toneColorForDepartment:depKey]];
+    [view addSubview:departmentLabel];
+    [countLabel setBackgroundColor:[background toneColorForDepartment:depKey]];
+    [view addSubview:countLabel];
+    [view setBackgroundColor:[background toneColorForDepartment:depKey]];
+    view.alpha = 0.55;
+
     return  view;
 }
 
@@ -107,8 +162,25 @@
         [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
         [cell.position setText:[NSString stringWithFormat:@"%@, %@",position,empStatus]];
 
-        [cell.timeLabel setText:workedTime];
-        [cell.timeLabel setBackgroundColor:[UIColor greenColor]];
+        
+        
+        [cell.onlineIcon setImage:[UIImage imageNamed:@"team-online-icon.png"]];
+        
+        [cell.bgrImage setBackgroundColor:[background toneColorForUser:[[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"userLogin"]]];
+        [cell.bgrImage setAlpha:0.3];
+        
+        cell.onlineStartTime.alpha = 0.7;
+        cell.onlineTimeLabel.alpha = 1;
+        [cell.onlineTimeLabel setText:workedTime];
+        cell.onlineStartTime.text = allTeamInfoSorted[devKey][@"online"][indexPath.row][@"startTime"];
+        cell.offlineEndTime.alpha = 0;
+        cell.offlineStartTime.alpha = 0;
+        cell.offlineTimeLabel.alpha = 0;
+        
+//        cell.onlineIcon.frame = CGRectMake(2, 11, 26, 57);
+//        cell.onlineIcon.contentMode = UIViewContentModeScaleToFill; // This determines position of image
+//        cell.onlineIcon.clipsToBounds = YES;
+//        [cell.timeLabel setBackgroundColor:[UIColor greenColor]];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                              NSUserDomainMask, YES);
@@ -118,16 +190,19 @@
         if ([UIImage imageWithContentsOfFile:path]){
             UIImage* image = [UIImage imageWithContentsOfFile:path];
             cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 6;
+            cell.photo.layer.cornerRadius = 30;
+            cell.photo.clipsToBounds = YES;
         }else {
             NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"imageURL"];
             UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
             cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 6;
+            cell.photo.layer.cornerRadius = 30;
+            cell.photo.clipsToBounds = YES;
             
             NSData* data = UIImagePNGRepresentation(image);
             [data writeToFile:path atomically:YES];
         }
+        cell.contentView.alpha = 1;
         
     } else {
         NSInteger offLineNumber = indexPath.row - [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"] count];
@@ -140,9 +215,20 @@
         
         [cell.nameLabel setText:[NSString stringWithFormat:@"%@ %@",firstName,lastName]];
         [cell.position setText:[NSString stringWithFormat:@"%@, %@",position,empStatus]];
+        [cell.onlineIcon setImage:[UIImage imageNamed:@"team-offline-2.png"]];
         
-        [cell.timeLabel setText:workedTime];
-        [cell.timeLabel setBackgroundColor:[UIColor grayColor]];
+        cell.onlineStartTime.alpha = 0;
+        cell.onlineTimeLabel.alpha = 0;
+        [cell.offlineTimeLabel setText:workedTime];
+        cell.offlineStartTime.text = [NSString stringWithFormat:@"%@ %@", allTeamInfoSorted[devKey][@"offline"][offLineNumber][@"startDate"], allTeamInfoSorted[devKey][@"offline"][offLineNumber][@"startTime"]];
+        cell.offlineEndTime.text = allTeamInfoSorted[devKey][@"offline"][offLineNumber][@"endTime"];
+        cell.offlineEndTime.alpha = 1;
+        cell.offlineStartTime.alpha = 1;
+        cell.offlineTimeLabel.alpha = 0.7;
+        
+        
+        [cell.bgrImage setBackgroundColor:[background toneColorForUser:[[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"userLogin"]]];
+        [cell.bgrImage setAlpha:0.3];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                              NSUserDomainMask, YES);
@@ -152,23 +238,28 @@
         if ([UIImage imageWithContentsOfFile:path]){
             UIImage* image = [UIImage imageWithContentsOfFile:path];
             cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 6;
+            cell.photo.layer.cornerRadius = 30;
+            cell.photo.clipsToBounds = YES;
         }else {
             NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"];
             UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
             cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 6;
+            cell.photo.layer.cornerRadius = 30;
+            cell.photo.clipsToBounds = YES;
 
             NSData* data = UIImagePNGRepresentation(image);
             [data writeToFile:path atomically:YES];
         }
-        
+        cell.contentView.alpha = 0.5;
 
     }
+    
+    
     cell.personInfoButton.tag = [self makeButtonTagByIndexPath:indexPath];
     [cell.personInfoButton  addTarget:self action:@selector(personInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
+
 
 - (NSInteger) makeButtonTagByIndexPath:(NSIndexPath*) indexPath {
     NSInteger result = 100 * indexPath.section + indexPath.row;
@@ -185,6 +276,23 @@
     NSArray* resultArray = [NSArray arrayWithObjects:section,row, nil];
     return resultArray;
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary* userInfo;
+    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:indexPath.section];
+    if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > indexPath.row) {
+        userInfo = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row];
+    } else {
+        NSInteger offLineNumber = indexPath.row - [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"] count];
+        userInfo = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber];
+    }
+    NSLog(@"UserInfo %@", userInfo );
+    [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"personInfo"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+   
+
 }
 
 - (void)personInfoButtonPressed:(UIButton*)button {
@@ -290,15 +398,14 @@
     NSLog(@"Show info Button Pressed!!!!");
     
    // showPersonInfoSegue = [[UIStoryboardSegue alloc]initWithIdentifier:@"showPerson" source:self destination:personVC];
-//    [self performSegueWithIdentifier:@"showPerson" sender:nil];
+//    [self performSegueWithIdentifier:@"personInfoVC" sender:nil];
 }
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"showPerson"]) {
-//        
-//        //personVC = [segue destinationViewController];
-//        
-//    }
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"personVC"]) {
+        PersonInfoVC *pvc = [segue destinationViewController];
+        
+    }
+}
 @end

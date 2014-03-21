@@ -9,16 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "TeamInfo.h"
 #import "PersonInfoVC.h"
+#import "BackgroundVC.h"
 
 @interface TeamViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
     NSTimer* timer;
+    BackgroundVC* background;
 }
-@property (weak, nonatomic) IBOutlet UITableView *teamTable;
+
+@property (strong, nonatomic) IBOutlet UIImageView *bgrImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *userPhoto;
+@property (strong, nonatomic) IBOutlet UITableView *teamTable;
+@property (strong, nonatomic) IBOutlet UILabel *onlineCount;
+@property (strong, nonatomic) IBOutlet UILabel *allTeamCount;
+@property (strong, nonatomic) IBOutlet UIImageView *onlineIcon;
 @property NSMutableDictionary* teamJson;
 @property NSMutableData* mutableTeamData;
 @property TeamInfo* teamInfo;
 @property NSDictionary* allTeamInfoSorted;
-@property UIViewController* personVC;
+//@property UIViewController* personVC;
 @property UIStoryboardSegue *showPersonInfoSegue;
 
 - (IBAction)showUserInfo:(id)sender;

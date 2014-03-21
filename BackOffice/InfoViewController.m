@@ -38,6 +38,19 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    self.navigationController.navigationBar.backItem.title = @"";
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    UILabel *lblTitle = [[UILabel alloc] init];
+    lblTitle.text = @"";
+    lblTitle.backgroundColor = [UIColor clearColor];
+    self.navigationItem.titleView = lblTitle;
+}
+
 -(void)viewDidDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];}
 

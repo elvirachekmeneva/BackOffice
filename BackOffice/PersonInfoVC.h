@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import "BackgroundVC.h"
 
 @interface PersonInfoVC : UIViewController <MFMailComposeViewControllerDelegate> {
     NSDictionary* userInfo;
+    BackgroundVC* background;
 }
 @property (weak, nonatomic) IBOutlet UILabel *departmentLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *photo;
@@ -19,6 +21,7 @@
 - (IBAction)callButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *callButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
+@property (strong, nonatomic) IBOutlet UIImageView *toneImageView;
 - (IBAction)emailButtonPressed:(id)sender;
 - (IBAction)saveContact:(id)sender;
 
