@@ -638,42 +638,72 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ms9-S5-cW1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ms9-S5-cW1">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XE4-oY-cA8">
+                                <rect key="frame" x="118" y="377" width="171" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="emailButtonPressed:" destination="NH3-ZJ-3dc" eventType="touchUpInside" id="1T2-Bj-nv7"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="В штате с 1 февраля 2014" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="171" translatesAutoresizingMaskIntoConstraints="NO" id="uAK-gu-xTF">
+                                <rect key="frame" x="118" y="251" width="171" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="main-team-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="fOe-Ej-ryc">
                                 <rect key="frame" x="31" y="31" width="29" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="8" preferredMaxLayoutWidth="146" translatesAutoresizingMaskIntoConstraints="NO" id="ixk-58-93V">
-                                <rect key="frame" x="139" y="52" width="146" height="63"/>
+                                <rect key="frame" x="118" y="48" width="146" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XmR-Jw-Vmt">
-                                <rect key="frame" x="117" y="144" width="120" height="120"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-vertical-line.png" translatesAutoresizingMaskIntoConstraints="NO" id="4wB-2u-gpb">
+                                <rect key="frame" x="59" y="62" width="1" height="410"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="Coj-hk-Esd">
-                                <rect key="frame" x="139" y="123" width="154" height="56"/>
+                            <imageView userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="white-cirkle.png" translatesAutoresizingMaskIntoConstraints="NO" id="iTk-i0-xVs">
+                                <rect key="frame" x="0.0" y="99" width="119" height="119"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XmR-Jw-Vmt">
+                                <rect key="frame" x="11" y="108" width="100" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="171" translatesAutoresizingMaskIntoConstraints="NO" id="Coj-hk-Esd">
+                                <rect key="frame" x="118" y="109" width="171" height="100"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="25"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="Rto-Q5-V9l">
-                                <rect key="frame" x="139" y="187" width="154" height="56"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="171" translatesAutoresizingMaskIntoConstraints="NO" id="Rto-Q5-V9l">
+                                <rect key="frame" x="118" y="218" width="171" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJr-FA-zC0">
-                                <rect key="frame" x="9" y="278" width="209" height="30"/>
+                                <rect key="frame" x="118" y="329" width="171" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Button">
-                                    <color key="titleColor" red="0.2856075616" green="0.65349014949999995" blue="0.25217390509999998" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -681,39 +711,48 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UqQ-VW-s9C">
-                                <rect key="frame" x="9" y="327" width="285" height="30"/>
+                                <rect key="frame" x="118" y="275" width="171" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="Button">
-                                    <color key="titleColor" red="0.76949201410000001" green="0.79640977609999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="emailButtonPressed:" destination="NH3-ZJ-3dc" eventType="touchUpInside" id="AlU-Pc-Pfl"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-vertical-line.png" translatesAutoresizingMaskIntoConstraints="NO" id="4wB-2u-gpb">
-                                <rect key="frame" x="60" y="58" width="2" height="388"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s5p-36-g15">
-                                <rect key="frame" x="51" y="415" width="243" height="57"/>
+                                <rect key="frame" x="40" y="424" width="249" height="53"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="СОХРАНИТЬ КОНТАКТ В ТЕЛЕФОН" backgroundImage="login-button.png">
-                                    <color key="titleColor" red="0.2856075616" green="0.65349014949999995" blue="0.25217390509999998" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="13"/>
+                                <state key="normal" title="СОХРАНИТЬ КОНТАКТ В ТЕЛЕФОН" backgroundImage="login-button.png"/>
                                 <connections>
                                     <action selector="saveContact:" destination="NH3-ZJ-3dc" eventType="touchUpInside" id="k3v-4a-PUx"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-dep-ison.png" translatesAutoresizingMaskIntoConstraints="NO" id="lWw-2J-a7w">
+                                <rect key="frame" x="40" y="60" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-date-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="o77-m3-3Fa">
+                                <rect key="frame" x="40" y="216" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-email-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZEu-1i-A0v">
+                                <rect key="frame" x="40" y="270" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-phone-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="50l-le-9LR">
+                                <rect key="frame" x="40" y="324" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person-skype-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="aCP-i5-tuk">
+                                <rect key="frame" x="40" y="372" width="40" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="ms9-S5-cW1" secondAttribute="trailing" id="C9f-ld-r8W"/>
-                            <constraint firstItem="ms9-S5-cW1" firstAttribute="leading" secondItem="hRc-JN-ivd" secondAttribute="leading" id="Tbw-2G-Jvk"/>
-                            <constraint firstItem="ms9-S5-cW1" firstAttribute="top" secondItem="hRc-JN-ivd" secondAttribute="top" id="iaQ-9L-yWG"/>
-                            <constraint firstAttribute="bottom" secondItem="ms9-S5-cW1" secondAttribute="bottom" id="xsN-df-W3s"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="o2T-Hf-ers"/>
                     <connections>
@@ -723,6 +762,7 @@
                         <outlet property="nameLabel" destination="Coj-hk-Esd" id="Wen-aS-afd"/>
                         <outlet property="photo" destination="XmR-Jw-Vmt" id="beH-xA-snM"/>
                         <outlet property="positionLabel" destination="Rto-Q5-V9l" id="km2-Ip-EtX"/>
+                        <outlet property="skypeButton" destination="XE4-oY-cA8" id="7jj-Ij-gTS"/>
                         <outlet property="toneImageView" destination="ms9-S5-cW1" id="7XT-QV-4sh"/>
                     </connections>
                 </viewController>
@@ -848,6 +888,11 @@
         <image name="main-bgr.png" width="768" height="1280"/>
         <image name="main-team-icon.png" width="64" height="58"/>
         <image name="main-workh-icon.png" width="65" height="65"/>
+        <image name="person-date-icon.png" width="86" height="86"/>
+        <image name="person-dep-ison.png" width="90" height="90"/>
+        <image name="person-email-icon.png" width="75" height="75"/>
+        <image name="person-phone-icon.png" width="75" height="75"/>
+        <image name="person-skype-icon.png" width="83" height="83"/>
         <image name="person-vertical-line.png" width="2" height="919"/>
         <image name="white-cirkle.png" width="100" height="100"/>
     </resources>

@@ -130,7 +130,7 @@
     }
     
     [self.toneImage setBackgroundColor:[background toneColorForUser:[[NSUserDefaults standardUserDefaults]objectForKey:@"login"]]];
-    [self.toneImage setAlpha:0.4];
+    [self.toneImage setAlpha:0.6];
     
     [self.bgrImage addSubview:background.backGroundImage];
     [self.bgrImage sendSubviewToBack:background.backGroundImage];

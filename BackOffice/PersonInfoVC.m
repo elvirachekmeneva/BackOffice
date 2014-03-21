@@ -39,6 +39,17 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 //    self.navigationController.navigationBar.backItem.title = @"";
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.backItem.title = @"";
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+    UILabel *lblTitle = [[UILabel alloc] init];
+    lblTitle.text = @"";
+    lblTitle.backgroundColor = [UIColor clearColor];
+    self.navigationItem.titleView = lblTitle;
     
     [departmentLabel setText:[userInfo objectForKey:@"departName"]];
     [nameLabel setText:[NSString stringWithFormat:@"%@ %@",
@@ -49,11 +60,12 @@
                            [userInfo objectForKey:@"employeestatus"]]];
     [callButton setTitle:[userInfo objectForKey:@"cellphone"] forState:UIControlStateNormal];
     [emailButton setTitle:[userInfo objectForKey:@"email"] forState:UIControlStateNormal];
+    [_skypeButton setTitle:[userInfo objectForKey:@"skype"] forState:UIControlStateNormal];
     
     background = [[BackgroundVC alloc] initForView:VC_NAME_PERSON];
 //    [self.bgrImageView addSubview:background.backGroundImage];
 //    [self.bgrImageView sendSubviewToBack:background.backGroundImage];
-    [self.toneImageView setBackgroundColor:[background toneColorForUser:[[NSUserDefaults standardUserDefaults]objectForKey:[userInfo objectForKey:@"userLogin"]]]];
+    [self.toneImageView setBackgroundColor:[background toneColorForUser:[userInfo objectForKey:@"userLogin"]]];
     [self.toneImageView setAlpha:0.4];
 
     
@@ -65,12 +77,14 @@
     if ([UIImage imageWithContentsOfFile:path]){
         UIImage* image = [UIImage imageWithContentsOfFile:path];
         photo.image = image;
-        photo.layer.cornerRadius = 6;
+        photo.layer.cornerRadius = 50;
+        photo.clipsToBounds = YES;
     }else {
         NSString * photoURLString = [userInfo objectForKey:@"imageURL"];
         UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
         photo.image = image;
-        photo.layer.cornerRadius = 6;
+        photo.layer.cornerRadius = 50;
+        photo.clipsToBounds = YES;
         NSData* data = UIImagePNGRepresentation(image);
         [data writeToFile:path atomically:YES];
     }
@@ -80,15 +94,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     self.navigationController.navigationBar.backItem.title = @"";
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.view.backgroundColor = [UIColor clearColor];
-    UILabel *lblTitle = [[UILabel alloc] init];
-    lblTitle.text = @"";
-    lblTitle.backgroundColor = [UIColor clearColor];
-    self.navigationItem.titleView = lblTitle;
+
 
 //    self.navigationController.navigationBar.backItem.title = @"";
 //    self.navigationController.navigationItem.title = @"";
@@ -142,31 +148,61 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (void)newPersonViewController:(ABNewPersonViewController *)newPersonView didCompleteWithNewPerson:(ABRecordRef)person {
+    [newPersonView.navigationController popViewControllerAnimated:YES];
+
+}
+
+- (void) saveContactInAddressBook:(ABAddressBookRef)addressBook{
+   
+
+}
 
 - (IBAction)saveContact:(id)sender {
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(nil, nil);
+//    
+//    if ([self doesPersonExistWithFirstName:[userInfo objectForKey:@"firstName"] lastName:[userInfo objectForKey:@"lastName"] inAddressBook:addressBook]) {
+//        NSLog(@"This contact exists in the address book");
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//        hud.mode = MBProgressHUDModeText;
+//        hud.labelText = @"Контакт уже существует";
+//        [hud hide:YES afterDelay:1];
+//    }
+    NSData* imageData = UIImagePNGRepresentation(photo.image);
+    ABRecordRef newContact = [self newPersonWithFirstName:[userInfo objectForKey:@"firstName"]
+                                                 lastName:[userInfo objectForKey:@"lastName"]
+                                                cellphone:[userInfo objectForKey:@"cellphone"]
+                                                    email:[userInfo objectForKey:@"email"]
+                                                imageData:imageData
+                                            inAddressBook:addressBook];
+    ABNewPersonViewController *newPerson = [[ABNewPersonViewController alloc] init];
+    [newPerson setDisplayedPerson:newContact];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [newPerson setNewPersonViewDelegate:self];
+    [self.navigationController pushViewController:newPerson animated:YES];
     
     // Request authorization to Address Book
-    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
-    
-    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
-        ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) {
-            if (granted) {
-                // First time access has been granted, add the contact
-                [self addNewContact];
-            } else {
-                // User denied access
-                // Display an alert telling user the contact could not be added
-            }
-        });
-    }
-    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
-        // The user has previously given access, add the contact
-        [self addNewContact];
-    }
-    else {
-        // The user has previously denied access
-        // Send an alert telling user to change privacy setting in settings app
-    }
+//    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, NULL);
+//    
+//    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+//        ABAddressBookRequestAccessWithCompletion(addressBookRef, ^(bool granted, CFErrorRef error) {
+//            if (granted) {
+//                // First time access has been granted, add the contact
+//                [self addNewContact];
+//            } else {
+//                // User denied access
+//                // Display an alert telling user the contact could not be added
+//            }
+//        });
+//    }
+//    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+//        // The user has previously given access, add the contact
+//        [self addNewContact];
+//    }
+//    else {
+//        // The user has previously denied access
+//        // Send an alert telling user to change privacy setting in settings app
+//    }
     
     
 }
@@ -189,6 +225,13 @@
                                                         cellphone:[userInfo objectForKey:@"cellphone"]
                                                             email:[userInfo objectForKey:@"email"]
                                                         imageData:imageData                                                     inAddressBook:addressBook];
+            ABNewPersonViewController *newPerson = [[ABNewPersonViewController alloc] init];
+            [newPerson setDisplayedPerson:newContact];
+            [newPerson setNewPersonViewDelegate:self];
+            [self.navigationController pushViewController:newPerson animated:YES];
+//            [self presentViewController:newPerson animated:YES completion:nil];
+
+            
             if (newContact != NULL) {
                 NSLog(@"successfuly created a record for new contact");
                 CFRelease(newContact);

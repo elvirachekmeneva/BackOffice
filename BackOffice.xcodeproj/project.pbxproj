@@ -59,6 +59,11 @@
 		76B86DCA18D7122A0090D5C1 /* main-task-for-work.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC718D7122A0090D5C1 /* main-task-for-work.png */; };
 		76B86DCB18D7122A0090D5C1 /* main-task-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC818D7122A0090D5C1 /* main-task-pause.png */; };
 		76B86DCC18D7122A0090D5C1 /* main-task-work.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC918D7122A0090D5C1 /* main-task-work.png */; };
+		76ED0F6B18DC2B46001349DF /* person-date-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6518DC2B46001349DF /* person-date-icon.png */; };
+		76ED0F6D18DC2B46001349DF /* person-dep-ison.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6718DC2B46001349DF /* person-dep-ison.png */; };
+		76ED0F6E18DC2B46001349DF /* person-email-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6818DC2B46001349DF /* person-email-icon.png */; };
+		76ED0F6F18DC2B46001349DF /* person-phone-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6918DC2B46001349DF /* person-phone-icon.png */; };
+		76ED0F7018DC2B46001349DF /* person-skype-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6A18DC2B46001349DF /* person-skype-icon.png */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -145,6 +150,11 @@
 		76B86DC718D7122A0090D5C1 /* main-task-for-work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-for-work.png"; sourceTree = "<group>"; };
 		76B86DC818D7122A0090D5C1 /* main-task-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-pause.png"; sourceTree = "<group>"; };
 		76B86DC918D7122A0090D5C1 /* main-task-work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-work.png"; sourceTree = "<group>"; };
+		76ED0F6518DC2B46001349DF /* person-date-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-date-icon.png"; sourceTree = "<group>"; };
+		76ED0F6718DC2B46001349DF /* person-dep-ison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-dep-ison.png"; sourceTree = "<group>"; };
+		76ED0F6818DC2B46001349DF /* person-email-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-email-icon.png"; sourceTree = "<group>"; };
+		76ED0F6918DC2B46001349DF /* person-phone-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-phone-icon.png"; sourceTree = "<group>"; };
+		76ED0F6A18DC2B46001349DF /* person-skype-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-skype-icon.png"; sourceTree = "<group>"; };
 		8C5A7FD7E3E942B3B9EB22AE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -316,6 +326,11 @@
 		7671ABC318D1D5D500A40694 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				76ED0F6518DC2B46001349DF /* person-date-icon.png */,
+				76ED0F6718DC2B46001349DF /* person-dep-ison.png */,
+				76ED0F6818DC2B46001349DF /* person-email-icon.png */,
+				76ED0F6918DC2B46001349DF /* person-phone-icon.png */,
+				76ED0F6A18DC2B46001349DF /* person-skype-icon.png */,
 				7670EF3718DB32E200519E17 /* person-vertical-line.png */,
 				7670EF3318DAF54B00519E17 /* team-offline-new.png */,
 				7670EF3518DAF5E400519E17 /* team-offline-2.png */,
@@ -424,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7671ABC718D1D5D500A40694 /* login-button.png in Resources */,
+				76ED0F6D18DC2B46001349DF /* person-dep-ison.png in Resources */,
 				76209C4B18D6C6AE00D04ACB /* main-done.png in Resources */,
 				76B86DCA18D7122A0090D5C1 /* main-task-for-work.png in Resources */,
 				7670EF3618DAF5E400519E17 /* team-offline-2.png in Resources */,
@@ -443,10 +459,14 @@
 				76B86DCC18D7122A0090D5C1 /* main-task-work.png in Resources */,
 				76021A1B18D9996600E55012 /* team-bgr.png in Resources */,
 				7634FD0218D1FA8100D5A721 /* main-team-icon.png in Resources */,
+				76ED0F6E18DC2B46001349DF /* person-email-icon.png in Resources */,
 				76126B1E18604A9000FD8EA7 /* InfoPlist.strings in Resources */,
 				76021A1318D722AE00E55012 /* main-bgr-gray.jpg in Resources */,
+				76ED0F7018DC2B46001349DF /* person-skype-icon.png in Resources */,
 				7634FD0118D1FA8100D5A721 /* main-bgr.png in Resources */,
+				76ED0F6B18DC2B46001349DF /* person-date-icon.png in Resources */,
 				7670EF3818DB32E200519E17 /* person-vertical-line.png in Resources */,
+				76ED0F6F18DC2B46001349DF /* person-phone-icon.png in Resources */,
 				76126B2718604A9000FD8EA7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

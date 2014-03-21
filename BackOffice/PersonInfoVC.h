@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "BackgroundVC.h"
+#import <AddressBook/AddressBook.h>
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface PersonInfoVC : UIViewController <MFMailComposeViewControllerDelegate> {
+
+@interface PersonInfoVC : UIViewController <MFMailComposeViewControllerDelegate,ABNewPersonViewControllerDelegate> {
     NSDictionary* userInfo;
     BackgroundVC* background;
 }
@@ -21,6 +24,7 @@
 - (IBAction)callButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *callButton;
 @property (weak, nonatomic) IBOutlet UIButton *emailButton;
+@property (strong, nonatomic) IBOutlet UIButton *skypeButton;
 @property (strong, nonatomic) IBOutlet UIImageView *toneImageView;
 - (IBAction)emailButtonPressed:(id)sender;
 - (IBAction)saveContact:(id)sender;

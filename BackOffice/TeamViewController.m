@@ -36,7 +36,6 @@
 
     
 //    [self.title setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
-    
     self.navigationController.navigationBar.backItem.title = @"";
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
