@@ -28,5 +28,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *toneImageView;
 - (IBAction)emailButtonPressed:(id)sender;
 - (IBAction)saveContact:(id)sender;
+- (IBAction)skypeMessage:(id)sender;
 
 @end

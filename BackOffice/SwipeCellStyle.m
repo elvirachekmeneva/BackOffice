@@ -30,9 +30,9 @@
             self.colorSet = SwipeCellColorSetMake([UIColor colorWithHexString:@"2be29c"], [UIColor colorWithHexString:@"2be29c"], [UIColor colorWithHexString:@"6842b6"], [UIColor colorWithHexString:@"6842b6"]);
             
         } else if (currentSectionNumber == 2) {
-            self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"main-begin.png"], [UIImage imageNamed:@"main-begin.png"], [UIImage imageNamed:@"main-assign.png"], [UIImage imageNamed:@"main-assign.png"]);
+            self.imageSet = SwipeCellImageSetMake([UIImage imageNamed:@"main-begin.png"], [UIImage imageNamed:@"main-begin.png"], nil, nil);
             
-            self.colorSet = SwipeCellColorSetMake([UIColor colorWithHexString:@"2be29c"], [UIColor colorWithHexString:@"2be29c"], [UIColor brownColor], [UIColor orangeColor]);
+            self.colorSet = SwipeCellColorSetMake([UIColor colorWithHexString:@"2be29c"], [UIColor colorWithHexString:@"2be29c"], [UIColor clearColor], [UIColor clearColor]);
             
         }
         

@@ -28,8 +28,6 @@
                     [vcName isEqual:VC_NAME_PERSON] ? [UIImage imageNamed:@"team-bgr.png"]:
                     [vcName isEqual:VC_NAME_TASK_DETAILS] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
                     [vcName isEqual:VC_NAME_TEAM] ? [UIImage imageNamed:@"team-bgr.png"]: [UIImage imageNamed:@"main-bgr-gray.jpg"];
-//        bgrImage = [UIImage imageNamed:@"main-bgr-color.jpg"];
-        NSLog(@"h = %f, w = %f",bgrImage.size.height, bgrImage.size.width);
         self.backGroundImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, bgrImage.size.width*bgrImage.scale, bgrImage.size.height*bgrImage.scale)];
         self.backGroundImage.contentMode = UIViewContentModeScaleAspectFill;
         self.backGroundImage.image = bgrImage;
@@ -40,8 +38,19 @@
     return self;
 }
 
+- (void) resetBgrImageForVC:(NSString*) vcName {
+    bgrImage = [vcName isEqual:VC_NAME_MAIN_ON] ? [UIImage imageNamed:@"main-bgr-color.jpg"] :
+    [vcName isEqual:VC_NAME_MAIN_OFF] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+    [vcName isEqual:VC_NAME_INFO] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+    [vcName isEqual:VC_NAME_LOGIN] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+    [vcName isEqual:VC_NAME_PERSON] ? [UIImage imageNamed:@"team-bgr.png"]:
+    [vcName isEqual:VC_NAME_TASK_DETAILS] ? [UIImage imageNamed:@"main-bgr-gray.jpg"]:
+    [vcName isEqual:VC_NAME_TEAM] ? [UIImage imageNamed:@"team-bgr.png"]: [UIImage imageNamed:@"main-bgr-gray.jpg"];
+    self.backGroundImage.image = bgrImage;
+
+}
+
 - (void) bgrAnimation {
-//    UIImage* image = [UIImage imageNamed:@"main-bgr-color.jpg"];
     float imageWidth = bgrImage.size.width*bgrImage.scale;
     float imageHeight = bgrImage.size.height*bgrImage.scale;
     CGFloat newXPos = 0.0;

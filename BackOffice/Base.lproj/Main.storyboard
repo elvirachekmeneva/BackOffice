@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login-bgr.png" translatesAutoresizingMaskIntoConstraints="NO" id="XzT-uK-AJx">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="login-bgr.png" translatesAutoresizingMaskIntoConstraints="NO" id="XzT-uK-AJx">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -58,6 +58,10 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rgz-0M-XJz">
                                 <rect key="frame" x="60" y="227" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="49" id="8RN-Iz-AU7"/>
+                                    <constraint firstAttribute="height" constant="31" id="TRQ-c8-lVp"/>
+                                </constraints>
                                 <connections>
                                     <action selector="saveValueChenged:" destination="QQp-rX-BxS" eventType="valueChanged" id="NPl-Po-QbN"/>
                                 </connections>
@@ -103,28 +107,27 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="Ci5-W2-kMa" firstAttribute="top" secondItem="K2i-Zu-S7E" secondAttribute="bottom" constant="13" id="6lS-6G-hbb"/>
-                            <constraint firstItem="JiU-WV-UfM" firstAttribute="leading" secondItem="XzT-uK-AJx" secondAttribute="trailing" constant="-198" id="6qm-o1-gnD"/>
                             <constraint firstItem="K2i-Zu-S7E" firstAttribute="leading" secondItem="Ci5-W2-kMa" secondAttribute="leading" id="74J-Ct-uvW"/>
                             <constraint firstAttribute="trailing" secondItem="qsC-iY-Xy1" secondAttribute="trailing" constant="37" id="7Af-qu-AkP"/>
+                            <constraint firstItem="rgz-0M-XJz" firstAttribute="leading" secondItem="XAA-6G-lHd" secondAttribute="leading" constant="60" id="7wb-Ap-6Gn"/>
                             <constraint firstItem="nIg-0Y-T9X" firstAttribute="centerX" secondItem="BMc-F0-Dka" secondAttribute="centerX" id="D5r-cB-6T5"/>
-                            <constraint firstItem="rgz-0M-XJz" firstAttribute="top" secondItem="Ci5-W2-kMa" secondAttribute="bottom" constant="15" id="Gbb-Rd-162"/>
                             <constraint firstItem="K2i-Zu-S7E" firstAttribute="top" secondItem="qsC-iY-Xy1" secondAttribute="bottom" constant="1" id="OjO-3f-j8D"/>
+                            <constraint firstItem="rgz-0M-XJz" firstAttribute="top" secondItem="Ci5-W2-kMa" secondAttribute="bottom" constant="15" id="PYe-Gx-74m"/>
                             <constraint firstItem="BMc-F0-Dka" firstAttribute="leading" secondItem="JiU-WV-UfM" secondAttribute="leading" id="Pml-Xx-vKA"/>
                             <constraint firstItem="JiU-WV-UfM" firstAttribute="top" secondItem="Ci5-W2-kMa" secondAttribute="bottom" constant="33" id="S4n-JT-W9v"/>
                             <constraint firstItem="K2i-Zu-S7E" firstAttribute="trailing" secondItem="qsC-iY-Xy1" secondAttribute="trailing" constant="2" id="U3V-g6-USN"/>
-                            <constraint firstItem="rgz-0M-XJz" firstAttribute="bottom" secondItem="JiU-WV-UfM" secondAttribute="bottom" id="Uia-1y-vjT"/>
                             <constraint firstItem="XzT-uK-AJx" firstAttribute="top" secondItem="XAA-6G-lHd" secondAttribute="top" id="Unt-AT-C70"/>
-                            <constraint firstItem="nIg-0Y-T9X" firstAttribute="top" secondItem="rgz-0M-XJz" secondAttribute="bottom" constant="11" id="Vb9-T4-p7c"/>
                             <constraint firstItem="nIg-0Y-T9X" firstAttribute="centerX" secondItem="XzT-uK-AJx" secondAttribute="centerX" id="ZPU-22-htx"/>
                             <constraint firstItem="nIg-0Y-T9X" firstAttribute="centerY" secondItem="3Ff-t1-OES" secondAttribute="centerY" id="ZYm-DY-qe2"/>
                             <constraint firstItem="qsC-iY-Xy1" firstAttribute="leading" secondItem="XAA-6G-lHd" secondAttribute="leading" constant="38" id="aw2-g9-cL0"/>
                             <constraint firstItem="nIg-0Y-T9X" firstAttribute="leading" secondItem="qsC-iY-Xy1" secondAttribute="leading" id="cer-Xa-vjB"/>
+                            <constraint firstItem="nIg-0Y-T9X" firstAttribute="top" secondItem="rgz-0M-XJz" secondAttribute="bottom" constant="11" id="he8-jG-1KQ"/>
                             <constraint firstAttribute="bottom" secondItem="XzT-uK-AJx" secondAttribute="bottom" id="iML-Jd-mY1"/>
-                            <constraint firstItem="rgz-0M-XJz" firstAttribute="leading" secondItem="XzT-uK-AJx" secondAttribute="trailing" constant="-260" id="kzY-UE-TTl"/>
                             <constraint firstItem="nIg-0Y-T9X" firstAttribute="centerX" secondItem="3Ff-t1-OES" secondAttribute="centerX" id="lFi-SY-IXE"/>
                             <constraint firstItem="K2i-Zu-S7E" firstAttribute="trailing" secondItem="Ci5-W2-kMa" secondAttribute="trailing" constant="2" id="lbR-4B-rUX"/>
                             <constraint firstItem="qsC-iY-Xy1" firstAttribute="top" secondItem="JvR-qo-iuw" secondAttribute="bottom" constant="13" id="oZf-5l-SBM"/>
                             <constraint firstItem="Y7g-ty-2lv" firstAttribute="top" secondItem="BMc-F0-Dka" secondAttribute="bottom" constant="26" id="vQ2-So-UeB"/>
+                            <constraint firstItem="JiU-WV-UfM" firstAttribute="leading" secondItem="rgz-0M-XJz" secondAttribute="trailing" constant="13" id="vVg-4R-Jsj"/>
                             <constraint firstItem="K2i-Zu-S7E" firstAttribute="leading" secondItem="qsC-iY-Xy1" secondAttribute="leading" constant="3" id="wCs-bl-gmB"/>
                         </constraints>
                     </view>
@@ -240,6 +243,17 @@
                                     <segue destination="v16-QM-Hog" kind="push" identifier="infoVC" id="SkP-fW-2Ub"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="main-online-circle.png" translatesAutoresizingMaskIntoConstraints="NO" id="NpK-Mg-S0Z">
+                                <rect key="frame" x="278" y="45" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="23" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RhH-F0-uSN">
+                                <rect key="frame" x="281" y="49" width="25" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -260,6 +274,8 @@
                         <outlet property="bgrImage" destination="hn0-h5-SDe" id="TTB-9a-pWk"/>
                         <outlet property="changedTimeLabel" destination="NcW-yY-8mr" id="oJb-D4-TT5"/>
                         <outlet property="infoButton" destination="qQq-F0-W13" id="Bsk-rs-usX"/>
+                        <outlet property="onlineCountCircle" destination="NpK-Mg-S0Z" id="wpV-GE-qtN"/>
+                        <outlet property="onlineCountLabel" destination="RhH-F0-uSN" id="CnJ-fW-7Qa"/>
                         <outlet property="photo" destination="Y3F-WI-W4C" id="vAb-vm-GV9"/>
                         <outlet property="tasksTable" destination="hew-bt-TM1" id="Ug6-7W-PSW"/>
                         <outlet property="teamButton" destination="h9N-LG-RC6" id="Yqq-lQ-30N"/>
@@ -651,7 +667,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="emailButtonPressed:" destination="NH3-ZJ-3dc" eventType="touchUpInside" id="1T2-Bj-nv7"/>
+                                    <action selector="skypeMessage:" destination="NH3-ZJ-3dc" eventType="touchUpInside" id="aze-Mn-XCI"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="В штате с 1 февраля 2014" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="171" translatesAutoresizingMaskIntoConstraints="NO" id="uAK-gu-xTF">
@@ -886,6 +902,7 @@
         <image name="login-bgr.png" width="768" height="1280"/>
         <image name="login-button.png" width="592" height="117"/>
         <image name="main-bgr.png" width="768" height="1280"/>
+        <image name="main-online-circle.png" width="71" height="71"/>
         <image name="main-team-icon.png" width="64" height="58"/>
         <image name="main-workh-icon.png" width="65" height="65"/>
         <image name="person-date-icon.png" width="86" height="86"/>

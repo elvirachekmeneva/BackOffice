@@ -44,11 +44,13 @@
     json = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
     NSLog(@"Json in MAIN VC %@", [json valueForKey:@"loginSuccess"]);
     
-    [self changeButtonColor];
+//    [self changeButtonColor];
     
     [self.timeButton addCenterMotionEffectsXYWithOffset:12];
     [self.teamButton addCenterMotionEffectsXYWithOffset:12];
     [self.infoButton addCenterMotionEffectsXYWithOffset:12];
+    [self.onlineCountCircle addCenterMotionEffectsXYWithOffset:12];
+    [self.onlineCountLabel addCenterMotionEffectsXYWithOffset:12];
     
     [self changeLabelText];
     [timer1second invalidate];
@@ -56,8 +58,8 @@
     self.infoButton.enabled = NO;
     self.teamButton.enabled = NO;
     [activityIndicator setAlpha:1];
-    count30times = 30;
-    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    count30times = 30;
+//    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
 //    [timer1second fire];
     NSLog(@"text text text text text");
     self.SIVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SignInViewController"];
@@ -125,8 +127,10 @@
     int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
     if (isWork == 1) {
         background = [[BackgroundVC alloc] initForView:VC_NAME_MAIN_ON];
+        [self.toneImage setAlpha:0.6];
     }else {
         background = [[BackgroundVC alloc] initForView:VC_NAME_MAIN_OFF];
+        [self.toneImage setAlpha:0];
     }
     
     [self.toneImage setBackgroundColor:[background toneColorForUser:[[NSUserDefaults standardUserDefaults]objectForKey:@"login"]]];
@@ -301,7 +305,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tasksTable.frame.size.width, 60)];
     [view setBackgroundColor:[UIColor clearColor]];
     
-    UIImageView* taskIcon  = [[UIImageView alloc] initWithFrame:CGRectMake(5, 2.5, 20, 20)];
+    UIImageView* taskIcon  = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 15, 15)];
     NSURL *taskIconURL = [NSURL URLWithString:[currentTask objectForKey:@"typeIcon"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:taskIconURL];
@@ -470,6 +474,7 @@
 //                    [taskTrans changeTransitionWithID:TASK_TRANS_ASSIGN];
                 } else if (indexPath.section == 2) {
                     swipeType = JZSwipeTypeNone;
+                    [self.tasksTable reloadData];
                 }
 
 
@@ -589,11 +594,16 @@
             mutableDataWork = [[NSMutableData alloc] init];
         }
         
+        [self changeButtonColor];
+        
     } else if (connection == teamConnection){
         teamInfo = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
+        TeamInfo* team = [[TeamInfo alloc]initWithDictionary:teamInfo];
+        _onlineCountLabel.text = [team onlineCount];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"teamInfo"];
         [[NSUserDefaults standardUserDefaults] setObject:teamInfo forKey:@"teamInfo"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
     } else {
         workLog = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];
@@ -604,7 +614,6 @@
     
     [self changeLabelText];
     [_tasksTable reloadData];
-    [self changeButtonColor];
     [activityIndicator setAlpha:0];
     
     self.infoButton.enabled = YES;
@@ -637,11 +646,14 @@
     int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
     if (isWork == 1) {
         [timeButton setAlpha:1];
-        //[timeButton setBackgroundColor:[UIColor colorWithRed:(180/255) green:(255/255) blue:(175/255) alpha:1]];
+        [background resetBgrImageForVC:VC_NAME_MAIN_ON];
+        [self.toneImage setAlpha:0.6];
     }else {
         [timeButton setAlpha:0.3];
-        //[timeButton setBackgroundColor:[UIColor colorWithRed:(170/255) green:(170/255) blue:(170/255) alpha:1]];
+        [background resetBgrImageForVC:VC_NAME_MAIN_OFF];
+        [self.toneImage setAlpha:0];
     }
+    [self.bgrImage addSubview:background.backGroundImage];
 }
 
 - (IBAction)stopAndStart:(id)sender {

@@ -63,8 +63,10 @@
 @property NSURLConnection *teamConnection;
 @property NSMutableData* mutableTeamData;
 @property NSMutableDictionary* teamInfo;
+@property (strong, nonatomic) IBOutlet UIImageView *onlineCountCircle;
 
 @property (strong, nonatomic) IBOutlet UIImageView *bgrImage;
 @property (strong, nonatomic) IBOutlet UIImageView *toneImage;
+@property (strong, nonatomic) IBOutlet UILabel *onlineCountLabel;
 
 @end

@@ -207,6 +207,18 @@
     
 }
 
+- (IBAction)skypeMessage:(id)sender {
+    BOOL installed = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"skype:"]];
+    if(installed)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"skype:%@?chat",[userInfo objectForKey:@"skype"]]]];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://itunes.com/apps/skype/skype"]];
+    }
+}
+
 - (void) addNewContact {
     
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(nil, nil);

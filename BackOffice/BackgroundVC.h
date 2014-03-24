@@ -13,7 +13,7 @@
 
 #define VC_NAME_LOGIN @"loginVC"
 #define VC_NAME_MAIN_ON @"mainVC"
-#define VC_NAME_MAIN_OFF @"mainVC"
+#define VC_NAME_MAIN_OFF @"mainVCOff"
 #define VC_NAME_INFO @"infoVC"
 #define VC_NAME_TEAM @"teamVC"
 #define VC_NAME_PERSON @"personVC"
@@ -36,4 +36,5 @@
 - (UIImage*) currentBgr;
 - (UIColor*) toneColorForUser:(NSString*) login;
 - (UIColor*) toneColorForDepartment:(NSString*) depName;
+- (void) resetBgrImageForVC:(NSString*) vcName;
 @end

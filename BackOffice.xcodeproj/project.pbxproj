@@ -64,6 +64,7 @@
 		76ED0F6E18DC2B46001349DF /* person-email-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6818DC2B46001349DF /* person-email-icon.png */; };
 		76ED0F6F18DC2B46001349DF /* person-phone-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6918DC2B46001349DF /* person-phone-icon.png */; };
 		76ED0F7018DC2B46001349DF /* person-skype-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6A18DC2B46001349DF /* person-skype-icon.png */; };
+		76ED0F7218DF02C1001349DF /* main-online-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F7118DF02C1001349DF /* main-online-circle.png */; };
 		AC447C47C1CE4C4099D9D769 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C5A7FD7E3E942B3B9EB22AE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +156,7 @@
 		76ED0F6818DC2B46001349DF /* person-email-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-email-icon.png"; sourceTree = "<group>"; };
 		76ED0F6918DC2B46001349DF /* person-phone-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-phone-icon.png"; sourceTree = "<group>"; };
 		76ED0F6A18DC2B46001349DF /* person-skype-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-skype-icon.png"; sourceTree = "<group>"; };
+		76ED0F7118DF02C1001349DF /* main-online-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-online-circle.png"; sourceTree = "<group>"; };
 		8C5A7FD7E3E942B3B9EB22AE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -326,6 +328,7 @@
 		7671ABC318D1D5D500A40694 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				76ED0F7118DF02C1001349DF /* main-online-circle.png */,
 				76ED0F6518DC2B46001349DF /* person-date-icon.png */,
 				76ED0F6718DC2B46001349DF /* person-dep-ison.png */,
 				76ED0F6818DC2B46001349DF /* person-email-icon.png */,
@@ -457,6 +460,7 @@
 				7671ABC618D1D5D500A40694 /* login-bgr.png in Resources */,
 				76209C4618D6C4B500D04ACB /* main-begin.png in Resources */,
 				76B86DCC18D7122A0090D5C1 /* main-task-work.png in Resources */,
+				76ED0F7218DF02C1001349DF /* main-online-circle.png in Resources */,
 				76021A1B18D9996600E55012 /* team-bgr.png in Resources */,
 				7634FD0218D1FA8100D5A721 /* main-team-icon.png in Resources */,
 				76ED0F6E18DC2B46001349DF /* person-email-icon.png in Resources */,
