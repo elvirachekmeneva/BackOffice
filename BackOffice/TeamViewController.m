@@ -32,25 +32,13 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-
-    
-//    [self.title setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
     self.navigationController.navigationBar.backItem.title = @"";
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
-    
-    UILabel *lblTitle = [[UILabel alloc] init];
-    lblTitle.text = @"Soft-Artel Team";
-    lblTitle.backgroundColor = [UIColor clearColor];
-    lblTitle.textColor = [UIColor whiteColor];
-    lblTitle.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0];
-    [lblTitle sizeToFit];
-    self.navigationItem.titleView = lblTitle;
-    
     NSURL *imageURL = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"data"][@"data"][@"user"][@"photo"]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
@@ -75,12 +63,29 @@
     self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [teamInfo onlineCount],[teamInfo allTeamCount]];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    self.navigationController.navigationBar.backItem.title = @"";
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+
+//    self.navigationController.navigationBar.backItem.title = @"";
+
     [timer invalidate];
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.navigationController.navigationBar.backItem.title = @"";
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.view.backgroundColor = [UIColor clearColor];
+}
+
 
 -(void)reloadData:(NSTimer *)timer {
     [self getTeamInfoFromServer];
@@ -388,6 +393,8 @@
     teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
     allTeamInfoSorted = [teamInfo getAllTeamInfo];
     [teamTable reloadData];
+    self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [teamInfo onlineCount],[teamInfo allTeamCount]];
+
     NSLog(@" Team Data loaded!");
 
     
@@ -400,11 +407,19 @@
 //    [self performSegueWithIdentifier:@"personInfoVC" sender:nil];
 }
 
+- (IBAction)openBash:(id)sender{
+    NSLog(@"Show bash Button Pressed!!!!");
+
+}
+
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"personVC"]) {
         PersonInfoVC *pvc = [segue destinationViewController];
         
+    } else if ([[segue identifier] isEqualToString:@"showBash"]) {
+        BashSAVC *bVC = [segue destinationViewController];
     }
 }
 @end

@@ -59,6 +59,7 @@
 		76B86DCA18D7122A0090D5C1 /* main-task-for-work.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC718D7122A0090D5C1 /* main-task-for-work.png */; };
 		76B86DCB18D7122A0090D5C1 /* main-task-pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC818D7122A0090D5C1 /* main-task-pause.png */; };
 		76B86DCC18D7122A0090D5C1 /* main-task-work.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B86DC918D7122A0090D5C1 /* main-task-work.png */; };
+		76D779BE18EFF30500D18D56 /* BashSAVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D779BD18EFF30400D18D56 /* BashSAVC.m */; };
 		76ED0F6B18DC2B46001349DF /* person-date-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6518DC2B46001349DF /* person-date-icon.png */; };
 		76ED0F6D18DC2B46001349DF /* person-dep-ison.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6718DC2B46001349DF /* person-dep-ison.png */; };
 		76ED0F6E18DC2B46001349DF /* person-email-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 76ED0F6818DC2B46001349DF /* person-email-icon.png */; };
@@ -151,6 +152,8 @@
 		76B86DC718D7122A0090D5C1 /* main-task-for-work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-for-work.png"; sourceTree = "<group>"; };
 		76B86DC818D7122A0090D5C1 /* main-task-pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-pause.png"; sourceTree = "<group>"; };
 		76B86DC918D7122A0090D5C1 /* main-task-work.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main-task-work.png"; sourceTree = "<group>"; };
+		76D779BC18EFF30400D18D56 /* BashSAVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BashSAVC.h; sourceTree = "<group>"; };
+		76D779BD18EFF30400D18D56 /* BashSAVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BashSAVC.m; sourceTree = "<group>"; };
 		76ED0F6518DC2B46001349DF /* person-date-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-date-icon.png"; sourceTree = "<group>"; };
 		76ED0F6718DC2B46001349DF /* person-dep-ison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-dep-ison.png"; sourceTree = "<group>"; };
 		76ED0F6818DC2B46001349DF /* person-email-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "person-email-icon.png"; sourceTree = "<group>"; };
@@ -299,6 +302,8 @@
 				76B6EFAD189FB617008C5D3D /* CustomCell.m */,
 				76B6EFAF18A0CD3D008C5D3D /* PersonInfoVC.h */,
 				76B6EFB018A0CD3D008C5D3D /* PersonInfoVC.m */,
+				76D779BC18EFF30400D18D56 /* BashSAVC.h */,
+				76D779BD18EFF30400D18D56 /* BashSAVC.m */,
 			);
 			name = Team;
 			sourceTree = "<group>";
@@ -527,6 +532,7 @@
 				76405FD018893BDC00D5F6F7 /* TeamViewController.m in Sources */,
 				76703A66188FA22400094F73 /* WorkedTableDataSource.m in Sources */,
 				76209C2C18D4512600D04ACB /* SwipeCellStyle.m in Sources */,
+				76D779BE18EFF30500D18D56 /* BashSAVC.m in Sources */,
 				76B79E2218AE000F003C6028 /* TaskDetailsViewController.m in Sources */,
 				76126B2A18604A9000FD8EA7 /* SignInViewController.m in Sources */,
 				76126B2418604A9000FD8EA7 /* AppDelegate.m in Sources */,

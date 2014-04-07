@@ -36,6 +36,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [timer1second invalidate];
+    [[self navigationController] setNavigationBarHidden:NO animated:NO];
+
 }
 
 - (void)viewDidLoad

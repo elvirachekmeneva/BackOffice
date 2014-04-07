@@ -10,6 +10,7 @@
 #import "TeamInfo.h"
 #import "PersonInfoVC.h"
 #import "BackgroundVC.h"
+#import "BashSAVC.h"
 
 @interface TeamViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>{
     NSTimer* timer;
@@ -22,6 +23,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *onlineCount;
 @property (strong, nonatomic) IBOutlet UILabel *allTeamCount;
 @property (strong, nonatomic) IBOutlet UIImageView *onlineIcon;
+@property (strong, nonatomic) IBOutlet UIButton *openBashBtn;
+@property (strong, nonatomic) IBOutlet UINavigationBar *customNavBar;
+
 @property NSMutableDictionary* teamJson;
 @property NSMutableData* mutableTeamData;
 @property TeamInfo* teamInfo;
@@ -30,4 +34,7 @@
 @property UIStoryboardSegue *showPersonInfoSegue;
 
 - (IBAction)showUserInfo:(id)sender;
+- (IBAction)openBash:(id)sender;
+
+
 @end

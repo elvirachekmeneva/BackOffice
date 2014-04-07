@@ -457,6 +457,55 @@
             </objects>
             <point key="canvasLocation" x="1460" y="-719"/>
         </scene>
+        <!--BashSAVC-->
+        <scene sceneID="anQ-Fb-kkQ">
+            <objects>
+                <viewController id="wqb-IQ-ndv" customClass="BashSAVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rge-6D-ug6"/>
+                        <viewControllerLayoutGuide type="bottom" id="55N-PJ-eVS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LoL-if-zct">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qyb-9J-iUu">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ycb-yN-kx2">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="75" id="ZGf-Kg-YbN">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZGf-Kg-YbN" id="8OB-0Z-ooj">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ycb-yN-kx2" secondAttribute="trailing" id="B1Q-3h-hYf"/>
+                            <constraint firstItem="ycb-yN-kx2" firstAttribute="leading" secondItem="LoL-if-zct" secondAttribute="leading" id="S6M-Xk-voS"/>
+                            <constraint firstAttribute="bottom" secondItem="ycb-yN-kx2" secondAttribute="bottom" id="i58-JA-26T"/>
+                            <constraint firstItem="ycb-yN-kx2" firstAttribute="top" secondItem="Rge-6D-ug6" secondAttribute="bottom" id="jz2-Sz-Gms"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="A05-p1-6Nt"/>
+                    <connections>
+                        <outlet property="bgrImageView" destination="qyb-9J-iUu" id="Lvv-eE-Rt9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K9W-7L-1YQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2009" y="-90"/>
+        </scene>
         <!--Team View Controller-->
         <scene sceneID="nqG-3z-GeF">
             <objects>
@@ -469,10 +518,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wef-HY-fSU">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem id="4Py-yO-lkA"/>
+                                </items>
+                            </navigationBar>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BT7-7f-ByU">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Soft-Artel Team" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ALq-zq-IFV">
+                                <rect key="frame" x="103" y="30" width="119" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="white-cirkle.png" translatesAutoresizingMaskIntoConstraints="NO" id="sZn-UR-vTt">
                                 <rect key="frame" x="20" y="24" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -625,11 +688,27 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="RVZ-qH-ZDh"/>
+                    <navigationItem key="navigationItem" id="HsX-aX-fDb">
+                        <nil key="title"/>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Bhr-RB-7wV">
+                            <rect key="frame" x="101" y="7" width="119" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="openBash:" destination="WZf-9I-QW9" eventType="touchUpInside" id="h0o-5g-Cg7"/>
+                                <segue destination="wqb-IQ-ndv" kind="push" identifier="showBash" id="qRt-fa-8Wb"/>
+                            </connections>
+                        </button>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="allTeamCount" destination="dji-BQ-5Tn" id="qvD-b3-QuV"/>
                         <outlet property="bgrImageView" destination="BT7-7f-ByU" id="Jk6-cg-1EL"/>
+                        <outlet property="customNavBar" destination="wef-HY-fSU" id="jI4-tR-hds"/>
+                        <outlet property="openBashBtn" destination="Bhr-RB-7wV" id="9to-z4-r4Q"/>
                         <outlet property="teamTable" destination="iFJ-py-Uwy" id="q4a-GB-aBZ"/>
                         <outlet property="userPhoto" destination="mgj-bJ-hCY" id="eJC-bU-vF7"/>
                     </connections>
@@ -784,7 +863,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vrh-8E-oLF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1858" y="743"/>
+            <point key="canvasLocation" x="1922" y="743"/>
         </scene>
         <!--Info View Controller-->
         <scene sceneID="zAw-Rn-jY4">
@@ -877,7 +956,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w45-e0-Qfr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828" y="-114"/>
+            <point key="canvasLocation" x="1552" y="-85"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oqq-Ky-css">
@@ -890,7 +969,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fbf-2n-NHO" kind="relationship" relationship="rootViewController" id="kqg-DF-kic"/>
+                        <segue destination="fbf-2n-NHO" kind="relationship" relationship="rootViewController" id="LYa-eH-bHc"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yCp-5C-Pi6" userLabel="First Responder" sceneMemberID="firstResponder"/>
