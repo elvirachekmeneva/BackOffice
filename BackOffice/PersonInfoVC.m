@@ -266,7 +266,12 @@
 }
 
 
-- (ABRecordRef) newPersonWithFirstName:(NSString*) paramFirstName lastName:(NSString*) paramLastName cellphone:(NSString*) paramCellphone email:(NSString*)paramEmail imageData:(NSData*)paramImageData inAddressBook:(ABAddressBookRef)paramAddressBook {
+- (ABRecordRef) newPersonWithFirstName:(NSString*) paramFirstName
+                              lastName:(NSString*) paramLastName
+                             cellphone:(NSString*) paramCellphone
+                                 email:(NSString*)paramEmail
+                             imageData:(NSData*)paramImageData
+                         inAddressBook:(ABAddressBookRef)paramAddressBook {
     ABRecordRef result = NULL;
     if (paramAddressBook == NULL) {
         NSLog(@"The address book is Null");
@@ -303,6 +308,11 @@
     ABMultiValueAddValueAndLabel(multiEmail,(__bridge CFTypeRef)(paramEmail), kABWorkLabel, NULL);
     ABRecordSetValue(result, kABPersonEmailProperty, multiEmail, &setEmailError);
     CFRelease(multiEmail);
+    
+//    ABMutableMultiValueRef multiCompany = ABMultiValueCreateMutable(kABMultiStringPropertyType);
+//    ABMultiValueAddValueAndLabel(multiCompany, @"Soft-Artel", kABHomeLabel, NULL);
+//    ABRecordSetValue(result, kABPersonJobTitleProperty, multiCompany, &setCellphoneError);
+    
     
     ABPersonSetImageData(result, (__bridge CFDataRef)(paramImageData), &setPersonImageError);
     
