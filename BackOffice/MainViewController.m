@@ -9,7 +9,7 @@
 #import "MainViewController.h"
 #import "InfoViewController.h"
 #import "SignInViewController.h"
-//#import "Reachability.h"
+
 #import <SystemConfiguration/SystemConfiguration.h>
 #import "UIView+TLMotionEffect.h"
 
@@ -150,15 +150,27 @@
 }
 
 - (BOOL)connected {
-    NSURL *url = [NSURL URLWithString:@"http://google.ru"];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    if (data != nil){
+    reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
         NSLog(@"Device is connected to the internet");
         return YES;
-    }else {
+    } else {
         NSLog(@"Device is not connected to the internet");
         return NO;
-   }
+    }
+        
+        
+//    NSURL *url = [NSURL URLWithString:@"http://google.ru"];
+//    NSData *data = [NSData dataWithContentsOfURL:url];
+//    if (data != nil){
+//        NSLog(@"Device is connected to the internet");
+//        return YES;
+//    }else {
+//        NSLog(@"Device is not connected to the internet");
+//        return NO;
+//   }
 }
 
 

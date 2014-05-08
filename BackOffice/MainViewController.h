@@ -16,13 +16,14 @@
 #import "UIColor+Color.h"
 #import "UIView+TLMotionEffect.h"
 #import "TeamViewController.h"
-
+#import "Reachability.h"
 
 @interface MainViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, JZSwipeCellDelegate>
 {
     int count30times;
     BOOL loadingFinish;
     BackgroundVC* background;
+    Reachability* reachability;
     
 }
 - (IBAction)stopAndStart:(id)sender;

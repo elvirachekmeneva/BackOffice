@@ -1,13 +1,16 @@
 PODS:
   - JSONKit (1.5pre)
   - JZSwipeCell (1.1)
+  - Reachability (3.1.1)
 
 DEPENDENCIES:
   - JSONKit (~> 1.5pre)
   - JZSwipeCell (~> 1.1)
+  - Reachability (~> 3.1)
 
 SPEC CHECKSUMS:
   JSONKit: b1f52f3f522b8602307769511d4fb47c6f856159
   JZSwipeCell: fcef9878e6284fa5df604eef7e9382172f2a453b
+  Reachability: be4883bb93f31e38266ae3365e5600a317aae735
 
-COCOAPODS: 0.29.0
+COCOAPODS: 0.32.1
