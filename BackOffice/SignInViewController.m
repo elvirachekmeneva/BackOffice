@@ -114,69 +114,6 @@
 //    }
 }
 
-- (void) connectWithLogin:(NSString*)loginn password:(NSString*)passsword {
-    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",loginn,[passsword MD5]];
-    NSLog(@"url %@", urlString);
-    NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-    [request setHTTPMethod: @"GET"];
-
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if (connection)
-    {
-        mutableData = [[NSMutableData alloc] init];
-    }
-
-    //return YES;
-}
-
--(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
-{
-    [mutableData setLength:0];
-}
-
--(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [mutableData appendData:data];
-}
-
--(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    // If we get any connection error we can manage it here…
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:@"Ошибка подключения"  delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK",nil];
-    [alertView show];
-    [activityIndicator setAlpha:0];
-    [self.signInButton setTitle:@"ВХОД" forState:UIControlStateNormal];
-    return;
-}
-
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
-    NSDate *loadingDate = [NSDate date];
-    //[json setValue:loadingDate forKey:@"loading_date"];
-    [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    NSLog(@"json %@", self.json);
-    [activityIndicator setAlpha:0];
-    if ([[json objectForKey:@"loginSuccess"] integerValue] == 1) {
-        if (self.saveOrNot.on == YES){
-            [self saveLogin:login andPassword:password];
-        }
-        [invalidLabel setAlpha:0];
-        [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
-        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
-        [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
-        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }else {
-        [invalidLabel setAlpha:1];
-        [userPassword setText:@""];
-    }
-    
-}
 
 
 
@@ -185,7 +122,57 @@
     login = [[NSString alloc]initWithString:[userLogin text]];
     password = [[NSString alloc]initWithString:[userPassword text]];
     [activityIndicator setAlpha:1];
-    [self connectWithLogin:login password:password];
+//    [self connectWithLogin:login password:password];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate: nil delegateQueue: [NSOperationQueue mainQueue]];
+    
+    
+    
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login,[password MD5]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+    [request setURL:url];
+    
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error && [data length] != 0) {
+            NSError * e;
+//            json = [data objectFromJSONDataWithParseOptions:JKParseOptionNone error:&e];
+            json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSDate *loadingDate = [NSDate date];
+            //[json setValue:loadingDate forKey:@"loading_date"];
+            [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            NSLog(@"json %@", self.json);
+            [activityIndicator setAlpha:0];
+            if ([[json objectForKey:@"loginSuccess"] integerValue] == 1) {
+                if (self.saveOrNot.on == YES){
+                    [self saveLogin:login andPassword:password];
+                }
+                [invalidLabel setAlpha:0];
+                [[NSUserDefaults standardUserDefaults] setObject:login forKey:@"login"];
+                [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"password"];
+                [[NSUserDefaults standardUserDefaults] setObject:[password MD5] forKey:@"passwordMD5"];
+                [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }else {
+                [invalidLabel setAlpha:1];
+                [userPassword setText:@""];
+            }
+
+            
+        } else {
+            UIAlertView* errorAlert = [[UIAlertView alloc] initWithTitle:@"Ошибка:" message:[error description] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [errorAlert show];
+
+        }
+        
+    }];
+    
+    [dataTask resume];
+
     
    
 }
