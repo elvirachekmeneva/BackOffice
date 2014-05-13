@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BackgroundVC.h"
 @interface UIView (Autolayout)
 +(id)autolayoutView;
 @end
@@ -16,6 +17,7 @@
     NSArray* taskTransitions;
     NSURLConnection* taskTransitionsConnection;
     NSMutableData* mutableTaskTransitionsData;
+    BackgroundVC* background;
 }
 - (IBAction)atWorkButtonPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *typeIcon;
@@ -25,6 +27,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *autorNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *workerNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *updateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *bgrImage;
+
+- (IBAction)cancelButtonPressed:(id)sender;
 
 - (void) button1Clicked:(id) sender;
 

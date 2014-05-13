@@ -24,6 +24,7 @@
 
 @implementation TaskDetailsViewController
 @synthesize summaryLabel,typeIcon,statusLabel,typeLabel,autorNameLabel,workerNameLabel,updateLabel;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,16 +33,20 @@
     }
     return self;
 }
+
 - (void)viewWillAppear:(BOOL)animated {
-    UINavigationBar *naviBarObj = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
-    [self.view addSubview:naviBarObj];
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelButtonPressed)];
-    
-//    UINavigationItem *navigItem = [[UINavigationItem alloc] initWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"taskID"]];
-    UINavigationItem *navigItem = [[UINavigationItem alloc] initWithTitle:@"Описание задачи"];
-    navigItem.leftBarButtonItem = cancelItem;
-    naviBarObj.items = [NSArray arrayWithObjects: navigItem,nil];
-    
+//    UINavigationBar *naviBarObj = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
+//    naviBarObj.backgroundColor = [UIColor clearColor];
+//    naviBarObj.viewForBaselineLayout.backgroundColor = [UIColor clearColor];
+//    [self.view addSubview:naviBarObj];
+//    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelButtonPressed)];
+//    
+////    UINavigationItem *navigItem = [[UINavigationItem alloc] initWithTitle:[[NSUserDefaults standardUserDefaults] objectForKey:@"taskID"]];
+//    UINavigationItem *navigItem = [[UINavigationItem alloc] init];
+////    navigItem.titleView.backgroundColor = [UIColor clearColor];
+//    navigItem.leftBarButtonItem = cancelItem;
+//    naviBarObj.items = [NSArray arrayWithObjects: navigItem,nil];
+//    self.navigationController.view.backgroundColor = [UIColor clearColor];
     
     
     taskInfoJson = [[NSUserDefaults standardUserDefaults] objectForKey:@"taskInfoJson"];
@@ -118,12 +123,17 @@
     
     
     
+    [self.bgrImage addSubview:background.backGroundImage];
+    [self.bgrImage sendSubviewToBack:background.backGroundImage];
+
+    
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    background = [[BackgroundVC alloc] initForView:VC_NAME_MAIN_ON];
 	// Do any additional setup after loading the view.
 }
 
@@ -194,7 +204,7 @@
 
 - (void) createButtonsByTransitions:(NSArray*) transitionsArray {
     UIView *headerView = [UIView autolayoutView];
-    headerView.backgroundColor = [UIColor lightGrayColor];
+    headerView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
     [self.view addSubview:headerView];
     
     UIButton *button1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -326,6 +336,11 @@
             break;
         }
     }
+}
+
+- (IBAction)cancelButtonPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 - (void) button1Clicked:(id) sender {

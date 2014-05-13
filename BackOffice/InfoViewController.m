@@ -35,7 +35,8 @@
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
     json = [[NSUserDefaults standardUserDefaults]objectForKey:@"data"];
     NSLog(@"Json in INFO VC %@", [json valueForKey:@"loginSuccess"]);
-    
+    background = [[BackgroundVC alloc] initForView:VC_NAME_MAIN_ON];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -73,6 +74,10 @@
             self.userPhoto.clipsToBounds = YES;
         });
     });
+    
+        
+    [self.bgrImage addSubview:background.backGroundImage];
+    [self.bgrImage sendSubviewToBack:background.backGroundImage];
 }
 
 
@@ -94,7 +99,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView * header = [self makeHeaderViewForSection:section];
-    [header setBackgroundColor:[UIColor colorWithRed:0.9 green:0.9 blue:0.95 alpha:0.95]];
+    [header setBackgroundColor:[UIColor colorWithRed:0.5 green:0.8 blue:0.7 alpha:0.85]];
     return header;
 }
 
@@ -156,7 +161,6 @@
     
     
     
-    
     return  view;
 }
 
@@ -180,7 +184,10 @@
         [cell setBackgroundColor:[UIColor colorWithRed:0.8 green:1 blue:0.8 alpha:1]];
     } else if (success == Fail) {
         [cell setBackgroundColor:[UIColor colorWithRed:1 green:0.8 blue:0.8 alpha:1]];
+    } else {
+        [cell setBackgroundColor:[UIColor clearColor]];
     }
+    cell.contentView.backgroundColor = [UIColor clearColor];
         return cell;
 }
 
@@ -225,7 +232,7 @@
     UILabel *loggedHoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(230, 0, 70, 30)];
     [loggedHoursLabel setFont:[UIFont boldSystemFontOfSize:14]];
     loggedHoursLabel.textAlignment = NSTextAlignmentCenter;
-//    [loggedHoursLabel setBackgroundColor:[UIColor yellowColor]];
+//    [loggedHoursLabel setBackgroundColor:[UIColor clearColor]];
     [loggedHoursLabel setText:loggedHoursString];
     [view addSubview:loggedHoursLabel];
     
@@ -247,12 +254,13 @@
     [kommentLabel setFont:[UIFont boldSystemFontOfSize:14]];
     kommentLabel.textAlignment = NSTextAlignmentLeft;
     kommentLabel.numberOfLines = 0;
-//    [kommentLabel setBackgroundColor:[UIColor greenColor]];
+//    [kommentLabel setBackgroundColor:[UIColor clearColor]];
     kommentLabel.adjustsFontSizeToFitWidth = YES;
     kommentLabel.minimumScaleFactor = 0.5;
     [kommentLabel setText:commentString];
     [view addSubview:kommentLabel];
 
+    view.backgroundColor = [UIColor clearColor];
     return  view;
 }
 

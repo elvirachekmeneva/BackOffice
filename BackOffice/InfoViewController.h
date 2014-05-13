@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "WorkedTableDataSource.h"
+#import "BackgroundVC.h"
 
-@interface InfoViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface InfoViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+    
+    BackgroundVC* background;
+}
 
 - (IBAction)update:(id)sender;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -24,6 +28,7 @@
 @property NSMutableDictionary *workLog;
 @property NSArray* list;
 @property (weak, nonatomic) IBOutlet UITableView *workInfoTable;
+@property (weak, nonatomic) IBOutlet UIImageView *bgrImage;
 @property NSMutableData* mutableDataWork;
 
 @property UIView* cellView;
