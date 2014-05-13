@@ -57,9 +57,9 @@
     [self changeLabelText];
     [timer1second invalidate];
     
-    self.infoButton.enabled = NO;
-    self.teamButton.enabled = NO;
-    [activityIndicator setAlpha:1];
+//    self.infoButton.enabled = NO;
+//    self.teamButton.enabled = NO;
+//    [activityIndicator setAlpha:1];
 //    count30times = 30;
 //    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
 //    [timer1second fire];
@@ -107,7 +107,7 @@
     [self changeLabelText];
     [timer1second invalidate];
     
-    [activityIndicator setAlpha:1];
+//    [activityIndicator setAlpha:1];
     count30times = 30;
     timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
 //    [timer1second fire];
@@ -197,7 +197,7 @@
             
             count30times = 0;
         }else {
-            [activityIndicator setAlpha:1];
+//            [activityIndicator setAlpha:1];
             NSString * endTimeString = [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endTime"];
             
             if ([endTimeString isEqualToString:@""]) {
@@ -517,123 +517,143 @@
 
 - (void) connectWithLogin:(NSString*)login password:(NSString*)password {
    
-    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, password];
-    NSLog(@"url %@", urlString);
-    NSURL *url = [NSURL URLWithString:urlString];
+//    NSString *urlString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, password];
+//    NSLog(@"url %@", urlString);
+//    NSURL *url = [NSURL URLWithString:urlString];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+//                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+//    [request setHTTPMethod: @"GET"];
+//    
+//    connnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+//    
+//    if (connnection)
+//    {
+//        mutableData = [[NSMutableData alloc] init];
+//    }
+//    
+//    NSString *urlTeamString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"];
+//    NSURL *urlTeam = [NSURL URLWithString:urlTeamString];
+//    NSMutableURLRequest *requestTeam = [NSMutableURLRequest requestWithURL:urlTeam
+//                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+//    [requestTeam setHTTPMethod: @"GET"];
+//
+//    teamConnection = [[NSURLConnection alloc] initWithRequest:requestTeam delegate:self];
+//    if (teamConnection)
+//    {
+//        mutableTeamData = [[NSMutableData alloc] init];
+//    }
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate: nil delegateQueue: [NSOperationQueue mainQueue]];
+    
+    
+    
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login,password]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-    [request setHTTPMethod: @"GET"];
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+    [request setURL:url];
     
-    connnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    if (connnection)
-    {
-        mutableData = [[NSMutableData alloc] init];
-    }
-    
-    NSString *urlTeamString = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"];
-    NSURL *urlTeam = [NSURL URLWithString:urlTeamString];
-    NSMutableURLRequest *requestTeam = [NSMutableURLRequest requestWithURL:urlTeam
-                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-    [requestTeam setHTTPMethod: @"GET"];
-    
-    teamConnection = [[NSURLConnection alloc] initWithRequest:requestTeam delegate:self];
-    if (teamConnection)
-    {
-        mutableTeamData = [[NSMutableData alloc] init];
-    }
-
-
-}
-
-
--(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
-{
-    if (connection == connnection){
-        [mutableData setLength:0];
-    } else if (connection == teamConnection){
-        [mutableTeamData setLength:0];
-    } else {
-        [mutableDataWork setLength:0];
-    }
-}
-
--(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    if (connection == connnection){
-        [mutableData appendData:data];
-    } else if (connection == teamConnection) {
-        [mutableTeamData appendData:data];
-    }else {
-        [mutableDataWork appendData:data];
-    }
-
-}
-
-
-
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    if (connection == connnection){
-        json = [NSJSONSerialization JSONObjectWithData:mutableData options:kNilOptions error:nil];
-        //[json setObject:[NSDate date] forKey:@"loading date"];
-        NSDate* loadingDate = [NSDate date];
-        [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        NSLog(@"json %@", self.json);
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"data"];
-        [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error && [data length] != 0) {
+//            NSError * e;
+//            json = [data objectFromJSONDataWithParseOptions:JKParseOptionNone error:&e];
+            json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSDate *loadingDate = [NSDate date];
+            //[json setValue:loadingDate forKey:@"loading_date"];
+            [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
+            [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            NSLog(@"json %@", self.json);
+            [activityIndicator setAlpha:0];
+            [self changeLabelText];
+            [_tasksTable reloadData];
+            
+        }
         NSDateFormatter *dF = [[NSDateFormatter alloc] init];
         dF.dateFormat = @"yyyy-MM-dd";
         NSDate *today = [NSDate date];
         NSString *todayString = [dF stringFromDate:today];
+        NSURL *workLogUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=%@&endDate=%@",
+                                           [[NSUserDefaults standardUserDefaults] objectForKey:@"login"],
+                                           [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"],
+                                           [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"emplStartDate"],
+                                           todayString]];
+        NSMutableURLRequest *workLogRequest = [NSMutableURLRequest requestWithURL:workLogUrl
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+        [workLogRequest setURL:workLogUrl];
+        [workLogRequest setHTTPMethod: @"GET"];
+        NSURLSessionDataTask *workLogTask = [session dataTaskWithRequest:workLogRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (!error && [data length] != 0) {
+                workLog = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];
+                [[NSUserDefaults standardUserDefaults] setObject:workLog forKey:@"workLog"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [self changeButtonColor];
+                [self changeLabelText];
 
-        NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.worklogs.json.php?login=%@&passwrdHash=%@&startDate=%@&endDate=%@",
-                                   [[NSUserDefaults standardUserDefaults] objectForKey:@"login"],
-                                   [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"],
-                                   [[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"emplStartDate"],
-                                   todayString];
-        NSLog(@"url %@", urlStringWork);
-        NSURL *urlWork = [NSURL URLWithString:urlStringWork];
-        NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork
-                                                                   cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-        [requestWork setHTTPMethod: @"GET"];
-        
-        NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
-        if (connectionWork)
-        {
-            mutableDataWork = [[NSMutableData alloc] init];
+            }
+            
+        }];
+        [workLogTask resume];
+    }];
+    
+    [dataTask resume];
+
+    NSURL *urlTeam = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"]];
+    NSMutableURLRequest *requestTeam = [NSMutableURLRequest requestWithURL:urlTeam
+                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+    [requestTeam setHTTPMethod: @"GET"];
+
+    [requestTeam setURL:urlTeam];
+    
+    NSURLSessionDataTask *teamTask = [session dataTaskWithRequest:requestTeam completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error && [data length] != 0) {
+            teamInfo = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            TeamInfo* team = [[TeamInfo alloc]initWithDictionary:teamInfo];
+            _onlineCountLabel.text = [team onlineCount];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"teamInfo"];
+            [[NSUserDefaults standardUserDefaults] setObject:teamInfo forKey:@"teamInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self changeLabelText];
+
         }
         
-        [self changeButtonColor];
-        
-    } else if (connection == teamConnection){
-        teamInfo = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
-        TeamInfo* team = [[TeamInfo alloc]initWithDictionary:teamInfo];
-        _onlineCountLabel.text = [team onlineCount];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"teamInfo"];
-        [[NSUserDefaults standardUserDefaults] setObject:teamInfo forKey:@"teamInfo"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    } else {
-        workLog = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];
-        [[NSUserDefaults standardUserDefaults] setObject:workLog forKey:@"workLog"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
-    
-    [self changeLabelText];
-    [_tasksTable reloadData];
-    [activityIndicator setAlpha:0];
-    
-    self.infoButton.enabled = YES;
-    self.teamButton.enabled = YES;
+    }];
+    [teamTask resume];
     
 }
+
+
+
+//- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+//    if (connection == connnection){
+//        
+//        
+//    } else if (connection == teamConnection){
+//        teamInfo = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
+//        TeamInfo* team = [[TeamInfo alloc]initWithDictionary:teamInfo];
+//        _onlineCountLabel.text = [team onlineCount];
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"teamInfo"];
+//        [[NSUserDefaults standardUserDefaults] setObject:teamInfo forKey:@"teamInfo"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//        
+//    } else {
+//        workLog = [NSJSONSerialization JSONObjectWithData:mutableDataWork options:kNilOptions error:nil];
+//        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"workLog"];
+//        [[NSUserDefaults standardUserDefaults] setObject:workLog forKey:@"workLog"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
+//    
+//    
+//    [self changeLabelText];
+//    [_tasksTable reloadData];
+//    [activityIndicator setAlpha:0];
+//    
+//    self.infoButton.enabled = YES;
+//    self.teamButton.enabled = YES;
+//    
+//}
 
 - (void) changeLabelText {
     int isWork = [[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"isWorking"] integerValue];
