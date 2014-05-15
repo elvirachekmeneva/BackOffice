@@ -12,6 +12,18 @@
 
 @synthesize allTeam,departments,userInfo;
 
++(TeamInfo *)shared {
+    
+    static TeamInfo  * instance;
+	
+	@synchronized(self) {
+		if(!instance) {
+            instance = [[TeamInfo alloc] init];
+        }
+    }
+    
+    return instance;
+}
 
 - (id) initWithDictionary: (NSMutableDictionary*)allData {
     self = [super init];

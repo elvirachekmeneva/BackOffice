@@ -54,7 +54,6 @@
     [self.onlineCountCircle addCenterMotionEffectsXYWithOffset:12];
     [self.onlineCountLabel addCenterMotionEffectsXYWithOffset:12];
     
-    [self changeLabelText];
     [timer1second invalidate];
     
 //    self.infoButton.enabled = NO;
@@ -566,6 +565,7 @@
             NSLog(@"json %@", self.json);
             [activityIndicator setAlpha:0];
             [self changeLabelText];
+            [self changeButtonColor];
             [_tasksTable reloadData];
             
         }
@@ -589,7 +589,6 @@
                 [[NSUserDefaults standardUserDefaults] setObject:workLog forKey:@"workLog"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
-                [self changeButtonColor];
                 [self changeLabelText];
 
             }
@@ -694,31 +693,53 @@
     NSLog(@"Button Pressed!!!");
     [timer1second invalidate];
     [activityIndicator setAlpha:1];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/setUserStatus.php?login=%@&passwrdHash=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"login"], [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]]];
+
+    self.timeButton.enabled = NO;
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate: nil delegateQueue: [NSOperationQueue mainQueue]];
     NSString* command;
     if ([[[[json objectForKey:@"data"] objectForKey:@"user" ] objectForKey:@"endDate"] isEqualToString:@""]) {
         command = @"cmd=off";
-
+        
     } else {
         command = @"cmd=on";
-
+        
     }
+    
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/setUserStatus.php?login=%@&passwrdHash=%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"login"], [[NSUserDefaults standardUserDefaults] objectForKey:@"passwordMD5"]]];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
     [request setURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[command dataUsingEncoding:NSUTF8StringEncoding]];
-    NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     
-    count30times = 30;
-    timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+//                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60];
+//    [request setURL:url];
     
-    if(conn) {
-        NSLog(@"Connection Successful");
-    }
-    else {
-        NSLog(@"Connection could not be made");
-    }
-    
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error && [data length] != 0) {
+            count30times = 30;
+            timer1second = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerTick:) userInfo:nil repeats:YES];
+            json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            NSDate *loadingDate = [NSDate date];
+            //[json setValue:loadingDate forKey:@"loading_date"];
+            [[NSUserDefaults standardUserDefaults] setObject:loadingDate forKey:@"loadingDate"];
+            [[NSUserDefaults standardUserDefaults] setObject:json forKey:@"data"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            NSLog(@"json %@", self.json);
+            [activityIndicator setAlpha:0];
+//            [self changeLabelText];
+            [_tasksTable reloadData];
+            [self changeButtonColor];
+            self.timeButton.enabled = YES;
+        } else {
+            self.timeButton.enabled = YES;
+        }
+        
+    }];
+    [dataTask resume];
 
 }
 
@@ -743,4 +764,6 @@
         TeamViewController* teamVC = [segue destinationViewController];
     }
 }
+
+
 @end

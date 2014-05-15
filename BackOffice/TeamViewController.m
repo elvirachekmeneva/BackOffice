@@ -40,7 +40,7 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.view.backgroundColor = [UIColor clearColor];
     NSURL *imageURL = [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:@"data"][@"data"][@"user"][@"photo"]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         UIImage *image = [UIImage imageWithData:imageData];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -52,15 +52,17 @@
     });
     
     teamJson = [[NSUserDefaults standardUserDefaults]objectForKey:@"teamInfo"];
-    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
-    [self getTeamInfoFromServer];
-    timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
+    teamInfo = [[TeamInfo shared] initWithDictionary:teamJson];
+    allTeamInfoSorted = [[TeamInfo shared] getAllTeamInfo];
+//    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
+//    [self getTeamInfoFromServer];
+//    timer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
     
     background = [[BackgroundVC alloc] initForView:VC_NAME_TEAM];
     [self.bgrImageView addSubview:background.backGroundImage];
     [self.bgrImageView sendSubviewToBack:background.backGroundImage];
 
-    self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [teamInfo onlineCount],[teamInfo allTeamCount]];
+    self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [[TeamInfo shared] onlineCount],[[TeamInfo shared] allTeamCount]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -87,9 +89,9 @@
 }
 
 
--(void)reloadData:(NSTimer *)timer {
-    [self getTeamInfoFromServer];
-}
+//-(void)reloadData:(NSTimer *)timer {
+//    [self getTeamInfoFromServer];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -99,7 +101,7 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [[teamInfo getDepartmentsKeys]count];
+    return [[[TeamInfo shared] getDepartmentsKeys]count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -121,7 +123,7 @@
     departmentLabel.textAlignment = NSTextAlignmentLeft;
     departmentLabel.adjustsFontSizeToFitWidth = YES;
     departmentLabel.minimumScaleFactor = 0.5;
-    NSString* depKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
+    NSString* depKey = [[[TeamInfo shared] getDepartmentsKeys]objectAtIndex:section];
     [departmentLabel setText:[[allTeamInfoSorted objectForKey:depKey]objectForKey:@"departmentName"]];
     
     UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(teamTable.frame.size.width - 50, 0, 50, 40)];
@@ -130,7 +132,7 @@
     countLabel.textAlignment = NSTextAlignmentCenter;
     countLabel.adjustsFontSizeToFitWidth = YES;
     countLabel.minimumScaleFactor = 0.5;
-    countLabel.text = [NSString stringWithFormat:@"%@/%@",[teamInfo onlineCountForDepartment:depKey],[teamInfo allTeamCountForDepartment:depKey]];
+    countLabel.text = [NSString stringWithFormat:@"%@/%@",[[TeamInfo shared] onlineCountForDepartment:depKey],[[TeamInfo shared] allTeamCountForDepartment:depKey]];
     
 //    [departmentLabel setBackgroundColor:[UIColor greenColor]];
     [departmentLabel setBackgroundColor:[background toneColorForDepartment:depKey]];
@@ -144,7 +146,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
+    NSString* devKey = [[[TeamInfo shared] getDepartmentsKeys]objectAtIndex:section];
     NSInteger rowCount = [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] + [[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]count];
     return rowCount;
 }
@@ -156,7 +158,7 @@
         cell = [[CustomCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     }
     
-    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:indexPath.section];
+    NSString* devKey = [[[TeamInfo shared] getDepartmentsKeys]objectAtIndex:indexPath.section];
     if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > indexPath.row) {
         NSString* firstName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"firstName"];
         NSString* lastName = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"lastName"];
@@ -191,21 +193,26 @@
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString* path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat: @"%@.png",
                                                                              [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"userID"]]];
-        if ([UIImage imageWithContentsOfFile:path]){
-            UIImage* image = [UIImage imageWithContentsOfFile:path];
-            cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 30;
-            cell.photo.clipsToBounds = YES;
-        }else {
-            NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"imageURL"];
-            UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
-            cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 30;
-            cell.photo.clipsToBounds = YES;
-            
-            NSData* data = UIImagePNGRepresentation(image);
-            [data writeToFile:path atomically:YES];
-        }
+        
+        
+            if ([UIImage imageWithContentsOfFile:path]){
+                UIImage* image = [UIImage imageWithContentsOfFile:path];
+                cell.photo.image = image;
+                cell.photo.layer.cornerRadius = 30;
+                cell.photo.clipsToBounds = YES;
+            }else {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
+                    NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]objectAtIndex:indexPath.row]objectForKey:@"imageURL"];
+                    UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
+                    cell.photo.image = image;
+                    cell.photo.layer.cornerRadius = 30;
+                    cell.photo.clipsToBounds = YES;
+                    
+                    NSData* data = UIImagePNGRepresentation(image);
+                    [data writeToFile:path atomically:YES];
+                });
+            }
+        
         cell.contentView.alpha = 1;
         
     } else {
@@ -245,14 +252,17 @@
             cell.photo.layer.cornerRadius = 30;
             cell.photo.clipsToBounds = YES;
         }else {
-            NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"];
-            UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
-            cell.photo.image = image;
-            cell.photo.layer.cornerRadius = 30;
-            cell.photo.clipsToBounds = YES;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0ul), ^{
 
-            NSData* data = UIImagePNGRepresentation(image);
-            [data writeToFile:path atomically:YES];
+                NSString * photoURLString = [[[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"offline"]objectAtIndex:offLineNumber]objectForKey:@"imageURL"];
+                UIImage* image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photoURLString]]];
+                cell.photo.image = image;
+                cell.photo.layer.cornerRadius = 30;
+                cell.photo.clipsToBounds = YES;
+
+                NSData* data = UIImagePNGRepresentation(image);
+                [data writeToFile:path atomically:YES];
+            });
         }
         cell.contentView.alpha = 0.5;
 
@@ -304,7 +314,7 @@
     NSLog(@"button tag %d",tag);
     NSInteger section = [[self makeIndexPathByTag:tag][0] integerValue];
     NSInteger row = [[self makeIndexPathByTag:tag][1] integerValue];
-    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:section];
+    NSString* devKey = [[[TeamInfo shared] getDepartmentsKeys]objectAtIndex:section];
     
     NSDictionary* userInfo;
     if ([[[allTeamInfoSorted objectForKey:devKey]objectForKey:@"online"]count] > row) {
@@ -321,7 +331,7 @@
 - (UIView*) makeCellViewForIndexPath:(NSIndexPath *)indexPath {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, teamTable.frame.size.width, 20)];
     
-    NSString* devKey = [[teamInfo getDepartmentsKeys]objectAtIndex:indexPath.section];
+    NSString* devKey = [[[TeamInfo shared] getDepartmentsKeys]objectAtIndex:indexPath.section];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, teamTable.frame.size.width, 20)];
     [nameLabel setFont:[UIFont boldSystemFontOfSize:13]];
@@ -358,47 +368,47 @@
 
 }
 
-- (void) getTeamInfoFromServer {
-    NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"];
-    NSURL *urlWork = [NSURL URLWithString:urlStringWork];
-    NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork
-                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
-    [requestWork setHTTPMethod: @"GET"];
-    
-    NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
-    if (connectionWork)
-    {
-        mutableTeamData = [[NSMutableData alloc] init];
-    }
-    
-    
-}
-
--(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
-{
-    [mutableTeamData setLength:0];
-}
-
--(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [mutableTeamData appendData:data];
-}
-
-
-
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
-    teamJson = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
-    //NSLog(@"team json %@",teamJson);
-    
-    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
-    allTeamInfoSorted = [teamInfo getAllTeamInfo];
-    [teamTable reloadData];
-    self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [teamInfo onlineCount],[teamInfo allTeamCount]];
-
-    NSLog(@" Team Data loaded!");
-
-    
-}
+//- (void) getTeamInfoFromServer {
+//    NSString *urlStringWork = [NSString stringWithFormat:@"http://m.bossnote.ru/empl/get.online.json.php?json=1&tst=1&dev=1&web=1"];
+//    NSURL *urlWork = [NSURL URLWithString:urlStringWork];
+//    NSMutableURLRequest *requestWork = [NSMutableURLRequest requestWithURL:urlWork
+//                                                               cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+//    [requestWork setHTTPMethod: @"GET"];
+//    
+//    NSURLConnection *connectionWork = [[NSURLConnection alloc] initWithRequest:requestWork delegate:self];
+//    if (connectionWork)
+//    {
+//        mutableTeamData = [[NSMutableData alloc] init];
+//    }
+//    
+//    
+//}
+//
+//-(void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *)response
+//{
+//    [mutableTeamData setLength:0];
+//}
+//
+//-(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+//{
+//    [mutableTeamData appendData:data];
+//}
+//
+//
+//
+//- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+//    teamJson = [NSJSONSerialization JSONObjectWithData:mutableTeamData options:kNilOptions error:nil];
+//    //NSLog(@"team json %@",teamJson);
+//    
+//    teamInfo = [[TeamInfo alloc]initWithDictionary:teamJson];
+//    allTeamInfoSorted = [teamInfo getAllTeamInfo];
+//    [teamTable reloadData];
+//    self.allTeamCount.text = [NSString stringWithFormat:@"%@/%@", [teamInfo onlineCount],[teamInfo allTeamCount]];
+//
+//    NSLog(@" Team Data loaded!");
+//
+//    
+//}
 
 - (IBAction)showUserInfo:(id)sender {
     NSLog(@"Show info Button Pressed!!!!");
@@ -421,5 +431,9 @@
     } else if ([[segue identifier] isEqualToString:@"showBash"]) {
         BashSAVC *bVC = [segue destinationViewController];
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 @end

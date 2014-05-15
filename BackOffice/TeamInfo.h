@@ -12,7 +12,7 @@
 @property NSMutableDictionary* allTeam;
 @property NSMutableArray* departments;
 @property NSMutableDictionary* userInfo;
-
++(TeamInfo *)shared;
 - (id) initWithDictionary: (NSMutableDictionary*)allData;
 - (NSArray*) getDepartmentsKeys;
 - (NSString*)departmentNameByKey:(NSString*)depKey;

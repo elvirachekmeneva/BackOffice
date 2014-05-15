@@ -457,6 +457,7 @@
                         </constraints>
                     </view>
                     <keyCommands/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="autorNameLabel" destination="BKl-jl-weB" id="Yj7-52-Byy"/>
                         <outlet property="bgrImage" destination="7to-N0-Pja" id="MJp-G4-wF8"/>
@@ -513,6 +514,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="A05-p1-6Nt"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="bgrImageView" destination="qyb-9J-iUu" id="Lvv-eE-Rt9"/>
                     </connections>
@@ -865,6 +867,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="o2T-Hf-ers"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="callButton" destination="WJr-FA-zC0" id="xS7-Wz-wK5"/>
                         <outlet property="departmentLabel" destination="ixk-58-93V" id="pQu-sG-GSw"/>
@@ -964,6 +967,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="activityIndicator" destination="R6v-sI-Jou" id="xDU-hZ-ZgW"/>
                         <outlet property="bgrImage" destination="7aw-ib-bTm" id="DBQ-m4-c46"/>
@@ -983,6 +987,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NKV-ih-9Y4" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7nW-4M-8VR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
