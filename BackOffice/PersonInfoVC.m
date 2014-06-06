@@ -115,6 +115,7 @@
 - (IBAction)callButtonPressed:(id)sender {
     NSLog(@"phone number %@",[userInfo objectForKey:@"cellphone"]);
     NSString *phNo = [userInfo objectForKey:@"cellphone"];
+    phNo = [phNo stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSURL *phoneUrl = [NSURL URLWithString:[NSString  stringWithFormat:@"telprompt:%@",phNo]];
     UIAlertView * calert;
     if ([[UIApplication sharedApplication] canOpenURL:phoneUrl]) {
